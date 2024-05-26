@@ -1,6 +1,6 @@
 package org.example.entity.db;
 
-import utils.Utils;
+import org.example.utils.Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

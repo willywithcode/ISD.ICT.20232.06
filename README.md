@@ -6,8 +6,8 @@
 | :----------------- | :---------- | :--------- | :-------------- |
 | Nguyễn Đình Dũng   | Team Leader | 20210230   | Place Order     |
 | Trần Nam Dương     | Member      | 20210263   | Place Order     |
-| Nguyễn Mạnh Dũng   | Member      | 20194745   | Manage Cart     |
-| Trịnh Tiến Dũng    | Member      | 20215187   | Manage Product  |
+| Nguyễn Mạnh Dũng   | Member      | 20194745   | Manage Product  |
+| Trịnh Tiến Dũng    | Member      | 20215187   | Manage Cart     |
 | Vũ Minh Dũng       | Member      | 20205179   | Manage User     |
 
 

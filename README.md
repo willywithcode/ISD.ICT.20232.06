@@ -13,7 +13,7 @@
 
 ## Table of contents
 
-- [ISD.ICT.20232>06](#isdict20232.06)
+- [ISD.ICT.20232.06](#isdict20232.06)
   - [Project organization](#project-organization)
 
 ## Project organization

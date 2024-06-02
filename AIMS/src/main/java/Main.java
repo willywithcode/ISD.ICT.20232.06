@@ -1,18 +1,19 @@
+import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+
+import javax.swing.text.html.ImageView;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import utils.Configs;
 import views.screen.home.HomeScreenHandler;
-
-import java.io.IOException;
 
 public class Main extends Application {
 
@@ -39,7 +40,7 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            javafx.geometry.Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
             primaryStage.setX(primaryScreenBounds.getMinX());
             primaryStage.setY(primaryScreenBounds.getMinY());
 

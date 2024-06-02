@@ -1,4 +1,4 @@
-package entity.media;
+package org.example.entity.media;
 
 import entity.db.AIMSDB;
 import javafx.scene.layout.VBox;

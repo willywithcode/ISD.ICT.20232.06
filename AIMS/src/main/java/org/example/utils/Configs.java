@@ -1,4 +1,4 @@
-package utils;
+package org.example.utils;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;

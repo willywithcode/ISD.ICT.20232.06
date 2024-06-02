@@ -3,7 +3,7 @@ package entity.order;
 import entity.db.AIMSDB;
 import entity.media.Media;
 import entity.shipping.Shipment;
-import utils.Configs;
+import org.example.utils.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

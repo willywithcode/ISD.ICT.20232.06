@@ -1,4 +1,4 @@
-package common.exception;
+package org.example.common.exception;
 
 /**
  * The PlaceOrderException wraps all unchecked exceptions You can use this

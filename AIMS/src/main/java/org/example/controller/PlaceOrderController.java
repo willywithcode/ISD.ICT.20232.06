@@ -1,4 +1,4 @@
-package controller;
+package org.example.controller;
 
 import entity.cart.Cart;
 import entity.cart.CartMedia;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
+
+import controller.BaseController;
 
 public class PlaceOrderController extends BaseController {
 

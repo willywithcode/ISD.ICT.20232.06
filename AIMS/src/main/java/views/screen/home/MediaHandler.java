@@ -61,11 +61,11 @@ public class MediaHandler extends FXMLScreenHandler {
      */
     private void setMediaInfo() throws SQLException {
         // set the cover image of media
-        File file = new File(media.getImageURL());
-        Image image = new Image(file.toURI().toString());
-        mediaImage.setFitHeight(160);
-        mediaImage.setFitWidth(152);
-        mediaImage.setImage(image);
+//        File file = new File(media.getImageURL());
+//        Image image = new Image(file.toURI().toString());
+//        mediaImage.setFitHeight(160);
+//        mediaImage.setFitWidth(152);
+//        mediaImage.setImage(image);
 
         mediaTitle.setText(media.getTitle());
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));

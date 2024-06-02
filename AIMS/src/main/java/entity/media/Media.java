@@ -108,14 +108,14 @@ public class Media {
         ArrayList medium = new ArrayList<>();
         while (res.next()) {
             Media media = new Media()
-                    .setId(res.getInt("id"))
+                    .setId(res.getInt("MediaId"))
                     .setTitle(res.getString("title"))
                     .setQuantity(res.getInt("quantity"))
                     .setCategory(res.getString("category"))
-                    .setMediaURL(res.getString("imageUrl"))
-                    .setPrice(res.getInt("price"))
-                    .setValue(res.getInt("value"))
-                    .setType(res.getString("type"));
+//                    .setMediaURL(res.getString("imageUrl"))
+                    .setPrice(res.getInt("price"));
+//                    .setValue(res.getInt("value"))
+//                    .setType(res.getString("type"));
 //            LOGGER.info("Media" + media.quantity);
             medium.add(media);
         }

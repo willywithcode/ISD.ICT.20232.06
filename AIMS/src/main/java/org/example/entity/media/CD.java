@@ -1,4 +1,4 @@
-package entity.media;
+package org.example.entity.media;
 import entity.db.AIMSDB;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

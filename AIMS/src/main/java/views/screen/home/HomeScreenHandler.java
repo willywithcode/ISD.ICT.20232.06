@@ -35,6 +35,14 @@ import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.popup.PopupScreen;
 
+
+
+/*
+ * Violate SOLID:
+ * SRP: The class has multiple responsibilities. It handles the initialization of the home screen, 
+ * handles user interactions, performs search, filter and sort operations, and manages the display of media items. 
+ * 
+ */
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
     public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());

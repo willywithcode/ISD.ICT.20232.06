@@ -42,7 +42,7 @@
           + Detect SOLID in PaymentController Class and PlaceOrderController Class<br>
         - Implementation details:<br>
           - Pull request(s): <br>
-            + https://github.com/willywithcode/ISD.ICT.20232.06//pull/7<br>
+            + https://github.com/willywithcode/ISD.ICT.20232.06/pull/7<br>
           - Specific implementation details:<br>
     </details>
     <details>
@@ -51,7 +51,7 @@
         - Assigned tasks:<br>
           + Detect SOLID in PlaceOrderExceptions, Order and OrderMedia class<br>
         - Implementation details:<br>
-          - Pull request(s):  https://github.com/willywithcode/ISD.ICT.20232.06//pull/6<br>
+          - Pull request(s):  https://github.com/willywithcode/ISD.ICT.20232.06/pull/6<br>
           - Specific implementation details:<br>
     </details>
     <details>
@@ -60,7 +60,7 @@
         - Assigned tasks:<br>
           + Detect SOLID in classes which are included in Manage Cart UC<br>
         - Implementation details:<br>
-          - Pull request(s): https://github.com/willywithcode/ISD.ICT.20232.06//pull/5<br>
+          - Pull request(s): https://github.com/willywithcode/ISD.ICT.20232.06/pull/5<br>
           - Specific implementation details:<br>
     </details>
 </details>

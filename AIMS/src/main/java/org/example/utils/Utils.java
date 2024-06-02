@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package org.example.utils;
+=======
+package utils;
+>>>>>>> parent of daab776 (SOLID assesment for PlaceOrderExceptions, Order and OrderMedia class)
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

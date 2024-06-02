@@ -14,7 +14,8 @@ public class OrderMedia {
         this.price = price;
     }
 
-
+    // Data coupling by using getter setter to return values according to parameters
+    // Following SOLID.
     /**
      * @return String
      */

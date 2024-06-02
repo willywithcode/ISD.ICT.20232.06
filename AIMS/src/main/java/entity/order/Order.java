@@ -25,6 +25,8 @@ public class Order {
     private String address;
     private String phone;
 
+    // Data coupling by using getter setter to return values according to parameters
+
     public String getInstruction() {
         return instruction;
     }
@@ -91,7 +93,8 @@ public class Order {
         this.lstOrderMedia = lstOrderMedia;
     }
 
-    public void createOrderEntity(){
+
+    public void createOrderEntity(){ // Content coupling by using dbquery to access DB data and create order
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
         } catch (SQLException e) {
@@ -136,7 +139,7 @@ public class Order {
         }
     }
 
-
+   // Data coupling, curd media on the order and set/get Shippingfees from arguments and parameters
     /**
      * @param om
      */
@@ -201,5 +204,5 @@ public class Order {
         }
         return (int) (amount + (Configs.PERCENT_VAT / 100) * amount);
     }
-
+    // Violating SRP cause we are doing others function inside this class
 }

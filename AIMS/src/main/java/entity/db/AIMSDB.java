@@ -20,9 +20,9 @@ public class AIMSDB {
             return connect;
         }
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connect = DriverManager.getConnection(
-                    "jdbc:mysql://aimsdb_lifedollhe:0d3525a33b60b252799b29ca307d3236534dc4a9@bqx.h.filess.io:3307/aimsdb_lifedollhe");
+            Class.forName("org.sqlite.JDBC");
+            String url = "jdbc:sqlite:assets/db/aims.db";
+            connect = DriverManager.getConnection(url);
             LOGGER.info("Connect database successfully");
         } catch (Exception e) {
             LOGGER.info(e.getMessage());

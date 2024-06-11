@@ -1,4 +1,4 @@
-package org.example.common.exception;
+package common.exception;
 
 public class RejectedTransactionException extends PaymentException {
     public RejectedTransactionException() {

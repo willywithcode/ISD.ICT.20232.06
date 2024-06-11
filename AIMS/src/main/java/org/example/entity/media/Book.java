@@ -1,4 +1,4 @@
-package org.example.entity.media;
+package entity.media;
 
 import entity.db.AIMSDB;
 import javafx.geometry.Pos;

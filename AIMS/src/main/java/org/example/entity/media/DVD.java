@@ -1,4 +1,4 @@
-package org.example.entity.media;
+package entity.media;
 
 import java.io.File;
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package org.example.entity.order;
+package entity.order;
 
 import entity.media.Media;
 

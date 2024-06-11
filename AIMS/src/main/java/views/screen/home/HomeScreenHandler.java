@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import controller.HomeController;
+import controller.LoginController;
 import entity.cart.Cart;
 import entity.media.Media;
 import javafx.event.ActionEvent;
@@ -35,6 +36,14 @@ import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.popup.PopupScreen;
 
+
+
+/*
+ * Violate SOLID:
+ * SRP: The class has multiple responsibilities. It handles the initialization of the home screen, 
+ * handles user interactions, performs search, filter and sort operations, and manages the display of media items. 
+ * 
+ */
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
     public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
@@ -156,7 +165,17 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
         cartImage.setOnMouseClicked(e -> {});
         
-        loginBtn.setOnMouseClicked(e -> {});
+        loginBtn.setOnMouseClicked(e -> {
+        	LoginScreenHandler loginScreen;
+			try {
+				loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
+                loginScreen.setHomeScreenHandler(this);
+                loginScreen.setBController(new LoginController());
+                loginScreen.show();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+        });
         
         addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);

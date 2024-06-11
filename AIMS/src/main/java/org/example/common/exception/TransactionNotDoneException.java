@@ -1,4 +1,4 @@
-package org.example.common.exception;
+package common.exception;
 
 ;
 

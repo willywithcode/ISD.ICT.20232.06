@@ -1,9 +1,8 @@
-package org.example.entity.order;
+package entity.order;
 
 import entity.db.AIMSDB;
 import entity.media.Media;
 import entity.shipping.Shipment;
-//import entity.shipping.Shipment;
 import utils.Configs;
 
 import java.sql.PreparedStatement;

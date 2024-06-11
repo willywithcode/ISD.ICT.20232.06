@@ -1,4 +1,4 @@
-package org.example.entity.invoice;
+package entity.invoice;
 
 import entity.order.Order;
 

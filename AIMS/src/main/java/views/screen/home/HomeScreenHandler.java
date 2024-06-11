@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import common.exception.ViewCartException;
 import controller.HomeController;
+import controller.ViewCartController;
 import entity.cart.Cart;
 import entity.media.Media;
 import javafx.event.ActionEvent;
@@ -33,6 +36,7 @@ import javafx.util.Callback;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
+import views.screen.cart.CartScreenHandler;
 import views.screen.popup.PopupScreen;
 
 
@@ -162,7 +166,18 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             addMediaHome(this.homeItems);
         });
 
-        cartImage.setOnMouseClicked(e -> {});
+        cartImage.setOnMouseClicked(e -> {
+            CartScreenHandler cartScreen;
+            try {
+                LOGGER.info("User clicked to view cart");
+                cartScreen = new CartScreenHandler(this.stage, Configs.CART_SCREEN_PATH);
+                cartScreen.setHomeScreenHandler(this);
+                cartScreen.setBController(new ViewCartController());
+                cartScreen.requestToViewCart(this);
+            } catch (IOException | SQLException e1) {
+                throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
+            }
+        });
         
         loginBtn.setOnMouseClicked(e -> {});
         

@@ -1,6 +1,8 @@
 package controller;
 
+
 import java.util.Calendar;
+
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -21,19 +23,21 @@ DIP: phụ thuộc trực tiếp vào lớp cụ thể InterbankSubsystem thay v
 //stamp coupling, control coupling
 
 
-public class PaymentController extends BaseController { 
+import java.util.Map;
 
-	/**
+public class PaymentController extends BaseController {
+
+	/*
 	 * Represent the card used for payment
 	 */
 	private CreditCard card;
 
-	/**
+	/*
 	 * Represent the Interbank subsystem
 	 */
 	private InterbankInterface interbank;
 
-	/**
+	/*
 	 * Validate the input date which should be in the format "mm/yy", and then
 	 * return a {@link java.lang.String String} representing the date in the
 	 * required format "mmyy" .
@@ -44,7 +48,7 @@ public class PaymentController extends BaseController {
 	 * @throws InvalidCardException - if the string does not represent a valid date
 	 *                              in the expected format
 	 */
-	private String getExpirationDate(String date) throws InvalidCardException { 
+	private String getExpirationDate(String date) throws InvalidCardException {
 		String[] strs = date.split("/");
 		if (strs.length != 2) {
 			throw new InvalidCardException();
@@ -69,7 +73,7 @@ public class PaymentController extends BaseController {
 		return expirationDate;
 	}
 
-	/**
+	/*
 	 * Pay order, and then return the result with a message.
 	 * 
 	 * @param amount         - the amount to pay
@@ -82,7 +86,7 @@ public class PaymentController extends BaseController {
 	 *         message.
 	 */
 	public Map<String, String> payOrder(int amount, String contents, String cardNumber, String cardHolderName,
-			String expirationDate, String securityCode) { 
+										String expirationDate, String securityCode) {
 		Map<String, String> result = new Hashtable<String, String>();
 		result.put("RESULT", "PAYMENT FAILED!");
 		try {

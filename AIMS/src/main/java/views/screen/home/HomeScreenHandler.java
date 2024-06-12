@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import common.exception.ViewCartException;
 import controller.HomeController;
+import controller.LoginController;
 import controller.ViewCartController;
 import entity.cart.Cart;
 import entity.media.Media;
@@ -37,25 +38,18 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.cart.CartScreenHandler;
+import views.screen.mediaDetail.MediaScreenHandler;
 import views.screen.popup.PopupScreen;
 
-
-
-/*
- * Violate SOLID:
- * SRP: The class has multiple responsibilities. It handles the initialization of the home screen, 
- * handles user interactions, performs search, filter and sort operations, and manages the display of media items. 
- * 
- */
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
-    public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
+	public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
 
     @FXML
     private Label numMediaInCart;
 
-    @FXML
-    private ImageView aimsImage;
+//    @FXML
+//    private ImageView aimsImage;
 
     @FXML
     private ImageView cartImage;
@@ -95,7 +89,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
     }
-
+    
     /**
      * @return Label
      */
@@ -112,7 +106,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     @Override
     public void show() {
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
+        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
         super.show();
     }
 
@@ -128,7 +122,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             }
         }
         VBox vboxMedia = new VBox();
-        System.out.println("page: " + pageIndex + " - " + homeSearchItems.size());
         addMediaHome(pageItems);
         return vboxMedia;
     }
@@ -162,15 +155,16 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             }
         });
 
-        aimsImage.setOnMouseClicked(e -> {
-            addMediaHome(this.homeItems);
-        });
+//        aimsImage.setOnMouseClicked(e -> {
+//            addMediaHome(this.homeItems);
+//        });
 
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
                 LOGGER.info("User clicked to view cart");
                 cartScreen = new CartScreenHandler(this.stage, Configs.CART_SCREEN_PATH);
+                cartScreen.setPreviousScreen(this);
                 cartScreen.setHomeScreenHandler(this);
                 cartScreen.setBController(new ViewCartController());
                 cartScreen.requestToViewCart(this);
@@ -178,9 +172,18 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
             }
         });
-        
-        loginBtn.setOnMouseClicked(e -> {});
-        
+        loginBtn.setOnMouseClicked(e -> {
+            LoginScreenHandler loginScreen;
+            try {
+                LOGGER.info("User click to login");
+                loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
+                loginScreen.setHomeScreenHandler(this);
+                loginScreen.setBController(new LoginController());
+                loginScreen.show();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
         addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);
@@ -191,12 +194,25 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             handleSearch();
         });
     }
+    
+    public void openMediaDetail(Media media) {
+    	MediaScreenHandler mediaScreen;
+        try {
+            mediaScreen = new MediaScreenHandler(this.stage, Configs.MEDIA_DETAIL_PATH, media);
+            mediaScreen.setPreviousScreen(this);
+            mediaScreen.setHomeScreenHandler(this);
+            mediaScreen.setBController(getBController());
+            mediaScreen.requestToView(this);
+        } catch (IOException | SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     public void setImage() {
         // fix image path caused by fxml
-        File file1 = new File(Configs.IMAGE_PATH + "/" + "Logo.png");
-        Image img1 = new Image(file1.toURI().toString());
-        aimsImage.setImage(img1);
+//        File file1 = new File(Configs.IMAGE_PATH + "/" + "Logo.png");
+//        Image img1 = new Image(file1.toURI().toString());
+//        aimsImage.setImage(img1);
 
         File file2 = new File(Configs.IMAGE_PATH + "/" + "cart.png");
         Image img2 = new Image(file2.toURI().toString());

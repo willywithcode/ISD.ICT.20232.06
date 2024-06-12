@@ -2,6 +2,7 @@ package views.screen.cart;
 
 import common.exception.MediaNotAvailableException;
 import common.exception.PlaceOrderException;
+import controller.HomeController;
 import controller.PlaceOrderController;
 import controller.ViewCartController;
 import entity.cart.CartMedia;
@@ -11,12 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
+import views.screen.home.HomeScreenHandler;
 import views.screen.popup.PopupScreen;
+import views.screen.shipping.ShippingScreenHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +34,8 @@ public class CartScreenHandler extends BaseScreenHandler {
     private static Logger LOGGER = Utils.getLogger(CartScreenHandler.class.getName());
     @FXML
     VBox vboxCart;
-    @FXML
-    private ImageView aimsImage;
+//    @FXML
+//    private ImageView aimsImage;
     @FXML
     private Label pageTitle;
     @FXML
@@ -53,17 +57,25 @@ public class CartScreenHandler extends BaseScreenHandler {
         super(stage, screenPath);
 
         // fix relative image path caused by fxml
-        File file = new File("assets/images/Logo.png");
-        Image im = new Image(file.toURI().toString());
-        aimsImage.setImage(im);
+//        File file = new File("assets/images/Logo.png");
+//        Image im = new Image(file.toURI().toString());
+//        aimsImage.setImage(im);
 
         // on mouse clicked, we back to home
-        aimsImage.setOnMouseClicked(e -> {
-            homeScreenHandler.show();
-        });
+//        aimsImage.setOnMouseClicked(e -> {
+//            homeScreenHandler.show();
+//        });
 
         // on mouse clicked, we start processing place order usecase
         btnPlaceOrder.setOnMouseClicked(e -> {
+
+            try {
+                requestToPlaceOrder();
+            } catch (SQLException | IOException exp) {
+
+                exp.printStackTrace();
+                throw new PlaceOrderException(Arrays.toString(exp.getStackTrace()).replaceAll(", ", "\n"));
+            }
 
         });
     }
@@ -92,6 +104,12 @@ public class CartScreenHandler extends BaseScreenHandler {
         return (ViewCartController) super.getBController();
     }
 
+    @FXML
+    private void handleBack(MouseEvent event) throws IOException {
+        // Back to previous screen
+        this.getPreviousScreen().show();
+    }
+    
 
     /**
      * @param prevScreen
@@ -110,8 +128,35 @@ public class CartScreenHandler extends BaseScreenHandler {
      * @throws SQLException
      * @throws IOException
      */
-    public void requestToPlaceOrder() {
-    	
+    public void requestToPlaceOrder() throws SQLException, IOException {
+        try {
+            // create placeOrderController and process the order
+            var placeOrderController = new PlaceOrderController();
+            if (placeOrderController.getListCartMedia().size() == 0) {
+                PopupScreen.error("You don't have anything to place");
+                return;
+            }
+
+            placeOrderController.placeOrder();
+
+            // display available media
+//            displayCartWithMediaAvailability();
+
+            // create order
+            Order order = placeOrderController.createOrder();
+
+            // display shipping form
+            ShippingScreenHandler ShippingScreenHandler = new ShippingScreenHandler(this.stage, Configs.SHIPPING_SCREEN_PATH, order);
+            ShippingScreenHandler.setPreviousScreen(this);
+            ShippingScreenHandler.setHomeScreenHandler(homeScreenHandler);
+            ShippingScreenHandler.setScreenTitle("Shipping Screen");
+            ShippingScreenHandler.setBController(placeOrderController);
+            ShippingScreenHandler.show();
+
+        } catch (MediaNotAvailableException e) {
+            // if some media are not available then display cart and break usecase Place Order
+            displayCartWithMediaAvailability();
+        }
     }
 
 

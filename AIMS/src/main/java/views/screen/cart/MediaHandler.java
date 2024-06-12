@@ -85,7 +85,7 @@ public class MediaHandler extends FXMLScreenHandler {
         image.setFitWidth(92);
 
         // add delete button
-        btnDelete.setFont(Configs.REGULAR_FONT);
+//        btnDelete.setFont(Configs.REGULAR_FONT);
         btnDelete.setOnMouseClicked(e -> {
             try {
                 Cart.getCart().removeCartMedia(cartMedia); // update user cart

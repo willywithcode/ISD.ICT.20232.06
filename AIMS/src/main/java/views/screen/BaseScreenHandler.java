@@ -1,12 +1,15 @@
 package views.screen;
 
-import java.io.IOException;
-import java.util.Hashtable;
-
 import controller.BaseController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import views.screen.home.HomeScreenHandler;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 public abstract class BaseScreenHandler extends FXMLScreenHandler {
 
@@ -70,13 +73,6 @@ public abstract class BaseScreenHandler extends FXMLScreenHandler {
      */
     public void setBController(BaseController bController) {
         this.bController = bController;
-    }
-
-    /**
-     * @param messages
-     */
-    public void forward(Hashtable messages) {
-        this.messages = messages;
     }
 
 

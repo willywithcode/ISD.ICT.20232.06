@@ -1,10 +1,6 @@
 package org.example.entity.db;
 
-<<<<<<< HEAD
-import org.example.utils.Utils;
-=======
 import utils.Utils;
->>>>>>> parent of daab776 (SOLID assesment for PlaceOrderExceptions, Order and OrderMedia class)
 
 import java.sql.Connection;
 import java.sql.DriverManager;

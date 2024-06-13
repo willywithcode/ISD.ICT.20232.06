@@ -103,7 +103,7 @@ public class User {
     }
     
     public User authenticate(String username, String password) throws SQLException{
-    	String sql = "select * from \"user\" " + "where username = '" + username + "' and password = '" + password + "'";
+    	String sql = "select * from User " + "where username = '" + username + "' and password = '" + password + "'";
     	System.out.println(sql);
     	Statement stm = null;
         ResultSet res = null;

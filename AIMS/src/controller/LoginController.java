@@ -16,16 +16,13 @@ import java.util.logging.Logger;
 
 public class LoginController extends BaseController {
 
-<<<<<<< HEAD:AIMS/src/controller/LoginController.java
 //    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
-=======
-    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/LoginController.java
 
     public String login(String username, String password) throws Exception {
         String role;
         try {
         	User user = authenticateUser(username, password);
+        	System.out.println("Username: " + user.getUsername());
         	role = user.getRole();
         	boolean isBan = user.getBan();
         	if (isBan) throw new FailLoginDueToBannedException();
@@ -36,8 +33,8 @@ public class LoginController extends BaseController {
         return role;
     }
     
-    private User authenticateUser(String username, String encryptedPassword) throws SQLException {
-        return new User().authenticate(username, encryptedPassword);
+    private User authenticateUser(String username, String password) throws SQLException {
+        return new User().authenticate(username, password);
     }
 
  

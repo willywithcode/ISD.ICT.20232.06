@@ -1,7 +1,5 @@
 package views.screen.shipping;
 
-import java.io.IOException;
-
 import controller.PlaceOrderController;
 import controller.PlaceRushOrderController;
 import entity.invoice.Invoice;
@@ -9,16 +7,15 @@ import entity.order.Order;
 import entity.shipping.Shipment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.Configs;
 import views.screen.BaseScreenHandler;
 import views.screen.invoice.InvoiceScreenHandler;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
 
@@ -67,7 +64,7 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         if (placeRushOrderValue.isSelected()) {
             typeDelivery = utils.Configs.PLACE_RUSH_ORDER;
         } else {
-            typeDelivery = utils.Configs.PLACE_ORDER;
+            typeDelivery = utils.Configs.PALCE_ORDER;
         }
         var shipment = new Shipment(typeDelivery);
         shipment.setShipmentDetail(shipmentDetailString);
@@ -90,11 +87,18 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
 
     /**
      * @param event
+     * @throws IOException
      */
     @FXML
-    private void handleBack(MouseEvent event){
+    private void handleBack(MouseEvent event) throws IOException {
         // Back to previous screen
-    	this.getPreviousScreen().show();
+        BaseScreenHandler ShippingScreenHandler = new ShippingScreenHandler(this.stage, Configs.SHIPPING_SCREEN_PATH,
+                this.order);
+        ShippingScreenHandler.setPreviousScreen(this);
+        ShippingScreenHandler.setHomeScreenHandler(homeScreenHandler);
+        ShippingScreenHandler.setScreenTitle("Shipping Screen");
+        ShippingScreenHandler.setBController(getBController());
+        ShippingScreenHandler.show();
     }
 
 

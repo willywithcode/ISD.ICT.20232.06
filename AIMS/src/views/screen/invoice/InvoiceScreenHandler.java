@@ -62,6 +62,15 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         setInvoiceInfo();
     }
 
+    /**
+     * @param event
+     */
+    @FXML
+    private void handleBack(MouseEvent event){
+        // Back to previous screen
+    	this.getPreviousScreen().show();
+    }
+    
     private void setInvoiceInfo() {
 
         name.setText(invoice.getOrder().getName());

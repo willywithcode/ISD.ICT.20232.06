@@ -1,19 +1,32 @@
 package views.screen.home;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
 import common.exception.ViewCartException;
-import controller.LoginController;
 import controller.HomeController;
+import controller.LoginController;
 import controller.ViewCartController;
 import entity.cart.Cart;
-import entity.media.Book;
-import entity.media.CD;
-import entity.media.DVD;
 import entity.media.Media;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Pagination;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -25,31 +38,18 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.cart.CartScreenHandler;
-import views.screen.mediaDetail.BookScreenHandler;
-import views.screen.mediaDetail.CDScreenHandler;
-import views.screen.mediaDetail.DVDScreenHandler;
 import views.screen.mediaDetail.MediaScreenHandler;
 import views.screen.popup.PopupScreen;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
-
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
-    public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
+	public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
 
     @FXML
     private Label numMediaInCart;
 
-    @FXML
-    private ImageView aimsImage;
+//    @FXML
+//    private ImageView aimsImage;
 
     @FXML
     private ImageView cartImage;
@@ -89,7 +89,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
     }
-
+    
     /**
      * @return Label
      */
@@ -106,7 +106,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     @Override
     public void show() {
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
+        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
         super.show();
     }
 
@@ -122,7 +122,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             }
         }
         VBox vboxMedia = new VBox();
-        System.out.println("page: " + pageIndex + " - " + homeSearchItems.size());
         addMediaHome(pageItems);
         return vboxMedia;
     }
@@ -156,15 +155,16 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             }
         });
 
-        aimsImage.setOnMouseClicked(e -> {
-            addMediaHome(this.homeItems);
-        });
+//        aimsImage.setOnMouseClicked(e -> {
+//            addMediaHome(this.homeItems);
+//        });
 
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
                 LOGGER.info("User clicked to view cart");
                 cartScreen = new CartScreenHandler(this.stage, Configs.CART_SCREEN_PATH);
+                cartScreen.setPreviousScreen(this);
                 cartScreen.setHomeScreenHandler(this);
                 cartScreen.setBController(new ViewCartController());
                 cartScreen.requestToViewCart(this);
@@ -193,51 +193,14 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             handleSearch();
         });
     }
-    /*public void openBookDetail(Book book) {
-        BookScreenHandler bookScreen;
-        try {
-            LOGGER.info("User clicked to view book");
-            bookScreen = new BookScreenHandler(this.stage, Configs.MEDIA_DETAIL_PATH, book);
-            bookScreen.setHomeScreenHandler(this);
-            //bookScreen.setBController(new ViewCartController());
-            bookScreen.requestToViewBook(this);
-        } catch (IOException | SQLException e1) {
-            throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
-        }
-    }
-
-    public void openDVDDetail(DVD dvd) {
-        DVDScreenHandler dvdScreen;
-        try {
-            LOGGER.info("User clicked to view book");
-            dvdScreen = new DVDScreenHandler(this.stage, Configs.MEDIA_DETAIL_PATH, dvd);
-            dvdScreen.setHomeScreenHandler(this);
-            //bookScreen.setBController(new ViewCartController());
-            dvdScreen.requestToViewDVD(this);
-        } catch (IOException | SQLException e1) {
-            throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
-        }
-    }
-
-    public void openCDDetail(CD cd) {
-        CDScreenHandler cdScreen;
-        try {
-            LOGGER.info("User clicked to view book");
-            cdScreen = new CDScreenHandler(this.stage, Configs.MEDIA_DETAIL_PATH, cd);
-            cdScreen.setHomeScreenHandler(this);
-            //bookScreen.setBController(new ViewCartController());
-            cdScreen.requestToViewCD(this);
-        } catch (IOException | SQLException e1) {
-            throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
-        }
-    }*/
     
     public void openMediaDetail(Media media) {
     	MediaScreenHandler mediaScreen;
         try {
             mediaScreen = new MediaScreenHandler(this.stage, Configs.MEDIA_DETAIL_PATH, media);
+            mediaScreen.setPreviousScreen(this);
             mediaScreen.setHomeScreenHandler(this);
-            //bookScreen.setBController(new ViewCartController());
+            mediaScreen.setBController(getBController());
             mediaScreen.requestToView(this);
         } catch (IOException | SQLException e1) {
             e1.printStackTrace();
@@ -246,9 +209,9 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     public void setImage() {
         // fix image path caused by fxml
-        File file1 = new File(Configs.IMAGE_PATH + "/" + "Logo.png");
-        Image img1 = new Image(file1.toURI().toString());
-        aimsImage.setImage(img1);
+//        File file1 = new File(Configs.IMAGE_PATH + "/" + "Logo.png");
+//        Image img1 = new Image(file1.toURI().toString());
+//        aimsImage.setImage(img1);
 
         File file2 = new File(Configs.IMAGE_PATH + "/" + "cart.png");
         Image img2 = new Image(file2.toURI().toString());

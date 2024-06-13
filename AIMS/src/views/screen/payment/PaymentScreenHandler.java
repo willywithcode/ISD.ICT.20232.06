@@ -4,6 +4,7 @@ import controller.PaymentController;
 import entity.invoice.Invoice;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -34,6 +35,17 @@ public class PaymentScreenHandler extends BaseScreenHandler {
         displayWebView();
 
     }
+    
+    /**
+     * @param event
+     */
+    @FXML
+    private void handleBack(MouseEvent event){
+        // Back to previous screen
+    	this.getPreviousScreen().show();
+    }
+    
+    
     private void displayWebView(){
         var paymentController = new PaymentController();
         var paymentUrl = paymentController.getUrlPay(invoice.getAmount(), "Thanh toan hoa don AIMS");

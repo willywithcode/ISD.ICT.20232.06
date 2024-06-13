@@ -69,6 +69,15 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
 
     /**
      * @param event
+     */
+    @FXML
+    private void handleBack(MouseEvent event){
+        // Back to previous screen
+    	this.getPreviousScreen().show();
+    }
+    
+    /**
+     * @param event
      * @throws IOException
      * @throws InterruptedException
      * @throws SQLException

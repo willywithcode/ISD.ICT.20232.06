@@ -2,19 +2,20 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.List;
+
 import entity.user.User;
 
-public class MangagerUserScreenController extends BaseController{
-    public List getAllUser() throws SQLException {
+public class ManagerScreenController extends BaseController{
+	public List getAllUser() throws SQLException {
         return new User().getAllUser();
     }
 
-    public void createUser(String name,String email, String address, String phone, int role) throws SQLException {
+    public void createUser(int id, String name,String email, String address, String phone, String role) throws SQLException {
         User  user = new User();
-        user.createUser(name, email,address,  phone, role);
+        user.createUser(id, name, email,address,  phone, role);
     }
 
-    public void updateUser(int id, String name, String address, String email, String phone, int role) throws SQLException {
+    public void updateUser(int id, String name, String address, String email, String phone, String role) throws SQLException {
         User  user = new User();
         user.updateUser(id, name, address, email, phone, role);
     }
@@ -33,5 +34,9 @@ public class MangagerUserScreenController extends BaseController{
         User user = new User();
         user.changePassword(id, password);
     }
-
+    
+    public boolean checkExistedUser(String username) throws SQLException {
+    	User user = new User();
+    	return user.checkExistedUser(username);
+    }
 }

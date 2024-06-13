@@ -1,27 +1,34 @@
 package views.screen.home;
 
-import com.sun.media.jfxmedia.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import entity.user.User;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import controller.ManagerScreenController;
+import entity.user.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import views.screen.BaseScreenHandler;
-import controller.MangagerUserScreenController;
 
-import javax.security.auth.login.FailedLoginException;
-
-public class ManagerUserScreenHandler extends BaseScreenHandler implements Initializable {
-    @FXML
+public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable{
+	
+	@FXML
     private Button userBtn;
     @FXML
     private AnchorPane userForm;
@@ -30,7 +37,7 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
     @FXML
     private TableColumn<User, Integer> userIDCol;
     @FXML
-    private TableColumn<User, String> userNameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol;
+    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol;
     @FXML
     private TextField userAddressField, userEmailField, userPhoneNumberField, userNameField;
     @FXML
@@ -47,7 +54,7 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
     private Button saveChangePassword;
     @FXML
     private TextField newPasswordField, confirmPasswordField;
-
+    
     private enum CHECK {
         WRONG_ADDRESS,
         WRONG_PHONENUMBER,
@@ -68,73 +75,70 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
             return  CHECK.RIGHT_EMAIL;
         return CHECK.WRONG_EMAIL;
     }
-    public ManagerUserScreenHandler(Stage stage, String screenPath) throws IOException {
-        super(stage, screenPath);
-        userForm.setVisible(true);
-        // TODO Auto-generated constructor stub
-    }
-    public MangagerUserScreenController getBController() {
-        return (MangagerUserScreenController) super.getBController();
+
+	public ManageUserScreenHandler(Stage stage, String screenPath) throws IOException {
+		super(stage, screenPath);
+		// TODO Auto-generated constructor stub
+		userForm.setVisible(true);
+	}
+	
+	public ManagerScreenController getBController() {
+        return (ManagerScreenController) super.getBController();
     }
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new MangagerUserScreenController());
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		setBController(new ManagerScreenController());
         try {
             showAllUser();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void navigate(ActionEvent e) throws SQLException {
-            userForm.setVisible(true);
-    }
-
-    public void logout(ActionEvent e) throws SQLException {
-        this.homeScreenHandler.show();
-    }
-
-    public void showAllUser() throws SQLException{
-        List<User> listUser = getBController().getAllUser();
-        roleChoice.getItems().setAll("Admin", "User");
-        userIDCol.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
-        userNameCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
-        userEmailCol.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
-        userAddressCol.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
-        userPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
-        userTableView.getItems().setAll(listUser);
-
-        subUserForm.setVisible(false);
-        changePasswordForm.setVisible(false);
-
-        userTableView.setRowFactory(tv -> new TableRow<User>() {
-            @Override
-            public void updateItem(User item, boolean empty) {
-                super.updateItem(item, empty) ;
-                String AdminStyle = "-fx-font-weight: bold";
-                String BanUserStyle = "-fx-background-color: red";
-                String style = "";
-                if (item == null) {
-                    setStyle("");
-                } else if (item.getBan()) {
-                    style = BanUserStyle;
-                } else {
-                    style = "";
-                };
-
-                if (item == null) {
-                    setStyle("");
-                } else if (item.getRole() == 1) {
-                    style = style +  ";" +AdminStyle;
-                }
-
-                setStyle(style);
-                }
-        });
-    }
-
-    public void setCreateUserBtn() {
+		
+	}
+	
+	public void showAllUser() throws SQLException{
+	    List<User> listUser = getBController().getAllUser();
+	    System.out.println(new PropertyValueFactory<User, Integer>("id").getProperty());
+	    roleChoice.getItems().setAll("Admin", "User");
+	    userIDCol.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
+	    userUsernameCol.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
+	    userEmailCol.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
+	    userAddressCol.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
+	    userPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
+	    userTableView.getItems().setAll(listUser);
+	
+	    subUserForm.setVisible(false);
+	    changePasswordForm.setVisible(false);
+	
+	    userTableView.setRowFactory(tv -> new TableRow<User>() {
+	        @Override
+	        public void updateItem(User item, boolean empty) {
+	            super.updateItem(item, empty) ;
+	            String AdminStyle = "-fx-font-weight: bold";
+	            String BanUserStyle = "-fx-background-color: red";
+	            String style = "";
+	            if (item == null) {
+	                setStyle("");
+	            } else if (item.getBan()) {
+	                style = BanUserStyle;
+	            } else {
+	                style = "";
+	            };
+	
+	            if (item == null) {
+	                setStyle("");
+	            } else if ("admin".equals(item.getRole())) {
+	                style = style +  ";" +AdminStyle;
+	            }
+	
+	            setStyle(style);
+	        }
+	    });
+	}
+	
+	public void setCreateUserBtn() {
         userLabelForm.setText("Create User");
         subUserForm.setVisible(true);
         saveUpdateUserBtn.setVisible(false);
@@ -156,7 +160,7 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
             saveUpdateUserBtn.setVisible(true);
             saveCreateUserBtn.setVisible(false);
 
-            userNameField.setText(selectedUser.getName());
+            userNameField.setText(selectedUser.getUsername());
             userAddressField.setText(selectedUser.getAddress());
             userPhoneNumberField.setText(selectedUser.getPhone());
             userEmailField.setText(selectedUser.getEmail());
@@ -201,17 +205,13 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
     }
 
     public void setSaveCreateUserBtn() throws SQLException {
-        String name = userNameField.getText();
+        String username = userNameField.getText();
         String address = userAddressField.getText();
         String phone = userPhoneNumberField.getText();
         String email = userEmailField.getText();
-        String role_str;
-        if (roleChoice.getSelectionModel().getSelectedItem() != null) {
-            role_str = roleChoice.getSelectionModel().getSelectedItem().toString();
-        } else {
-            role_str = "0";
-        }
-        int role = role_str == "Admin" ? 1 : 0;
+        String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
+        int numberOfUser = getBController().getAllUser().size();
+        int id = numberOfUser + 1;
 
         CHECK check_phone = checkPhoneNumber(phone);
         CHECK check_email = checkEmail(email);
@@ -219,8 +219,12 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
         if (check_phone == CHECK.WRONG_PHONENUMBER || check_email == CHECK.WRONG_EMAIL) {
             showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Enter information again please", "Enter information again please");
         } else {
-            getBController().createUser(name, email, address, phone, role);
-            showAllUser();
+        	if(getBController().checkExistedUser(username)) {
+        		showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
+        	}else {
+        		getBController().createUser(id, username, email, address, phone, role_str);
+        		showAllUser();	
+        	}
         }
     }
 
@@ -232,13 +236,7 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
             String address = userAddressField.getText();
             String phone = userPhoneNumberField.getText();
             String email = userEmailField.getText();
-            String role_str;
-            if (roleChoice.getSelectionModel().getSelectedItem() != null) {
-                role_str = roleChoice.getSelectionModel().getSelectedItem().toString();
-            } else {
-                role_str = "0";
-            }
-            int role = role_str == "Admin" ? 1 : 0;
+            String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
 
             CHECK check_phone = checkPhoneNumber(phone);
             CHECK check_email = checkEmail(email);
@@ -246,7 +244,7 @@ public class ManagerUserScreenHandler extends BaseScreenHandler implements Initi
             if (check_phone == CHECK.WRONG_PHONENUMBER || check_email == CHECK.WRONG_EMAIL) {
                 showAlert(Alert.AlertType.WARNING, "Fail to change user information", "Enter again please", "Enter again please");
             } else {
-                getBController().updateUser(id, name, email, address, phone, role);
+                getBController().updateUser(id, name, email, address, phone, role_str);
                 showAllUser();
             }
         } else {

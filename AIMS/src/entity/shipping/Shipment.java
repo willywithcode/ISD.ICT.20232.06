@@ -1,10 +1,7 @@
 package entity.shipping;
 
-import jdk.jshell.spi.ExecutionControl;
-
 public class Shipment {
-
-    private int shipType;
+	private int shipType;
 
     private String deliveryInstruction;
 
@@ -62,5 +59,4 @@ public class Shipment {
     public String getDeliveryInstruction() {
         return this.deliveryInstruction;
     }
-
 }

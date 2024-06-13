@@ -16,29 +16,28 @@ import java.util.logging.Logger;
 
 public class LoginController extends BaseController {
 
+<<<<<<< HEAD:AIMS/src/controller/LoginController.java
+//    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
+=======
     private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
+>>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/LoginController.java
 
-    public    int login(String email, String password) throws Exception {
-//        LOGGER.info(email);
-//        LOGGER.info(Utils.md5(password));
-        int role;
+    public String login(String username, String password) throws Exception {
+        String role;
         try {
-        	User user = authenticateUser(email, Utils.md5(password));
-            role = user.getRole();
-            boolean isBan = user.getBan();
-            if (isBan) throw new FailLoginDueToBannedException();
-            // Log user details
+        	User user = authenticateUser(username, password);
+        	role = user.getRole();
+        	boolean isBan = user.getBan();
+        	if (isBan) throw new FailLoginDueToBannedException();
             if (Objects.isNull(user)) throw new FailLoginException();
-//            SessionInformation.mainUser = user;
-//            SessionInformation.expiredTime = LocalDateTime.now().plusHours(24);
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             throw new FailLoginException();
         }
         return role;
     }
     
-    private User authenticateUser(String email, String encryptedPassword) throws SQLException {
-        return new User().authenticate(email, encryptedPassword);
+    private User authenticateUser(String username, String encryptedPassword) throws SQLException {
+        return new User().authenticate(username, encryptedPassword);
     }
 
  

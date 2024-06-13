@@ -1,6 +1,5 @@
 package entity.user;
 
-import controller.PlaceOrderController;
 import entity.db.AIMSDB;
 import entity.media.Media;
 
@@ -11,90 +10,132 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
-import utils.Utils;
 
 public class User {
-
-    private int id;
-    private String name;
+	
+	private int id;
+    private String username;
     private String email;
     private String address;
     private String phone;
-    private  boolean ban;
-    private int role;
-    private String encrypted_password;
+    private boolean ban;
+    private String role;
+    private String password;
     protected Statement stm;
-
-    public User(int id, String name, String email, String address, String phone, boolean ban, int role, String encrypted_password) {
+    
+    public User(int id, String username, String email, String address, String phone, boolean ban, String role, String password) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.ban = ban;
         this.role = role;
-        this.encrypted_password = encrypted_password;
+        this.password = password;
     }
 
-    public User() throws SQLException {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public boolean getBan() {
+		return ban;
+	}
+
+	public void setBan(boolean ban) {
+		this.ban = ban;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public User() throws SQLException {
         stm = AIMSDB.getConnection().createStatement();
     }
-    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
-
-    public List getAllUser() throws SQLException {
-        Statement stm = AIMSDB.getConnection().createStatement();
-        ResultSet res = stm.executeQuery("select * from User");
-        ArrayList userList = new ArrayList<>();
-        while (res.next()) {
-            int id = res.getInt("id");
-            String name = res.getString("name");
-            String email = res.getString("email");
-            String address = res.getString("address");
-            String phone = res.getString("phone");
-            boolean ban = res.getBoolean("ban");
-            String encrypted_password = res.getString("encrypted_password");
-            int role = res.getInt("role");
-            User user = new User(id, name, email, address, phone, ban, role, encrypted_password);
-//            LOGGER.info("Media" + media.quantity);
-            userList.add(user);
-        }
-        return userList;
-    }
-    public User authenticate(String email, String encryptedPassword) throws SQLException {
-        String sql = "SELECT * FROM User " +
-                "WHERE email = '" + email + "' AND encrypted_password = '" + encryptedPassword + "'";
-        LOGGER.info(sql);
-        Statement stm = null;
+    
+    public User authenticate(String username, String password) throws SQLException{
+    	String sql = "select * from \"user\" " + "where username = '" + username + "' and password = '" + password + "'";
+    	System.out.println(sql);
+    	Statement stm = null;
         ResultSet res = null;
         try {
-            stm = AIMSDB.getConnection().createStatement();
-            res = stm.executeQuery(sql);
-            if (res.next()) {
-                LOGGER.info("User Name: " + res.getString("name"));
-                return new User(
-                    res.getInt("id"),
-                    res.getString("name"),
-                    res.getString("email"),
-                    res.getString("address"),
-                    res.getString("phone"),
-                    res.getBoolean("ban"),
-                    res.getInt("role"),
-                    res.getString("encrypted_password")
-                );
-            } else {
-                // User not found with the given credentials
-                return null;
-            }
-        } finally {
-            if (res != null) res.close();
+        	stm = AIMSDB.getConnection().createStatement();
+        	res = stm.executeQuery(sql);
+        	System.out.println(res);
+        	if(res.next()) {
+        		int found_id = res.getInt("id");
+        		String found_username = res.getString("username");
+        		String found_email = res.getString("email");
+        		String found_address = res.getString("address");
+        		String found_phone = res.getString("phone");
+        		boolean found_ban = res.getBoolean("ban");
+        		String found_role = res.getString("role");
+        		String found_password = res.getString("password");
+        		
+        		User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password);
+        		return found_user;
+        	}else {
+        		return null;
+        	}
+        }finally {
+        	if (res != null) res.close();
             if (stm != null) stm.close();
         }
     }
-
-    public void createUser(String name,String email, String address, String phone, int role) {
-        String encrypted_password = Utils.md5("123456");
-        String insertUserSql = "INSERT INTO User "+"(name, email, address, phone, ban, role, encrypted_password)" +" VALUES ('" +
-                name + "', '" + email + "', '" + address + "', '" + phone  + "', 0, " + role +", '" + encrypted_password + "'" + ")";
+    
+    public void createUser(int id, String name,String email, String address, String phone, String role) {
+        String insertUserSql = "INSERT INTO \"user\" "+"(id, username, email, address, phone, ban, role, password)" +" VALUES (" + id + ", '" +
+                name + "', '" + email + "', '" + address + "', '" + phone  + "', false, " + role +", '" + password + "'" + ")";
+        System.out.println(insertUserSql);
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
             stm.executeUpdate(insertUserSql);
@@ -103,9 +144,9 @@ public class User {
         }
     }
 
-    public void updateUser(int id, String name, String email, String address, String phone, int role) {
-        String updateUserSql = "UPDATE User SET " +
-                "name = '" + name + "', " +
+    public void updateUser(int id, String name, String email, String address, String phone, String role) {
+        String updateUserSql = "UPDATE \"user\" SET " +
+                "username = '" + name + "', " +
                 "email = '" + email + "', " +
                 "address = '" + address + "', " +
                 "phone = '" + phone + "', " +
@@ -120,9 +161,8 @@ public class User {
     }
 
     public void changePassword(int id, String password) {
-        String encrypted_password = Utils.md5(password);
-        String updatePasswordSql = "UPDATE User SET " +
-                "encrypted_password = '" + encrypted_password + "'" +
+        String updatePasswordSql = "UPDATE \"user\" SET " +
+                "password = '" + password + "'" +
                 "WHERE id = " + id;
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
@@ -133,7 +173,7 @@ public class User {
     }
 
     public void deleteUser(int id) {
-        String deleteUserSql = "DELETE FROM User WHERE id = " + id;
+        String deleteUserSql = "DELETE FROM \"user\" WHERE id = " + id;
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
             stm.executeUpdate(deleteUserSql);
@@ -144,7 +184,7 @@ public class User {
 
     public void banUser(int id, boolean gt) {
         int result = !gt ? 1: 0;
-        String banUserSql = "UPDATE User SET " +
+        String banUserSql = "UPDATE \"user\" SET " +
                 "ban = " +  result +
                 " WHERE id = " + id;
         try {
@@ -161,102 +201,46 @@ public class User {
     @Override
     public String toString() {
         return "{" +
-                "  username='" + name + "'" +
+                "  username='" + username + "'" +
                 ", email='" + email + "'" +
                 ", address='" + address + "'" +
                 ", phone='" + phone + "'" +
                 "}";
     }
 
-    public int getId() {
-        return id;
+    public List getAllUser() throws SQLException {
+        Statement stm = AIMSDB.getConnection().createStatement();
+        ResultSet res = stm.executeQuery("select * from \"user\"");
+        ArrayList userList = new ArrayList<>();
+        while (res.next()) {
+        	int found_id = res.getInt("id");
+    		String found_username = res.getString("username");
+    		String found_email = res.getString("email");
+    		String found_address = res.getString("address");
+    		String found_phone = res.getString("phone");
+    		boolean found_ban = res.getBoolean("ban");
+    		String found_role = res.getString("role");
+    		String found_password = res.getString("password");
+    		
+    		User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password);
+//            LOGGER.info("Media" + media.quantity);
+            userList.add(found_user);
+        }
+        
+        return userList;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return String
-     */
-    // getter and setter
-    public String getName() {
-        return this.name;
-    }
-
-
-    /**
-     * @param name
-     */
-    public void setusername(String name) {
-        this.name = name;
-    }
-
-
-    /**
-     * @return String
-     */
-    public String getEmail() {
-        return this.email;
-    }
-
-
-    /**
-     * @param email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    /**
-     * @return String
-     */
-    public String getAddress() {
-        return this.address;
-    }
-
-
-    /**
-     * @param address
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-
-    /**
-     * @return String
-     */
-    public String getPhone() {
-        return this.phone;
-    }
-
-
-    /**
-     * @param phone
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public boolean getBan() {
-        return ban;
-    }
-
-    public void setBan(boolean ban) {
-        this.ban = ban;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
+    
+    public boolean checkExistedUser(String username) {
+    	String checkUser = "select count(*) from \"user\" where username='"+ username + "'";
+    	try {
+    		Statement stm = AIMSDB.getConnection().createStatement();
+    		ResultSet res = stm.executeQuery(checkUser);
+    		if(res.next()) {
+    			return true;
+    		}
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return false;
     }
 }

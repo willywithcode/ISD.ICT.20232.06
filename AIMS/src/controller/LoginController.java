@@ -16,7 +16,11 @@ import java.util.logging.Logger;
 
 public class LoginController extends BaseController {
 
+<<<<<<< HEAD:AIMS/src/controller/LoginController.java
 //    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
+=======
+    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
+>>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/LoginController.java
 
     public String login(String username, String password) throws Exception {
         String role;

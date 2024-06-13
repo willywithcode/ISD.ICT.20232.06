@@ -2,7 +2,10 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.List;
+<<<<<<< HEAD:AIMS/src/controller/ManagerScreenController.java
 
+=======
+>>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/ManagerScreenController.java
 import entity.user.User;
 
 public class ManagerScreenController extends BaseController{
@@ -39,4 +42,9 @@ public class ManagerScreenController extends BaseController{
     	User user = new User();
     	return user.checkExistedUser(username);
     }
+<<<<<<< HEAD:AIMS/src/controller/ManagerScreenController.java
 }
+=======
+
+}
+>>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/ManagerScreenController.java

@@ -5,7 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<<<<<<< HEAD:AIMS/out/production/Programming/views/fxml/home.fxml
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+=======
+<VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+>>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/fxml/home.fxml
     <children>
         <HBox prefHeight="104.0" prefWidth="1326.0" style="-fx-background-color: #ccebff; -fx-border-color: #33adff;">
             <children>
@@ -13,9 +17,9 @@
                     <children>
                         <Pane prefHeight="102.0" prefWidth="237.0">
                             <children>
-                                <ImageView fx:id="aimsImage" fitHeight="94.0" fitWidth="115.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                                <ImageView fx:id="aimsImage" fitHeight="104.0" fitWidth="106.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                     <image>
-                                        <Image url="@../../../assets/images/Logo.png" />
+                                        <Image url="@../../../../../assets/images/Logo.png" />
                                     </image>
                                 </ImageView>
                                 <Label layoutX="6.0" layoutY="68.0" prefHeight="41.0" prefWidth="100.0" text="    AIMS" textAlignment="CENTER" textFill="#5091e6">

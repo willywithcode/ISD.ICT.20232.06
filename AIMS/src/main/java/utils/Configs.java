@@ -6,8 +6,7 @@ import javafx.scene.text.FontWeight;
 
 public class Configs {
 
-
-    public static final String PROCESS_TRANSACTION_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+	public static final String PROCESS_TRANSACTION_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static final String vnp_SecureHash = "HUQHTRVXVRGJJWHMBFCAUBAXOSAJBIND";
     public static final String vnp_TmnCode = "TXOOZNX4";
 
@@ -30,13 +29,14 @@ public class Configs {
     public static final String HOME_MEDIA_PATH = "/views/fxml/media_home.fxml";
     public static final String POPUP_PATH = "/views/fxml/popup.fxml";
     public static final String DELIVERY_METHODS_PATH = "/views/fxml/delivery_methods_form.fxml";
+    public static final String MANAGE_USER_SCREEN = "/views/fxml/manageUser.fxml";
     public static final int PLACE_RUSH_ORDER = 1;
     public static final int PALCE_ORDER = 2;
     public static String CURRENCY = "VND";
 
     public static final String LOGIN_SCREEN_PATH = "/views/fxml/login.fxml";
-    public static final String MANAGER_SCREEN_PATH = "/views/fxml/crud_media_screen.fxml";
-    public static final String MANAGER_USER_SCREEN_PATH = "/views/fxml/manager_user_screen.fxml";
+    public static final String MANAGER_MEDIA_SCREEN_PATH = "/views/fxml/crud_media_screen.fxml";
+    public static final String MANAGER_SCREEN_PATH = "/views/fxml/manager.fxml";
     public static final String MEDIA_DETAIL_PATH = "/views/fxml/media_detail.fxml";
 	public static float PERCENT_VAT = 10;
     public static Font REGULAR_FONT = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 24);

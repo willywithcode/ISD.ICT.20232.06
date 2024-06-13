@@ -2,7 +2,7 @@ package entity.order;
 
 import entity.db.AIMSDB;
 import entity.media.Media;
-//import entity.shipping.Shipment;
+import entity.shipping.Shipment;
 import utils.Configs;
 
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public class Order {
 
     private int shippingFees;
     private List<OrderMedia> lstOrderMedia;
-//    private Shipment shipment;
+    private Shipment shipment;
     private String name;
     private String province;
     private String instruction;
@@ -124,10 +124,10 @@ public class Order {
             try (PreparedStatement preparedStatement2 = AIMSDB.getConnection().prepareStatement(query)) {
                 var sqlinsertShipment = "INSERT INTO Shipping ( shipType, deliveryInstruction, dateTime, deliverySub, orderId) " +
                         "VALUES ( ?, ?, ?, ?)";
-//                preparedStatement2.setInt(1, shipment.getShipType());
-//                preparedStatement2.setString(2, shipment.getDeliveryInstruction());
-//                preparedStatement2.setString(3, shipment.getDeliveryTime());
-//                preparedStatement2.setString(4, shipment.getShipmentDetail());
+                preparedStatement2.setInt(1, shipment.getShipType());
+                preparedStatement2.setString(2, shipment.getDeliveryInstruction());
+                preparedStatement2.setString(3, shipment.getDeliveryTime());
+                preparedStatement2.setString(4, shipment.getShipmentDetail());
                 preparedStatement2.setInt(5, id);
               preparedStatement2.executeUpdate();
             }
@@ -182,24 +182,24 @@ public class Order {
         this.shippingFees = shippingFees;
     }
 
-//    public Shipment getShipment() {
-//        return shipment;
-//    }
-//
-//    public void setShipment(Shipment shipment) {
-//        this.shipment = shipment;
-//    }
+    public Shipment getShipment() {
+        return shipment;
+    }
+
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
+    }
 
     /**
      * @return int
      */
-//    public int getAmount() {
-//        double amount = 0;
-//        for (Object object : lstOrderMedia) {
-//            OrderMedia om = (OrderMedia) object;
-//            amount += om.getPrice();
-//        }
-//        return (int) (amount + (Configs.PERCENT_VAT / 100) * amount);
-//    }
+    public int getAmount() {
+        double amount = 0;
+        for (Object object : lstOrderMedia) {
+            OrderMedia om = (OrderMedia) object;
+            amount += om.getPrice();
+        }
+        return (int) (amount + (Configs.PERCENT_VAT / 100) * amount);
+    }
 
 }

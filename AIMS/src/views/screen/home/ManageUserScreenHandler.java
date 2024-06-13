@@ -1,24 +1,11 @@
 package views.screen.home;
 
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
-=======
-//import com.sun.media.jfxmedia.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import entity.user.User;
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
 
 import controller.ManagerScreenController;
 import entity.user.User;
@@ -41,14 +28,6 @@ import views.screen.BaseScreenHandler;
 
 public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable{
 	
-=======
-import views.screen.BaseScreenHandler;
-import controller.ManagerScreenController;
-
-import javax.security.auth.login.FailedLoginException;
-
-public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable {
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java
 	@FXML
     private Button userBtn;
     @FXML
@@ -302,8 +281,4 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         alert.setContentText(content);
         alert.showAndWait();
     }
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
 }
-=======
-}
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java

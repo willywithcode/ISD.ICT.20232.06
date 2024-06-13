@@ -1,6 +1,5 @@
 package controller;
 
-<<<<<<< HEAD:AIMS/src/controller/PaymentController.java
 import common.exception.PaymentException;
 import common.exception.TransactionNotDoneException;
 import common.exception.UnrecognizedException;
@@ -25,6 +24,7 @@ public class PaymentController extends BaseController {
      * Represent the Interbank subsystem
      */
     private VnPayInterface vnPayService;
+//    private CreditCard card;
 
     /**
      * Validate the input date which should be in the format "mm/yy", and then
@@ -64,43 +64,8 @@ public class PaymentController extends BaseController {
      * @param content
      * @return
      */
-    public String getUrlPay(int amount, String content){
-        vnPayService = new VnPaySubsystem();
-        var url = vnPayService.generatePayUrl(amount, content);
-        return url;
-    }
-
-    public void emptyCart() {
-=======
-import java.util.Calendar;
-import java.util.Hashtable;
-import java.util.Map;
-
-//import common.exception.InvalidCardException;
-import common.exception.PaymentException;
-import common.exception.UnrecognizedException;
-import entity.cart.Cart;
-import entity.payment.CreditCard;
-import entity.payment.PaymentTransaction;
-//import subsystem.InterbankInterface;
-//import subsystem.InterbankSubsystem;
-
-/*
-SRP: vì nó đảm nhận nhiều trách nhiệm.
-OCP: vì lớp này có thể cần được sửa đổi khi phương thức thanh toán mới được giới thiệu.
-DIP: phụ thuộc trực tiếp vào lớp cụ thể InterbankSubsystem thay vì sử dụng một giao diện.
- */
-//stamp coupling, control coupling
-
-
-public class PaymentController extends BaseController { 
-
-	/**
-	 * Represent the card used for payment
-	 */
-	private CreditCard card;
-
-	/**
+    
+    /**
 	 * Represent the Interbank subsystem
 	 */
 //	private InterbankInterface interbank;
@@ -171,10 +136,23 @@ public class PaymentController extends BaseController {
 //		}
 //		return result;
 //	}
+    
+    public String getUrlPay(int amount, String content){
+        vnPayService = new VnPaySubsystem();
+        var url = vnPayService.generatePayUrl(amount, content);
+        return url;
+    }
 
-	//Coincidental cohesion
-	public void emptyCart(){ 
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/controller/PaymentController.java
+    public void emptyCart(){ 
         Cart.getCart().emptyCart();
     }
 }
+//import subsystem.InterbankInterface;
+//import subsystem.InterbankSubsystem;
+
+/*
+SRP: vì nó đảm nhận nhiều trách nhiệm.
+OCP: vì lớp này có thể cần được sửa đổi khi phương thức thanh toán mới được giới thiệu.
+DIP: phụ thuộc trực tiếp vào lớp cụ thể InterbankSubsystem thay vì sử dụng một giao diện.
+ */
+//stamp coupling, control coupling

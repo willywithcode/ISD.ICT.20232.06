@@ -17,7 +17,6 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 import entity.db.AIMSDB;
-import entity.db.ProvincesDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -130,7 +129,7 @@ public class Utils {
     public static List<String> getProvincesList(){
     	List<String> provincesList = new ArrayList<>();
     	try {
-    		Statement stm = ProvincesDB.connect().createStatement();
+    		Statement stm = AIMSDB.getConnection().createStatement();
 			ResultSet res = stm.executeQuery("select full_name from provinces");
 			while(res.next()) {
 				String found_provinces = res.getString("full_name");
@@ -149,7 +148,7 @@ public class Utils {
     public static List<String> getDistrictsList(String provinceName){
     	List<String> districtsList = new ArrayList<>();
 		try {
-			Statement stm = ProvincesDB.connect().createStatement();
+			Statement stm = AIMSDB.getConnection().createStatement();
 			String query = "select "
 					+ "districts.full_name AS district_full_name, "
 					+ "provinces.code AS province_code, "
@@ -172,7 +171,7 @@ public class Utils {
     public static List<String> getWardsList(String districtName){
     	List<String> wardsList = new ArrayList<>();
 		try {
-			Statement stm = ProvincesDB.connect().createStatement();
+			Statement stm = AIMSDB.getConnection().createStatement();
 			String query = "select "
 					+ "wards.full_name as ward_full_name, "
 					+ "districts.code as district_code, "

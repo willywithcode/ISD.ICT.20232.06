@@ -158,20 +158,16 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             ward.setValue(selectedUser.getWard());
             
             province.setItems(FXCollections.observableArrayList(Utils.getProvincesList()));
-            district.setItems(FXCollections.observableArrayList(Utils.getDistrictsList(province.getValue().toString())));
-            ward.setItems(FXCollections.observableArrayList(Utils.getWardsList(district.getValue().toString())));
-            
-            System.out.println(FXCollections.observableArrayList(Utils.getWardsList(district.getValue().toString())));
+            district.setItems(FXCollections.observableArrayList(Utils.getDistrictsList(selectedUser.getProvince())));
+            ward.setItems(FXCollections.observableArrayList(Utils.getWardsList(selectedUser.getWard())));
             
             province.setOnAction(event -> {
-            	ObservableList<String> districtsList = FXCollections.observableArrayList(Utils.getDistrictsList(province.getValue().toString()));
+            	ObservableList<String> districtsList = FXCollections.observableArrayList(Utils.getDistrictsList(province.getValue()));
             	district.setItems(districtsList);
-            	district.setValue(districtsList.get(0));
-            	
+            	district.setValue(district.getItems().get(0));
             	district.setOnAction(e -> {
-            		ObservableList<String> wardsList = FXCollections.observableArrayList(Utils.getWardsList(district.getValue().toString()));
+            		ObservableList<String> wardsList = FXCollections.observableArrayList(Utils.getWardsList(district.getValue()));
             		ward.setItems(wardsList);
-            		ward.setValue(wardsList.get(0));
             	});
             	district.getOnAction().handle(null);
             });

@@ -71,22 +71,27 @@ public class SignUpScreenHandler extends BaseScreenHandler implements Initializa
         List<String> provincesList = Utils.getProvincesList();
         ObservableList<String> provinces_ = FXCollections.observableArrayList(provincesList);
         provinces.setItems(provinces_); 
-        provinces.setOnAction(event -> updateDistricts(provinces.getValue().toString()));        
-        
+        provinces.setOnAction(event -> updateDistricts((String) provinces.getValue()));  
 	}
 	
 	private void updateDistricts(String selectedProvince){
 //		System.out.println(selectedProvince);
-		List<String> districtsList = Utils.getDistrictsList(selectedProvince);
-		ObservableList<String> districts_ = FXCollections.observableArrayList(districtsList);
-		districts.setItems(districts_);
-		districts.setOnAction(event -> updateWards(districts.getValue().toString()));
+		if (selectedProvince != null) {
+            List<String> districtsList = Utils.getDistrictsList(selectedProvince);
+            ObservableList<String> districts_ = FXCollections.observableArrayList(districtsList);
+            districts.setItems(districts_);
+            districts.setValue(districts_.get(0));
+            districts.setOnAction(event -> updateWards((String) districts.getValue()));
+        }
 	}
 	
 	private void updateWards(String selectedDistrict) {
-		List<String> wardsList = Utils.getWardsList(selectedDistrict);
-		ObservableList<String> wards_ = FXCollections.observableArrayList(wardsList);
-		wards.setItems(wards_);
+		if (selectedDistrict != null) {
+            List<String> wardsList = Utils.getWardsList(selectedDistrict);
+            ObservableList<String> wards_ = FXCollections.observableArrayList(wardsList);
+            wards.setItems(wards_);
+            wards.setValue(wards_.get(0));
+        }
 	}
 	
 	@FXML

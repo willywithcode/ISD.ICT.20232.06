@@ -132,8 +132,10 @@ public class User {
                 "role = '" + role + "', " +
                 "province = '" + province + "', " +
                 "district = '" + district + "', " +
-                "ward = '" + ward + "', " +
+                "ward = '" + ward + "' " +
                 "WHERE id = " + id;
+        
+        System.out.println(updateUserSql);
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
             stm.executeUpdate(updateUserSql);

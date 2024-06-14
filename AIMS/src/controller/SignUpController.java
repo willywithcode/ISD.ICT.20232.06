@@ -5,6 +5,5 @@ import java.util.List;
 
 import entity.user.User;
 
-public class ManagerScreenController extends BaseController{
-	
+public class SignUpController extends BaseController{
 }

@@ -6,6 +6,7 @@ import entity.db.AIMSDB;
 import entity.user.User;
 import javafx.scene.control.Alert;
 import utils.Utils;
+import views.screen.popup.PopupScreen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,19 +19,25 @@ public class LoginController extends BaseController {
 
 //    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
 
-    public String login(String username, String password) throws Exception {
+    public User login(String username, String password) throws Exception {
         String role;
         try {
         	User user = authenticateUser(username, password);
-        	System.out.println("Username: " + user.getUsername());
+        	if (Objects.isNull(user)) {
+        		PopupScreen.error("Wrong password or username. Please try again!!");
+        		throw new FailLoginException();
+        	}
         	role = user.getRole();
         	boolean isBan = user.getBan();
-        	if (isBan) throw new FailLoginDueToBannedException();
-            if (Objects.isNull(user)) throw new FailLoginException();
+        	if (isBan) {
+        		PopupScreen.error("This account is banned. Contact with admin for more information");
+        		throw new FailLoginDueToBannedException();
+        	}
+        	
+        	return user;
         }catch (SQLException ex) {
             throw new FailLoginException();
         }
-        return role;
     }
     
     private User authenticateUser(String username, String password) throws SQLException {

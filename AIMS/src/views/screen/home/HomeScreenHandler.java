@@ -16,6 +16,7 @@ import controller.LoginController;
 import controller.ViewCartController;
 import entity.cart.Cart;
 import entity.media.Media;
+import entity.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -93,8 +94,19 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     private List homeSearchItems;
     private List pageItems;
+    
+    private User loggedInUser;
 
-    public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
+    public User getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(User loggedInUser) {
+		this.loggedInUser = loggedInUser;
+		loginBtn.setVisible(false);
+	}
+
+	public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
     }
     
@@ -162,6 +174,13 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 return createPage(pageIndex);
             }
         });
+        
+//        System.out.println(loggedInUser == null);
+        if(loggedInUser == null) {
+        	loginBtn.setVisible(true);
+        }else {
+        	loginBtn.setVisible(false);
+        }
 
 //        aimsImage.setOnMouseClicked(e -> {
 //            addMediaHome(this.homeItems);

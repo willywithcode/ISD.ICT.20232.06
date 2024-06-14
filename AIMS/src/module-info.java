@@ -22,4 +22,5 @@ module AIMS{
 	opens views.fxml to javafx.fxml;
     opens views.screen.home to javafx.fxml;
     opens views.screen to javafx.fxml;
+    opens views.screen.popup to javafx.fxml;
 }

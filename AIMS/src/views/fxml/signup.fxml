@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="767.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fx:id="logo" fitHeight="150.0" fitWidth="200.0" layoutX="243.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" onMouseClicked="#backToHomeScreen">
+            <image>
+                <Image url="@../../../assets/images/Logo.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="243.0" layoutY="111.0" prefHeight="96.0" prefWidth="155.0" text="Sign Up" textAlignment="CENTER" textFill="#5091e6">
+            <font>
+                <Font name="Segoe UI Semibold" size="42.0" />
+            </font>
+        </Label>
+        <TextField fx:id="username" layoutX="182.0" layoutY="207.0" prefHeight="42.0" prefWidth="327.0" />
+        <Label contentDisplay="RIGHT" layoutX="42.0" layoutY="200.0" prefHeight="49.0" prefWidth="131.0" text="Username">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="42.0" layoutY="256.0" prefHeight="49.0" prefWidth="131.0" text="Password">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <PasswordField fx:id="password" layoutX="182.0" layoutY="264.0" prefHeight="42.0" prefWidth="327.0" />
+      <Button fx:id="createBtn" layoutX="264.0" layoutY="698.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="164.0" style="-fx-cursor: hand; -fx-background-color: #42b72a; -fx-border-radius: 10;" text="Create" textFill="WHITE" onMouseClicked="#clickCreateBtn">
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="42.0" layoutY="312.0" prefHeight="49.0" prefWidth="131.0" text="Email">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="182.0" layoutY="321.0" prefHeight="42.0" prefWidth="327.0" />
+      <Label layoutX="42.0" layoutY="368.0" prefHeight="49.0" prefWidth="131.0" text="Phone">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="phone" layoutX="182.0" layoutY="378.0" prefHeight="42.0" prefWidth="327.0" />
+      <Label layoutX="42.0" layoutY="424.0" prefHeight="49.0" prefWidth="131.0" text="City">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="provinces" layoutX="182.0" layoutY="435.0" prefHeight="42.0" prefWidth="327.0" />
+      <Label layoutX="42.0" layoutY="485.0" prefHeight="49.0" prefWidth="131.0" text="District">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="districts" layoutX="182.0" layoutY="492.0" prefHeight="42.0" prefWidth="327.0" />
+      <Label layoutX="42.0" layoutY="546.0" prefHeight="49.0" prefWidth="131.0" text="Ward">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="wards" layoutX="182.0" layoutY="550.0" prefHeight="42.0" prefWidth="327.0" />
+      <Label layoutX="42.0" layoutY="607.0" prefHeight="49.0" prefWidth="131.0" text="Address">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="address" layoutX="182.0" layoutY="607.0" prefHeight="42.0" prefWidth="327.0" />
+      <Button fx:id="backBtn" layoutX="30.0" layoutY="26.0" mnemonicParsing="false" text="Back" />
+    </children>
+</AnchorPane>

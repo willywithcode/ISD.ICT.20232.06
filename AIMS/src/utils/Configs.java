@@ -35,6 +35,7 @@ public class Configs {
     public static String CURRENCY = "VND";
 
     public static final String LOGIN_SCREEN_PATH = "/views/fxml/login.fxml";
+    public static final String SIGN_UP_SCREEN_PATH = "/views/fxml/signup.fxml";
     public static final String MANAGER_MEDIA_SCREEN_PATH = "/views/fxml/crud_media_screen.fxml";
     public static final String MANAGER_SCREEN_PATH = "/views/fxml/manager.fxml";
     public static final String MEDIA_DETAIL_PATH = "/views/fxml/media_detail.fxml";

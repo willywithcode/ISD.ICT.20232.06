@@ -13,12 +13,10 @@ import java.util.logging.Logger;
 import common.exception.ViewCartException;
 import controller.HomeController;
 import controller.LoginController;
-<<<<<<< HEAD:AIMS/src/views/screen/home/HomeScreenHandler.java
 import controller.ViewCartController;
-=======
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/HomeScreenHandler.java
 import entity.cart.Cart;
 import entity.media.Media;
+import entity.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -96,8 +94,19 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     private List homeSearchItems;
     private List pageItems;
+    
+    private User loggedInUser;
 
-    public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
+    public User getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(User loggedInUser) {
+		this.loggedInUser = loggedInUser;
+		loginBtn.setVisible(false);
+	}
+
+	public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
     }
     
@@ -165,12 +174,17 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 return createPage(pageIndex);
             }
         });
+        
+//        System.out.println(loggedInUser == null);
+        if(loggedInUser == null) {
+        	loginBtn.setVisible(true);
+        }else {
+        	loginBtn.setVisible(false);
+        }
 
 //        aimsImage.setOnMouseClicked(e -> {
 //            addMediaHome(this.homeItems);
 //        });
-
-<<<<<<< HEAD:AIMS/src/views/screen/home/HomeScreenHandler.java
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
@@ -184,14 +198,9 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
             }
         });
-        loginBtn.setOnMouseClicked(e -> {
-			LoginScreenHandler loginScreen;
-=======
-        cartImage.setOnMouseClicked(e -> {});
         
         loginBtn.setOnMouseClicked(e -> {
         	LoginScreenHandler loginScreen;
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/HomeScreenHandler.java
 			try {
 				loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
                 loginScreen.setHomeScreenHandler(this);
@@ -200,12 +209,8 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 			}catch(Exception e1) {
 				e1.printStackTrace();
 			}
-<<<<<<< HEAD:AIMS/src/views/screen/home/HomeScreenHandler.java
 		});
-=======
-        });
         
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/HomeScreenHandler.java
         addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);

@@ -3,13 +3,22 @@ package utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import entity.db.AIMSDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 public class Utils {
@@ -82,6 +91,104 @@ public class Utils {
             digest = "";
         }
         return digest;
+    }
+    
+    public enum CHECK {
+        WRONG_ADDRESS,
+        WRONG_PHONENUMBER,
+        RIGHT_PHONENUMBER,
+        WRONG_NAME,
+        WRONG_EMAIL,
+        RIGHT_EMAIL,
+    }
+
+    public static CHECK checkPhoneNumber(String phone) {
+        if (phone.length() > 10 || phone.length() < 10 || phone.charAt(0) != '0')
+            return CHECK.WRONG_PHONENUMBER;
+        return CHECK.RIGHT_PHONENUMBER;
+    }
+
+    public static CHECK checkEmail (String email) {
+        if (email.contains("@"))
+            return  CHECK.RIGHT_EMAIL;
+        return CHECK.WRONG_EMAIL;
+    }
+    
+    public static boolean usernameExists(String username) throws SQLException{
+        try {
+            Statement stm = AIMSDB.getConnection().createStatement();
+            String query = "SELECT * FROM User WHERE username = '" + username + "'";
+            ResultSet res = stm.executeQuery(query);
+            return res.next(); // If there is a next row, username exists
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false in case of error or no results
+        }
+    }
+    
+    public static List<String> getProvincesList(){
+    	List<String> provincesList = new ArrayList<>();
+    	try {
+    		Statement stm = AIMSDB.getConnection().createStatement();
+			ResultSet res = stm.executeQuery("select full_name from provinces");
+			while(res.next()) {
+				String found_provinces = res.getString("full_name");
+				provincesList.add(found_provinces);
+			}
+			
+			Collections.sort(provincesList);
+			
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return provincesList;
+    }
+    
+    public static List<String> getDistrictsList(String provinceName){
+    	List<String> districtsList = new ArrayList<>();
+		try {
+			Statement stm = AIMSDB.getConnection().createStatement();
+			String query = "select "
+					+ "districts.full_name AS district_full_name, "
+					+ "provinces.code AS province_code, "
+					+ "provinces.full_name AS province_full_name "
+					+ "from districts, provinces "
+					+ "where districts.province_code = provinces.code and provinces.full_name = '" + provinceName + "';";
+			ResultSet res = stm.executeQuery(query);
+			while(res.next()) {
+				String found_district = res.getString("district_full_name");
+				districtsList.add(found_district);
+			}
+			Collections.sort(districtsList);
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+    	return districtsList;
+    }
+    
+    public static List<String> getWardsList(String districtName){
+    	List<String> wardsList = new ArrayList<>();
+		try {
+			Statement stm = AIMSDB.getConnection().createStatement();
+			String query = "select "
+					+ "wards.full_name as ward_full_name, "
+					+ "districts.code as district_code, "
+					+ "districts.full_name as district_full_name "
+					+ "from wards, districts "
+					+ "where wards.district_code = districts.code and districts.full_name = '" + districtName + "';";
+			ResultSet res = stm.executeQuery(query);
+			while(res.next()) {
+				String found_district = res.getString("ward_full_name");
+				wardsList.add(found_district);
+			}
+			Collections.sort(wardsList);
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+    	return wardsList;
     }
 
 }

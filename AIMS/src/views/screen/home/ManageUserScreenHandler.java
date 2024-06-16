@@ -1,27 +1,16 @@
 package views.screen.home;
 
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
-=======
-//import com.sun.media.jfxmedia.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import entity.user.User;
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
 
 import controller.ManagerScreenController;
 import entity.user.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,18 +26,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utils.Utils;
+import utils.Utils.CHECK;
 import views.screen.BaseScreenHandler;
 
 public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable{
 	
-=======
-import views.screen.BaseScreenHandler;
-import controller.ManagerScreenController;
-
-import javax.security.auth.login.FailedLoginException;
-
-public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable {
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java
 	@FXML
     private Button userBtn;
     @FXML
@@ -58,7 +41,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     @FXML
     private TableColumn<User, Integer> userIDCol;
     @FXML
-    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol;
+    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol, userProvinceCol, userDistrictCol, userWardCol;
     @FXML
     private TextField userAddressField, userEmailField, userPhoneNumberField, userNameField;
     @FXML
@@ -68,34 +51,13 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     @FXML
     private AnchorPane subUserForm;
     @FXML
-    private  ChoiceBox<String> roleChoice;
+    private  ChoiceBox<String> roleChoice, province, district, ward;
     @FXML
     private AnchorPane changePasswordForm;
     @FXML
     private Button saveChangePassword;
     @FXML
     private TextField newPasswordField, confirmPasswordField;
-    
-    private enum CHECK {
-        WRONG_ADDRESS,
-        WRONG_PHONENUMBER,
-        RIGHT_PHONENUMBER,
-        WRONG_NAME,
-        WRONG_EMAIL,
-        RIGHT_EMAIL,
-    }
-
-    private CHECK checkPhoneNumber(String phone) {
-        if (phone.length() > 10 || phone.length() < 10 || phone.charAt(0) != '0')
-            return CHECK.WRONG_PHONENUMBER;
-        return CHECK.RIGHT_PHONENUMBER;
-    }
-
-    private CHECK checkEmail (String email) {
-        if (email.contains("@"))
-            return  CHECK.RIGHT_EMAIL;
-        return CHECK.WRONG_EMAIL;
-    }
 
 	public ManageUserScreenHandler(Stage stage, String screenPath) throws IOException {
 		super(stage, screenPath);
@@ -115,19 +77,22 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             showAllUser();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-		
+        }	
 	}
 	
 	public void showAllUser() throws SQLException{
 	    List<User> listUser = getBController().getAllUser();
-	    System.out.println(new PropertyValueFactory<User, Integer>("id").getProperty());
+	    System.out.println(new PropertyValueFactory<User, String>("province"));
 	    roleChoice.getItems().setAll("Admin", "User");
 	    userIDCol.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
 	    userUsernameCol.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
 	    userEmailCol.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
 	    userAddressCol.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
 	    userPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
+	    userProvinceCol.setCellValueFactory(new PropertyValueFactory<User, String>("province"));
+	    userDistrictCol.setCellValueFactory(new PropertyValueFactory<User, String>("district"));
+	    userWardCol.setCellValueFactory(new PropertyValueFactory<User, String>("ward"));
+	    
 	    userTableView.getItems().setAll(listUser);
 	
 	    subUserForm.setVisible(false);
@@ -175,7 +140,8 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     public void setUpdateUserBtn() {
         changePasswordForm.setVisible(false);
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
+        System.out.println(selectedUser);
+        if (selectedUser != null) {        	
             userLabelForm.setText("Edit User");
             subUserForm.setVisible(true);
             saveUpdateUserBtn.setVisible(true);
@@ -185,6 +151,27 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             userAddressField.setText(selectedUser.getAddress());
             userPhoneNumberField.setText(selectedUser.getPhone());
             userEmailField.setText(selectedUser.getEmail());
+            String role = selectedUser.getRole().toLowerCase();
+            roleChoice.setValue(role.substring(0, 1).toUpperCase() + role.substring(1));
+            province.setValue(selectedUser.getProvince());
+            district.setValue(selectedUser.getDistrict());
+            ward.setValue(selectedUser.getWard());
+            
+            province.setItems(FXCollections.observableArrayList(Utils.getProvincesList()));
+            district.setItems(FXCollections.observableArrayList(Utils.getDistrictsList(selectedUser.getProvince())));
+            ward.setItems(FXCollections.observableArrayList(Utils.getWardsList(selectedUser.getWard())));
+            
+            province.setOnAction(event -> {
+            	ObservableList<String> districtsList = FXCollections.observableArrayList(Utils.getDistrictsList(province.getValue()));
+            	district.setItems(districtsList);
+            	district.setValue(district.getItems().get(0));
+            	district.setOnAction(e -> {
+            		ObservableList<String> wardsList = FXCollections.observableArrayList(Utils.getWardsList(district.getValue()));
+            		ward.setItems(wardsList);
+            	});
+            	district.getOnAction().handle(null);
+            });
+            province.getOnAction().handle(null);
         } else {
             subUserForm.setVisible(false);
         }
@@ -231,19 +218,23 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         String phone = userPhoneNumberField.getText();
         String email = userEmailField.getText();
         String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
+        String province_str = province.getSelectionModel().getSelectedItem().toString();
+        String district_str = district.getSelectionModel().getSelectedItem().toString();
+        String ward_str = ward.getSelectionModel().getSelectedItem().toString();
+        String default_password = "123123";
         int numberOfUser = getBController().getAllUser().size();
         int id = numberOfUser + 1;
 
-        CHECK check_phone = checkPhoneNumber(phone);
-        CHECK check_email = checkEmail(email);
+        CHECK check_phone = Utils.checkPhoneNumber(phone);
+        CHECK check_email = Utils.checkEmail(email);
 
         if (check_phone == CHECK.WRONG_PHONENUMBER || check_email == CHECK.WRONG_EMAIL) {
             showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Enter information again please", "Enter information again please");
         } else {
-        	if(getBController().checkExistedUser(username)) {
+        	if(Utils.usernameExists(username)) {
         		showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
         	}else {
-        		getBController().createUser(id, username, email, address, phone, role_str);
+        		getBController().createUser(id, username, email, address, phone, role_str, default_password, province_str, district_str, ward_str);
         		showAllUser();	
         	}
         }
@@ -258,14 +249,18 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             String phone = userPhoneNumberField.getText();
             String email = userEmailField.getText();
             String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
+            String province_str = province.getSelectionModel().getSelectedItem().toString();
+            String district_str = district.getSelectionModel().getSelectedItem().toString();
+            String ward_str = ward.getSelectionModel().getSelectedItem().toString();
 
-            CHECK check_phone = checkPhoneNumber(phone);
-            CHECK check_email = checkEmail(email);
+            
+            CHECK check_phone = Utils.checkPhoneNumber(phone);
+            CHECK check_email = Utils.checkEmail(email);
 
             if (check_phone == CHECK.WRONG_PHONENUMBER || check_email == CHECK.WRONG_EMAIL) {
                 showAlert(Alert.AlertType.WARNING, "Fail to change user information", "Enter again please", "Enter again please");
             } else {
-                getBController().updateUser(id, name, email, address, phone, role_str);
+                getBController().updateUser(id, name, email, address, phone, role_str, province_str, district_str, ward_str);
                 showAllUser();
             }
         } else {
@@ -302,8 +297,4 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         alert.setContentText(content);
         alert.showAndWait();
     }
-<<<<<<< HEAD:AIMS/src/views/screen/home/ManageUserScreenHandler.java
 }
-=======
-}
->>>>>>> 5b5c76c46a4906a53fb320a4286b17a93bfe3aa9:AIMS/src/main/java/views/screen/home/ManageUserScreenHandler.java

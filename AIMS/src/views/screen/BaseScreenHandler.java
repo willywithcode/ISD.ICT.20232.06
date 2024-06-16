@@ -1,7 +1,6 @@
 package views.screen;
 
 import java.io.IOException;
-import java.util.Hashtable;
 
 import controller.BaseController;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ public abstract class BaseScreenHandler extends FXMLScreenHandler {
 
     protected final Stage stage;
     protected HomeScreenHandler homeScreenHandler;
-    protected Hashtable<String, String> messages;
     private Scene scene;
     private BaseScreenHandler prev;
     private BaseController bController;

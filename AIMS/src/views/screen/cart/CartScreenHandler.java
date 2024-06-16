@@ -107,6 +107,7 @@ public class CartScreenHandler extends BaseScreenHandler {
     @FXML
     private void handleBack(MouseEvent event) throws IOException {
         // Back to previous screen
+    	homeScreenHandler.initialize(null, null);
         this.getPreviousScreen().show();
     }
     
@@ -193,7 +194,7 @@ public class CartScreenHandler extends BaseScreenHandler {
 
                 // display the attribute of vboxCart media
                 CartMedia cartMedia = (CartMedia) cm;
-                MediaHandler mediaCartScreen = new MediaHandler(Configs.CART_MEDIA_PATH, this);
+                MediaCartHandler mediaCartScreen = new MediaCartHandler(Configs.CART_MEDIA_PATH, this);
                 mediaCartScreen.setCartMedia(cartMedia);
 
                 // add spinner

@@ -69,8 +69,9 @@ public class Media {
      * @param quantity
      * @return Media
      */
-    public Media setQuantity(int quantity) {
+    public Media setQuantity(int quantity) throws SQLException {
         this.quantity = quantity;
+        updateMediaFieldById("Media", id, "quantity", quantity);
         return this;
     }
 

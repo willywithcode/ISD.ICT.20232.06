@@ -16,7 +16,6 @@ import controller.LoginController;
 import controller.ViewCartController;
 import entity.cart.Cart;
 import entity.media.Media;
-import entity.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,20 +41,15 @@ import views.screen.cart.CartScreenHandler;
 import views.screen.mediaDetail.MediaScreenHandler;
 import views.screen.popup.PopupScreen;
 
-
-
-/*
- * Violate SOLID:
- * SRP: The class has multiple responsibilities. It handles the initialization of the home screen, 
- * handles user interactions, performs search, filter and sort operations, and manages the display of media items. 
- * 
- */
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
 	public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
 
     @FXML
     private Label numMediaInCart;
+    
+    @FXML
+    private Label pageTitle;
 
 //    @FXML
 //    private ImageView aimsImage;
@@ -94,19 +88,8 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     private List homeSearchItems;
     private List pageItems;
-    
-    private User loggedInUser;
 
-    public User getLoggedInUser() {
-		return loggedInUser;
-	}
-
-	public void setLoggedInUser(User loggedInUser) {
-		this.loggedInUser = loggedInUser;
-		loginBtn.setVisible(false);
-	}
-
-	public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
+    public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
     }
     
@@ -122,12 +105,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
      */
     public HomeController getBController() {
         return (HomeController) super.getBController();
-    }
-
-    @Override
-    public void show() {
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
-        super.show();
     }
 
     private void setNumOfPage(List listItem) {
@@ -153,12 +130,13 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         setBController(new HomeController());
+        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
         try {
             List medium = getBController().getAllMedia();
             this.homeItems = new ArrayList<>();
             for (Object object : medium) {
                 Media media = (Media) object;
-                MediaHandler m1 = new MediaHandler(Configs.HOME_MEDIA_PATH, media, this);
+                MediaHomeHandler m1 = new MediaHomeHandler(Configs.HOME_MEDIA_PATH, media, this);
                 this.homeItems.add(m1);
             }
 
@@ -174,17 +152,15 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 return createPage(pageIndex);
             }
         });
-        
-//        System.out.println(loggedInUser == null);
-        if(loggedInUser == null) {
-        	loginBtn.setVisible(true);
-        }else {
-        	loginBtn.setVisible(false);
-        }
 
 //        aimsImage.setOnMouseClicked(e -> {
 //            addMediaHome(this.homeItems);
 //        });
+        
+        pageTitle.setOnMouseClicked(e -> {
+        	addMediaHome(this.homeItems);
+        });
+
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
@@ -198,19 +174,18 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
             }
         });
-        
         loginBtn.setOnMouseClicked(e -> {
-        	LoginScreenHandler loginScreen;
-			try {
-				loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
+            LoginScreenHandler loginScreen;
+            try {
+                LOGGER.info("User click to login");
+                loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
                 loginScreen.setHomeScreenHandler(this);
                 loginScreen.setBController(new LoginController());
                 loginScreen.show();
-			}catch(Exception e1) {
-				e1.printStackTrace();
-			}
-		});
-        
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
         addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);
@@ -221,7 +196,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             handleSearch();
         });
     }
-    
+  
     public void openMediaDetail(Media media) {
     	MediaScreenHandler mediaScreen;
         try {
@@ -260,7 +235,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 int vid = hboxMedia.getChildren().indexOf(node);
                 VBox vBox = (VBox) node;
                 while (vBox.getChildren().size() < 3 && !mediaItems.isEmpty()) {
-                    MediaHandler media = (MediaHandler) mediaItems.get(0);
+                    MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
                     vBox.getChildren().add(media.getContent());
                     mediaItems.remove(media);
                 }
@@ -287,7 +262,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 this.homeSearchItems = new ArrayList<>();
                 for (Object object : medium) {
                     Media media = (Media) object;
-                    MediaHandler m1 = new MediaHandler(Configs.HOME_MEDIA_PATH, media, this);
+                    MediaHomeHandler m1 = new MediaHomeHandler(Configs.HOME_MEDIA_PATH, media, this);
                     this.homeSearchItems.add(m1);
                 }
             } catch (SQLException | IOException ex) {
@@ -300,38 +275,35 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         menuButton.getItems().add(position, menuItem);
     }
 
-    @FXML
-    public void handleSearch (ActionEvent event) {
-        handleSearch();
-    }
-
     public void handleSearch() {
         String text = textFieldSearch.getText();
-        try {
-            List medium = getBController().searchMedia(text);
-            if(medium.size() == 0) {
-                PopupScreen.error("Không tìm thấy sản phẩm");
-                addMediaHome(homeItems);
-                setNumOfPage(homeItems);
-            }  else {
-                this.homeSearchItems = new ArrayList<>();
-                for (Object object : medium) {
-                    Media media = (Media) object;
-                    MediaHandler m1 = new MediaHandler(Configs.HOME_MEDIA_PATH, media, this);
-                    this.homeSearchItems.add(m1);
-                }
-                addMediaHome(homeSearchItems);
-                setNumOfPage(homeSearchItems);
-            }
-        } catch (SQLException | IOException e) {
-            LOGGER.info("Errors occured: " + e.getMessage());
-            e.printStackTrace();
+        if(!text.isBlank()) {
+	        try {
+	            List medium = getBController().searchMedia(text);
+	            if(medium.size() == 0) {
+	                PopupScreen.error("Không tìm thấy sản phẩm");
+	                addMediaHome(homeItems);
+	                setNumOfPage(homeItems);
+	            }  else {
+	                this.homeSearchItems = new ArrayList<>();
+	                for (Object object : medium) {
+	                    Media media = (Media) object;
+	                    MediaHomeHandler m1 = new MediaHomeHandler(Configs.HOME_MEDIA_PATH, media, this);
+	                    this.homeSearchItems.add(m1);
+	                }
+	                addMediaHome(homeSearchItems);
+	                setNumOfPage(homeSearchItems);
+	            }
+	        } catch (SQLException | IOException e) {
+	            LOGGER.info("Errors occured: " + e.getMessage());
+	            e.printStackTrace();
+	        }
         }
-
+        textFieldSearch.setText("");
     }
 
     private void sortByAscendingPrice(int position, String text, MenuButton menuButton) {
-        List<MediaHandler> sortedItems = new ArrayList<>(homeItems);
+        List<MediaHomeHandler> sortedItems = new ArrayList<>(homeItems);
         MenuItem menuItem = new MenuItem();
         Label label = new Label();
         label.prefWidthProperty().bind(menuButton.widthProperty().subtract(31));
@@ -339,14 +311,14 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         label.setTextAlignment(TextAlignment.RIGHT);
         menuItem.setGraphic(label);
         menuItem.setOnAction(e -> {
-            this.homeSearchItems = SortHandler.sortByAscendingPrice(homeSearchItems);
+            this.homeSearchItems = SortHomeScreen.sortByAscendingPrice(homeSearchItems);
             addMediaHome(homeSearchItems);
         });
         menuButton.getItems().add(position,menuItem );
     }
 
     private void sortByDescendingPrice(int position, String text, MenuButton menuButton) {
-        List<MediaHandler> sortedItems = new ArrayList<>(homeItems);
+        List<MediaHomeHandler> sortedItems = new ArrayList<>(homeItems);
         MenuItem menuItem = new MenuItem();
         Label label = new Label();
         label.prefWidthProperty().bind(menuButton.widthProperty().subtract(31));
@@ -354,7 +326,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         label.setTextAlignment(TextAlignment.RIGHT);
         menuItem.setGraphic(label);
         menuItem.setOnAction(e -> {
-            this.homeSearchItems = SortHandler.sortByDescendingPrice(homeSearchItems);
+            this.homeSearchItems = SortHomeScreen.sortByDescendingPrice(homeSearchItems);
             addMediaHome(homeSearchItems);
         });
         menuButton.getItems().add(position,menuItem );

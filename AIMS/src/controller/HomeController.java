@@ -9,14 +9,6 @@ import java.util.List;
  * This class controls the flow of events in homescreen
  *
  */
-/**
- * No SOLID violation:
- * SRP: Responsibilities are related to the functionality of the home screen, and the class doesn't have any unrelated responsibilities
- * OCP: Can modify or extend the behavior of BaseController without directly modifying its code
- * LSP: Instances of HomeController can be used in place of instances of BaseController without affecting the correctness of the program
- * ISP: No interface
- * DIP: Depends on Media class rather than concrete implementations, allow change in Media class without affecting the HomeController
- */
 public class HomeController extends BaseController {
 
     /**

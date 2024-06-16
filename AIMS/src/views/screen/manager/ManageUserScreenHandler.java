@@ -1,4 +1,4 @@
-package views.screen.home;
+package views.screen.manager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,17 +41,17 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     @FXML
     private TableColumn<User, Integer> userIDCol;
     @FXML
-    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol, userProvinceCol, userDistrictCol, userWardCol;
+    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol;
     @FXML
     private TextField userAddressField, userEmailField, userPhoneNumberField, userNameField;
     @FXML
     private Label userLabelForm;
     @FXML
     private Button saveCreateUserBtn, saveUpdateUserBtn, banUserBtn, createUserBtn, updateUserBtn, deleteUserBtn, changeUserPasswordBtn;
-    @FXML
+    @FXML	
     private AnchorPane subUserForm;
     @FXML
-    private  ChoiceBox<String> roleChoice, province, district, ward;
+    private  ChoiceBox<String> roleChoice;
     @FXML
     private AnchorPane changePasswordForm;
     @FXML
@@ -83,15 +83,13 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
 	public void showAllUser() throws SQLException{
 	    List<User> listUser = getBController().getAllUser();
 	    System.out.println(new PropertyValueFactory<User, String>("province"));
-	    roleChoice.getItems().setAll("Admin", "User");
+	    roleChoice.getItems().setAll("Admin", "Product Manager");
 	    userIDCol.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
 	    userUsernameCol.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
 	    userEmailCol.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
 	    userAddressCol.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
 	    userPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
-	    userProvinceCol.setCellValueFactory(new PropertyValueFactory<User, String>("province"));
-	    userDistrictCol.setCellValueFactory(new PropertyValueFactory<User, String>("district"));
-	    userWardCol.setCellValueFactory(new PropertyValueFactory<User, String>("ward"));
+	    userRoleCol.setCellValueFactory(new PropertyValueFactory<User, String>("role"));;
 	    
 	    userTableView.getItems().setAll(listUser);
 	
@@ -153,25 +151,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             userEmailField.setText(selectedUser.getEmail());
             String role = selectedUser.getRole().toLowerCase();
             roleChoice.setValue(role.substring(0, 1).toUpperCase() + role.substring(1));
-            province.setValue(selectedUser.getProvince());
-            district.setValue(selectedUser.getDistrict());
-            ward.setValue(selectedUser.getWard());
-            
-            province.setItems(FXCollections.observableArrayList(Utils.getProvincesList()));
-            district.setItems(FXCollections.observableArrayList(Utils.getDistrictsList(selectedUser.getProvince())));
-            ward.setItems(FXCollections.observableArrayList(Utils.getWardsList(selectedUser.getWard())));
-            
-            province.setOnAction(event -> {
-            	ObservableList<String> districtsList = FXCollections.observableArrayList(Utils.getDistrictsList(province.getValue()));
-            	district.setItems(districtsList);
-            	district.setValue(district.getItems().get(0));
-            	district.setOnAction(e -> {
-            		ObservableList<String> wardsList = FXCollections.observableArrayList(Utils.getWardsList(district.getValue()));
-            		ward.setItems(wardsList);
-            	});
-            	district.getOnAction().handle(null);
-            });
-            province.getOnAction().handle(null);
         } else {
             subUserForm.setVisible(false);
         }
@@ -218,9 +197,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         String phone = userPhoneNumberField.getText();
         String email = userEmailField.getText();
         String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
-        String province_str = province.getSelectionModel().getSelectedItem().toString();
-        String district_str = district.getSelectionModel().getSelectedItem().toString();
-        String ward_str = ward.getSelectionModel().getSelectedItem().toString();
         String default_password = "123123";
         int numberOfUser = getBController().getAllUser().size();
         int id = numberOfUser + 1;
@@ -234,7 +210,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         	if(Utils.usernameExists(username)) {
         		showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
         	}else {
-        		getBController().createUser(id, username, email, address, phone, role_str, default_password, province_str, district_str, ward_str);
+        		getBController().createUser(id, username, email, address, phone, role_str, default_password);
         		showAllUser();	
         	}
         }
@@ -249,10 +225,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             String phone = userPhoneNumberField.getText();
             String email = userEmailField.getText();
             String role_str = roleChoice.getSelectionModel().getSelectedItem().toString().toLowerCase();
-            String province_str = province.getSelectionModel().getSelectedItem().toString();
-            String district_str = district.getSelectionModel().getSelectedItem().toString();
-            String ward_str = ward.getSelectionModel().getSelectedItem().toString();
-
             
             CHECK check_phone = Utils.checkPhoneNumber(phone);
             CHECK check_email = Utils.checkEmail(email);
@@ -260,7 +232,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             if (check_phone == CHECK.WRONG_PHONENUMBER || check_email == CHECK.WRONG_EMAIL) {
                 showAlert(Alert.AlertType.WARNING, "Fail to change user information", "Enter again please", "Enter again please");
             } else {
-                getBController().updateUser(id, name, email, address, phone, role_str, province_str, district_str, ward_str);
+                getBController().updateUser(id, name, email, address, phone, role_str);
                 showAllUser();
             }
         } else {

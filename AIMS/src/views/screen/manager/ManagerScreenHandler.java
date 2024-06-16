@@ -1,4 +1,4 @@
-package views.screen.home;
+package views.screen.manager;
 
 import java.io.IOException;
 import java.net.URL;

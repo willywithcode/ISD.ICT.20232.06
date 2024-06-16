@@ -94,17 +94,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     private List homeSearchItems;
     private List pageItems;
-    
-    private User loggedInUser;
-
-    public User getLoggedInUser() {
-		return loggedInUser;
-	}
-
-	public void setLoggedInUser(User loggedInUser) {
-		this.loggedInUser = loggedInUser;
-		loginBtn.setVisible(false);
-	}
 
 	public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
@@ -174,13 +163,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 return createPage(pageIndex);
             }
         });
-        
-//        System.out.println(loggedInUser == null);
-        if(loggedInUser == null) {
-        	loginBtn.setVisible(true);
-        }else {
-        	loginBtn.setVisible(false);
-        }
 
 //        aimsImage.setOnMouseClicked(e -> {
 //            addMediaHome(this.homeItems);

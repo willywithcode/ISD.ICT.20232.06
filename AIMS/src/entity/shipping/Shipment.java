@@ -4,6 +4,10 @@ public class Shipment {
 	private int shipType;
 
     private String deliveryInstruction;
+    
+    private String shipmentDetail;
+
+    private String deliveryTime;
 
     public int getShipType() {
         return shipType;
@@ -33,9 +37,7 @@ public class Shipment {
         this.deliveryTime = deliveryTime;
     }
 
-    private String shipmentDetail;
-
-    private String deliveryTime;
+    
 
     public Shipment(int shipType, String deliveryInstruction, String shipmentDetail, String deliveryTime) {
         super();

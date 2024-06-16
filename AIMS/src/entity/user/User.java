@@ -18,12 +18,9 @@ public class User {
     private BooleanProperty ban;
     private StringProperty role;
     private StringProperty password;
-    private StringProperty province;
-    private StringProperty district;
-    private StringProperty ward;
     protected Statement stm;
 
-    public User(int id, String username, String email, String address, String phone, boolean ban, String role, String password, String province, String district, String ward) {
+    public User(int id, String username, String email, String address, String phone, boolean ban, String role, String password) {
         this.id = new SimpleIntegerProperty(id);
         this.username = new SimpleStringProperty(username);
         this.email = new SimpleStringProperty(email);
@@ -32,9 +29,6 @@ public class User {
         this.ban = new SimpleBooleanProperty(ban);
         this.role = new SimpleStringProperty(role);
         this.password = new SimpleStringProperty(password);
-        this.province = new SimpleStringProperty(province);
-        this.district = new SimpleStringProperty(district);
-        this.ward = new SimpleStringProperty(ward);
     }
 
     // JavaFX Property Getters
@@ -46,9 +40,6 @@ public class User {
     public BooleanProperty banProperty() { return ban; }
     public StringProperty roleProperty() { return role; }
     public StringProperty passwordProperty() { return password; }
-    public StringProperty provinceProperty() { return province; }
-    public StringProperty districtProperty() { return district; }
-    public StringProperty wardProperty() { return ward; }
 
     // Regular getters and setters
     public int getId() { return id.get(); }
@@ -67,12 +58,6 @@ public class User {
     public void setRole(String role) { this.role.set(role); }
     public String getPassword() { return password.get(); }
     public void setPassword(String password) { this.password.set(password); }
-    public String getProvince() { return province.get(); }
-    public void setProvince(String province) { this.province.set(province); }
-    public String getDistrict() { return district.get(); }
-    public void setDistrict(String district) { this.district.set(district); }
-    public String getWard() { return ward.get(); }
-    public void setWard(String ward) { this.ward.set(ward); }
 
     public User() throws SQLException {
         stm = AIMSDB.getConnection().createStatement();
@@ -96,11 +81,8 @@ public class User {
                 boolean found_ban = res.getBoolean("ban");
                 String found_role = res.getString("role");
                 String found_password = res.getString("password");
-                String found_district = res.getString("district");
-                String found_province = res.getString("province");
-                String found_ward = res.getString("ward");
 
-                User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password, found_province, found_district, found_ward);
+                User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password);
                 return found_user;
             } else {
                 return null;
@@ -111,9 +93,9 @@ public class User {
         }
     }
 
-    public void createUser(int id, String username, String email, String address, String phone, String role, String password, String province, String district, String ward) {
+    public void createUser(int id, String username, String email, String address, String phone, String role, String password) {
         String insertSql = "insert into User (id, username, email, address, phone, ban, role, password, province, district, ward) values ("
-                + id + ", '" + username + "', '" + email + "', '" + address + "', '" + phone + "' , 0, '" + role + "', '" + password + "', '" + province + "', '" + district + "', '" + ward + "')";
+                + id + ", '" + username + "', '" + email + "', '" + address + "', '" + phone + "' , 0, '" + role + "', '" + password + "')";
         System.out.println(insertSql);
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
@@ -123,16 +105,13 @@ public class User {
         }
     }
 
-    public void updateUser(int id, String username, String email, String address, String phone, String role, String province, String district, String ward) {
+    public void updateUser(int id, String username, String email, String address, String phone, String role) {
         String updateUserSql = "UPDATE User SET " +
                 "username = '" + username + "', " +
                 "email = '" + email + "', " +
                 "address = '" + address + "', " +
                 "phone = '" + phone + "', " +
-                "role = '" + role + "', " +
-                "province = '" + province + "', " +
-                "district = '" + district + "', " +
-                "ward = '" + ward + "' " +
+                "role = '" + role + "' " +
                 "WHERE id = " + id;
         
         System.out.println(updateUserSql);
@@ -186,9 +165,6 @@ public class User {
                 ", email='" + email + "'" +
                 ", address='" + address + "'" +
                 ", phone='" + phone + "'" +
-                ", province='" + province + "'" +
-                ", district='" + district + "'" +
-                ", ward='" + ward + "'" +
                 "}";
     }
 
@@ -205,11 +181,8 @@ public class User {
             boolean found_ban = res.getBoolean("ban");
             String found_role = res.getString("role");
             String found_password = res.getString("password");
-            String found_district = res.getString("district");
-            String found_province = res.getString("province");
-            String found_ward = res.getString("ward");
 
-            User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password, found_province, found_district, found_ward);
+            User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, found_role, found_password);
             userList.add(found_user);
         }
         return userList;

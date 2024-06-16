@@ -33,7 +33,7 @@ public class MediaInvoiceScreenHandler extends FXMLScreenHandler {
     private Label numOfProd;
 
     @FXML
-    private Label labelOutOfStock;
+    private Label labelTypeOfDelivery;
 
     @FXML
     private Label price;
@@ -66,6 +66,24 @@ public class MediaInvoiceScreenHandler extends FXMLScreenHandler {
         image.setPreserveRatio(false);
         image.setFitHeight(90);
         image.setFitWidth(83);
+    }
+    /**
+     * param boolean
+     */
+    public void setTypeOfDelivery(boolean isRush) {
+    	this.setVisibleTypeOfDelivery(true);
+    	if(isRush) {
+    		labelTypeOfDelivery.setText("Rush");
+    	}
+    	else {
+    		labelTypeOfDelivery.setText("Normal");
+    	}
+    }
+    /**
+     * param boolean
+     */
+    public void setVisibleTypeOfDelivery(boolean state) {
+    	labelTypeOfDelivery.setVisible(state);
     }
 
 }

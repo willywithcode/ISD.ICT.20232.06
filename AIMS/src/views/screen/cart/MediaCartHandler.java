@@ -1,5 +1,11 @@
 package views.screen.cart;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.logging.Logger;
+
 import common.exception.MediaUpdateException;
 import common.exception.ViewCartException;
 import entity.cart.Cart;
@@ -14,19 +20,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import utils.Configs;
 import utils.Utils;
 import views.screen.FXMLScreenHandler;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.logging.Logger;
+public class MediaCartHandler extends FXMLScreenHandler {
 
-public class MediaHandler extends FXMLScreenHandler {
-
-    private static Logger LOGGER = Utils.getLogger(MediaHandler.class.getName());
+    private static Logger LOGGER = Utils.getLogger(MediaCartHandler.class.getName());
 
     @FXML
     protected HBox hboxMedia;
@@ -59,7 +58,7 @@ public class MediaHandler extends FXMLScreenHandler {
     private Spinner<Integer> spinner;
     private CartScreenHandler cartScreen;
 
-    public MediaHandler(String screenPath, CartScreenHandler cartScreen) throws IOException {
+    public MediaCartHandler(String screenPath, CartScreenHandler cartScreen) throws IOException {
         super(screenPath);
         this.cartScreen = cartScreen;
         hboxMedia.setAlignment(Pos.CENTER);
@@ -84,8 +83,6 @@ public class MediaHandler extends FXMLScreenHandler {
         image.setFitHeight(110);
         image.setFitWidth(92);
 
-        // add delete button
-//        btnDelete.setFont(Configs.REGULAR_FONT);
         btnDelete.setOnMouseClicked(e -> {
             try {
                 Cart.getCart().removeCartMedia(cartMedia); // update user cart

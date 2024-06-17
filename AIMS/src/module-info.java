@@ -30,8 +30,8 @@ module AIMS{
   opens views.screen.mediaDetail to javafx.fxml;
   opens views.screen.cart to javafx.fxml;
   opens views.screen.invoice to javafx.fxml;
-  opens views.screen.manager to javafx.fxml;
   opens views.screen.payment to javafx.fxml;
   opens views.screen.shipping to javafx.fxml;
   opens entity.user to javafx.base;
+  opens entity.media to javafx.base;
 }

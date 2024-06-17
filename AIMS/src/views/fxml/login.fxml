@@ -11,28 +11,28 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fx:id="logo" fitHeight="157.0" fitWidth="228.0" layoutX="622.0" layoutY="136.0" onMouseClicked="#backToHomeScreen" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+        <ImageView fx:id="logo" fitHeight="157.0" fitWidth="228.0" layoutX="219.0" layoutY="24.0" onMouseClicked="#backToHomeScreen" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
             <image>
                 <Image url="@../../../assets/images/Logo.png" />
             </image>
         </ImageView>
-        <TextField fx:id="email" layoutX="572.0" layoutY="328.0" prefHeight="42.0" prefWidth="327.0" />
-        <Label layoutX="432.0" layoutY="321.0" prefHeight="49.0" prefWidth="131.0" text="Email">
+        <TextField fx:id="username" layoutX="169.0" layoutY="216.0" prefHeight="42.0" prefWidth="327.0" />
+        <Label layoutX="29.0" layoutY="209.0" prefHeight="49.0" prefWidth="131.0" text="Username">
             <font>
                 <Font name="SansSerif Regular" size="24.0" />
             </font>
         </Label>
-        <Label layoutX="432.0" layoutY="377.0" prefHeight="49.0" prefWidth="131.0" text="Password">
+        <Label layoutX="29.0" layoutY="265.0" prefHeight="49.0" prefWidth="131.0" text="Password">
             <font>
                 <Font name="SansSerif Regular" size="24.0" />
             </font>
         </Label>
-        <PasswordField fx:id="password" layoutX="572.0" layoutY="385.0" prefHeight="42.0" prefWidth="327.0" />
-        <Button fx:id="btnSubmit" alignment="CENTER" contentDisplay="CENTER" layoutX="572.0" layoutY="462.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="55.0" prefWidth="327.0" style="-fx-background-color: #B4EDE3; -fx-cursor: hand;" text="Login">
+        <PasswordField fx:id="password" layoutX="169.0" layoutY="273.0" prefHeight="42.0" prefWidth="327.0" />
+        <Button fx:id="btnSubmit" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="350.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="55.0" prefWidth="327.0" style="-fx-background-color: #B4EDE3; -fx-cursor: hand;" text="Login">
             <font>
                 <Font name="SansSerif Bold" size="24.0" />
             </font>
         </Button>
-      <Label fx:id="forgotBtn" layoutX="287.0" layoutY="395.0" text="Forgotten password?" textFill="#1100ff" />
+      <Label fx:id="forgotBtn" layoutX="277.0" layoutY="323.0" text="Forgotten password?" textFill="#1100ff" />
     </children>
 </AnchorPane>

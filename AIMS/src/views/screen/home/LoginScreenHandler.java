@@ -57,8 +57,9 @@ public static Logger LOGGER = Utils.getLogger(LoginScreenHandler.class.getName()
         System.out.println(password.getText());
         try {
             User user = getBController().login(username.getText(), password.getText());
-            System.out.println("admin login");
+            System.out.println(user.getRoles());
             ManagerScreenHandler managerScreen = new ManagerScreenHandler(this.stage, Configs.MANAGER_SCREEN_PATH);
+            managerScreen.setCurrentUser(user);
             managerScreen.setScreenTitle("User Manager");
             managerScreen.setBController(new ManagerScreenController());
             managerScreen.setHomeScreenHandler(homeScreenHandler);

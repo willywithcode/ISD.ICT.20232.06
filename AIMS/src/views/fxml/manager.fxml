@@ -26,10 +26,8 @@
                 </AnchorPane>
             </children>
         </AnchorPane>
-      <TabPane layoutX="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane fx:id="tabPane" layoutX="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
-            <Tab fx:id="manageUserTab" text="Manage User" />
-            <Tab fx:id="manageMediaTab" text="Manage Media" />
          </tabs>
       </TabPane>
     </children>

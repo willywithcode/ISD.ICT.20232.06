@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -20,14 +21,14 @@ public class LoginController extends BaseController {
 //    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
 
     public User login(String username, String password) throws Exception {
-        String role;
+        List<String> role;
         try {
         	User user = authenticateUser(username, password);
         	if (Objects.isNull(user)) {
         		PopupScreen.error("Wrong password or username. Please try again!!");
         		throw new FailLoginException();
         	}
-        	role = user.getRole();
+        	role = user.getRoles();
         	boolean isBan = user.getBan();
         	if (isBan) {
         		PopupScreen.error("This account is banned. Contact with admin for more information");

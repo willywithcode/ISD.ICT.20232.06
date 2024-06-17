@@ -1,11 +1,13 @@
 package views.screen.home;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Logger;
+
 import common.exception.MediaNotAvailableException;
 import entity.cart.Cart;
 import entity.cart.CartMedia;
-import entity.media.Book;
-import entity.media.CD;
-import entity.media.DVD;
 import entity.media.Media;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,15 +20,9 @@ import utils.Utils;
 import views.screen.FXMLScreenHandler;
 import views.screen.popup.PopupScreen;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.logging.Logger;
+public class MediaHomeHandler extends FXMLScreenHandler {
 
-public class MediaHandler extends FXMLScreenHandler {
-
-    private static Logger LOGGER = Utils.getLogger(MediaHandler.class.getName());
+    private static Logger LOGGER = Utils.getLogger(MediaHomeHandler.class.getName());
     @FXML
     protected ImageView mediaImage;
     @FXML
@@ -41,36 +37,36 @@ public class MediaHandler extends FXMLScreenHandler {
     protected Button addToCartBtn;
     @FXML
     protected Button viewBtn;
-    
-    
+     
     private Media media;
     private HomeScreenHandler home;
 
-    public MediaHandler(String screenPath, Media media, HomeScreenHandler home) throws SQLException, IOException {
+    public MediaHomeHandler(String screenPath, Media media, HomeScreenHandler home) throws SQLException, IOException {
         super(screenPath);
         this.media = media;
         this.home = home;
         addToCartBtn.setOnMouseClicked(event -> {
+        	CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
             try {
-                if (spinnerChangeNumber.getValue() > media.getQuantity()) throw new MediaNotAvailableException();
                 Cart cart = Cart.getCart();
+                int avail = media.getQuantity()- (mediaInCart != null ? mediaInCart.getQuantity():0);
+                if (spinnerChangeNumber.getValue() > avail) throw new MediaNotAvailableException();
                 // if media already in cart then we will increase the quantity by 1 instead of create the new cartMedia
-                CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
                 if (mediaInCart != null) {
-                    mediaInCart.setQuantity(mediaInCart.getQuantity() + 1);
+                    mediaInCart.setQuantity(mediaInCart.getQuantity() + spinnerChangeNumber.getValue());
                 } else {
-                    CartMedia cartMedia = new CartMedia(media, cart, spinnerChangeNumber.getValue(), media.getPrice());
-                    cart.getListMedia().add(cartMedia);
+                	mediaInCart = new CartMedia(media, cart, spinnerChangeNumber.getValue(), media.getPrice());
+                    cart.getListMedia().add(mediaInCart);
                 }
-
-                // subtract the quantity and redisplay
-                media.setQuantity(media.getQuantity() - spinnerChangeNumber.getValue());
-                mediaAvail.setText(String.valueOf(media.getQuantity()));
+                avail =  media.getQuantity()-mediaInCart.getQuantity();
+//                media.setQuantity(media.getQuantity() - spinnerChangeNumber.getValue());
+                mediaAvail.setText(String.valueOf(avail));
                 home.getNumMediaCartLabel().setText(String.valueOf(cart.getTotalMedia()));
                 PopupScreen.success("The media " + media.getTitle() + " added to Cart");
             } catch (MediaNotAvailableException exp) {
                 try {
-                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + media.getQuantity();
+                    int avail = media.getQuantity()-mediaInCart.getQuantity();
+                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + avail;
                     LOGGER.severe(message);
                     PopupScreen.error(message);
                 } catch (Exception e) {
@@ -83,38 +79,7 @@ public class MediaHandler extends FXMLScreenHandler {
             }
         });
         viewBtn.setOnMouseClicked(event -> {
-        	//System.out.print(media.getType());
         	home.openMediaDetail(media);
-        	/*if (Objects.equals(media.getType(), "book")) {
-        		System.out.println("book");
-        		try {
-					Book book = new Book().getMediaById(this.media.getId());
-					home.openBookDetail(book);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}
-        	else if (Objects.equals(media.getType(), "dvd")) {
-        		System.out.println("dvd");
-        		try {
-					DVD dvd = new DVD().getMediaById(this.media.getId());
-					home.openDVDDetail(dvd);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}
-        	else if (Objects.equals(media.getType(), "cd")) {
-        		System.out.println("cd");
-        		try {
-					CD cd = new CD().getMediaById(this.media.getId());
-					home.openCDDetail(cd);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}*/
         });
         setMediaInfo();
     }
@@ -135,15 +100,16 @@ public class MediaHandler extends FXMLScreenHandler {
         // set the cover image of media
         File file = new File(media.getImageURL());
         Image image = new Image(file.toURI().toString());
+        CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
         mediaImage.setFitHeight(160);
         mediaImage.setFitWidth(152);
         mediaImage.setImage(image);
 
         mediaTitle.setText(media.getTitle());
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));
-        mediaAvail.setText(Integer.toString(media.getQuantity()));
+        mediaAvail.setText(Integer.toString(media.getQuantity()- (mediaInCart != null ? mediaInCart.getQuantity():0)));
         spinnerChangeNumber.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1)
         );
 
         setImage(mediaImage, media.getImageURL());

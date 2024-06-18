@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import subsystem.VnPaySubsystem;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
@@ -17,7 +16,6 @@ import views.screen.payment.PaymentScreenHandler;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class InvoiceScreenHandler extends BaseScreenHandler {

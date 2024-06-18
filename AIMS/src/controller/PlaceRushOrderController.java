@@ -18,26 +18,31 @@ public class PlaceRushOrderController extends BaseController {
      * Just for logging purpose
      */
     private static Logger LOGGER = utils.Utils.getLogger(PlaceRushOrderController.class.getName());
-
+    private IPlaceOrderStrategy placeOrderStrategy;
 
     /**
      * @param deliveryData
      * @param typeDelivery
      */
     public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+    	
         if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
            // validate
-        	this.PlaceOrder(new RushPlaceOrder(), invoiceScreen);
+        	this.SetTypePlaceOrder(new RushPlaceOrder());
         }
         else {
-        	this.PlaceOrder(new NormalPlaceOrder(), invoiceScreen);
+        	this.SetTypePlaceOrder(new NormalPlaceOrder());
         }
+        this.PlaceOrder(invoiceScreen);
     }
     /**
      * @return void
      * param IPlaceOrderStrategy
      */
-    public void PlaceOrder(IPlaceOrderStrategy placeOrderStrategy, InvoiceScreenHandler invoiceScreen) {
+    public void PlaceOrder(InvoiceScreenHandler invoiceScreen) {
     	placeOrderStrategy.PlaceOrder(invoiceScreen);
+    }
+    public void SetTypePlaceOrder(IPlaceOrderStrategy placeOrderStrategy) {
+    	this.placeOrderStrategy = placeOrderStrategy;
     }
 }

@@ -113,16 +113,10 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         addMediaHome(pageItems);
         return vboxMedia;
     }
-
-    /**aq1
-     * @param arg0
-     * @param arg1
-     */
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new HomeController());
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
-        try {
+    
+    public void setup() {
+    	numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
+    	try {
             List medium = getBController().getAllMedia();
             this.homeItems = new ArrayList<>();
             for (Object object : medium) {
@@ -135,23 +129,34 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             LOGGER.info("Errors occured: " + e.getMessage());
             e.printStackTrace();
         }
-        homeSearchItems = homeItems;
+    	homeSearchItems = homeItems;
         setNumOfPage(homeSearchItems);
+        addMediaHome(homeSearchItems);
         pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
                 return createPage(pageIndex);
             }
         });
+    }
 
-//        aimsImage.setOnMouseClicked(e -> {
-//            addMediaHome(this.homeItems);
-//        });
-        
+    @Override
+    public void show() {
+    	setup();
+    	super.show();
+    }
+    
+    /**aq1
+     * @param arg0
+     * @param arg1
+     */
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        setBController(new HomeController());
+        setup();
         pageTitle.setOnMouseClicked(e -> {
-        	addMediaHome(this.homeItems);
+        	setup();
         });
-
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
@@ -177,7 +182,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 e1.printStackTrace();
             }
         });
-        addMediaHome(this.homeItems);
+//        addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);
         addMenuItem(2, "CD", splitMenuBtnSearch);
@@ -187,7 +192,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             handleSearch();
         });
     }
-  
+    
     public void openMediaDetail(Media media) {
     	MediaScreenHandler mediaScreen;
         try {
@@ -222,17 +227,19 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             vBox.getChildren().clear();
         });
 
-        while(!mediaItems.isEmpty()){
-            hboxMedia.getChildren().forEach(node -> {
-                int vid = hboxMedia.getChildren().indexOf(node);
-                VBox vBox = (VBox) node;
-                while(vBox.getChildren().size()<5 && !mediaItems.isEmpty()){
-                    MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
-                    vBox.getChildren().add(media.getContent());
-                    mediaItems.remove(media);
-                }
-            });
-            return;
+        while (!mediaItems.isEmpty()) {
+        	int maxItemsPerCol = 5;
+        	while (maxItemsPerCol > 0 && !mediaItems.isEmpty()) {
+        		hboxMedia.getChildren().forEach(node -> {
+                    VBox vBox = (VBox) node;
+                    if (!mediaItems.isEmpty()) {
+                        MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
+                        vBox.getChildren().add(media.getContent());
+                        mediaItems.remove(media);
+                    }
+                });
+        		maxItemsPerCol--;
+        	}
         }
 
     }

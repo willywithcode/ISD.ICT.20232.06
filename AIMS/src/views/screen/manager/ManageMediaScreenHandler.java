@@ -1,14 +1,34 @@
 package views.screen.manager;
 
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
 import controller.CRUDMediaController;
+import controller.ManageMediaController;
 import entity.media.Book;
 import entity.media.CD;
 import entity.media.DVD;
 import entity.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -16,22 +36,10 @@ import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.home.LoginScreenHandler;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
-import java.util.Optional;
-import java.text.SimpleDateFormat;
+public class ManageMediaScreenHandler extends BaseScreenHandler implements Initializable {
+	
 
-
-import static java.lang.Integer.parseInt;
-
-public class CRUDMediaScreenHandler extends BaseScreenHandler implements Initializable {
-
-	public CRUDMediaScreenHandler(Stage stage, String screenPath) throws IOException {
+	public ManageMediaScreenHandler(Stage stage, String screenPath) throws IOException {
 		super(stage, screenPath);
 		// TODO Auto-generated constructor stub
 	}
@@ -189,62 +197,29 @@ public class CRUDMediaScreenHandler extends BaseScreenHandler implements Initial
 	@FXML
 	private TableView<DVD> dvdTableView;
 
-
-	public CRUDMediaController getBController() {
-		return (CRUDMediaController) super.getBController();
+	public ManageMediaController getBController() {
+		return (ManageMediaController) super.getBController();
 	}
-
+		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setBController(new CRUDMediaController());
+		
+		ObservableList<String> bookCoverValue = FXCollections.observableArrayList("Hardcover", "Paperback");
+		// TODO Auto-generated method stub
+		setBController(new ManageMediaController());
+		bookCover.setItems(bookCoverValue);
+		System.out.println("Book cover options: " + bookCoverValue);
 		try {
 			showAllMedia();
+			showAllBook();
+			showAllCD();
+			showAllDVD();
 			displayTotalMedia();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
-	public void navigate(ActionEvent e) throws SQLException {
-		if (e.getSource() == homeBtn) {
-			LOGGER.info("Navigate to home");
-			homeForm.setVisible(true);
-			bookForm.setVisible(false);
-			cdForm.setVisible(false);
-			dvdForm.setVisible(false);
-			showAllMedia();
-			displayTotalMedia();
-		} else if (e.getSource() == bookBtn) {
-			homeForm.setVisible(false);
-			bookForm.setVisible(true);
-			cdForm.setVisible(false);
-			dvdForm.setVisible(false);
-			showAllBook();
-		} else if (e.getSource() == cdBtn) {
-			homeForm.setVisible(false);
-			bookForm.setVisible(false);
-			cdForm.setVisible(true);
-			dvdForm.setVisible(false);
-			showAllCD();
-		} else if (e.getSource() == dvdBtn) {
-			homeForm.setVisible(false);
-			bookForm.setVisible(false);
-			cdForm.setVisible(false);
-			dvdForm.setVisible(true);
-			showAllDVD();
-		}
-	}
-
-
-	private void setupTableViewSelection() {
-		bookTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				Book selectedBook = bookTableView.getSelectionModel().getSelectedItem();
-
-			}
-		});
-	}
-
+	
 	public void hideBookFields() {
 		bookId.setVisible(false);
 		bookTitle.setVisible(false);
@@ -546,6 +521,7 @@ public class CRUDMediaScreenHandler extends BaseScreenHandler implements Initial
 
 	public void showAllCD() throws SQLException {
 		List<CD> listCD = getBController().getAllCD();
+		System.out.print("size of list CD: " + listCD.size());
 		cdIDCol.setCellValueFactory(new PropertyValueFactory<CD, Integer>("id"));
 		cdValueCol.setCellValueFactory(new PropertyValueFactory<CD, Integer>("value"));
 		cdPriceCol.setCellValueFactory(new PropertyValueFactory<CD, Integer>("price"));
@@ -926,11 +902,5 @@ public class CRUDMediaScreenHandler extends BaseScreenHandler implements Initial
 		totalBook.setText(String.valueOf(totalBookCount));
 		totalCD.setText(String.valueOf(totalCDCount));
 		totalDVD.setText(String.valueOf(totalDVDCount));
-	}
-
-
-	@FXML
-	void logout() throws IOException, InterruptedException, SQLException {
-		this.homeScreenHandler.show();
 	}
 }

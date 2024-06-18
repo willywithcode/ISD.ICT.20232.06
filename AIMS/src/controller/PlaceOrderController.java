@@ -141,23 +141,7 @@ public class PlaceOrderController extends BaseController {
         return fees;
     }
 
-    /**
-     * This method get product available place rush order media
-     *
-     * @param order
-     * @return media
-     * @throws SQLException
-     */
-    public Media getProductAvailablePlaceRush(Order order) throws SQLException {
-        Media media = new Media();
-        for (OrderMedia pd : order.getlstOrderMedia()) {
-            // CartMedia cartMedia = (CartMedia) object;
-            if( validateMediaPlaceRushorder()){
-                media = pd.getMedia();
-            }
-        }
-        return media;
-    }
+    
 
 
     /**
@@ -174,12 +158,5 @@ public class PlaceOrderController extends BaseController {
     }
 
 
-    /**
-     * @return boolean
-     */
-    public boolean validateMediaPlaceRushorder() {
-        if (Media.getIsSupportedPlaceRushOrder())
-            return true;
-        return false;
-    }
+ 
 }

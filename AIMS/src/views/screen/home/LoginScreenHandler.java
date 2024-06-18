@@ -1,7 +1,6 @@
 package views.screen.home;
 //import controller.CRUDMediaController;
 import controller.ManagerScreenController;
-import controller.SignUpController;
 import entity.user.User;
 import controller.HomeController;
 import controller.LoginController;
@@ -13,6 +12,7 @@ import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
+import views.screen.manager.ManagerScreenHandler;
 import views.screen.popup.PopupScreen;
 
 import java.io.File;
@@ -57,24 +57,13 @@ public static Logger LOGGER = Utils.getLogger(LoginScreenHandler.class.getName()
         System.out.println(password.getText());
         try {
             User user = getBController().login(username.getText(), password.getText());
-            if("admin".equals(user.getRole())) {
-            	System.out.println("admin login");
-            	ManagerScreenHandler managerScreen = new ManagerScreenHandler(this.stage, Configs.MANAGER_SCREEN_PATH);
-            	managerScreen.setScreenTitle("User Manager");
-                managerScreen.setBController(new ManagerScreenController());
-                managerScreen.setHomeScreenHandler(homeScreenHandler);
-                managerScreen.show();
-            }else if("user".equals(user.getRole())) {
-            	System.out.println("user login");
-            	HomeScreenHandler homeScreen = new HomeScreenHandler(this.stage, Configs.HOME_PATH);
-            	homeScreen.setLoggedInUser(user);
-            	homeScreen.setScreenTitle("Home Screen");
-            	homeScreen.setBController(new HomeController());
-            	homeScreen.setHomeScreenHandler(homeScreenHandler);
-            	homeScreen.show();
-            } else {
-            	System.out.println("product manager login");
-            }
+            System.out.println(user.getRoles());
+            ManagerScreenHandler managerScreen = new ManagerScreenHandler(this.stage, Configs.MANAGER_SCREEN_PATH);
+            managerScreen.setCurrentUser(user);
+            managerScreen.setScreenTitle("User Manager");
+            managerScreen.setBController(new ManagerScreenController());
+            managerScreen.setHomeScreenHandler(homeScreenHandler);
+            managerScreen.show();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -83,14 +72,6 @@ public static Logger LOGGER = Utils.getLogger(LoginScreenHandler.class.getName()
     @FXML
     void backToHomeScreen(MouseEvent event) throws IOException, InterruptedException, SQLException {
         this.homeScreenHandler.show();
-    }
-    
-    @FXML
-    void signUp() throws IOException, InterruptedException, SQLException{
-    	SignUpScreenHandler signupScreen = new SignUpScreenHandler(this.stage, Configs.SIGN_UP_SCREEN_PATH);
-    	signupScreen.setHomeScreenHandler(homeScreenHandler);
-    	signupScreen.setBController(new SignUpController());
-    	signupScreen.show();
     }
 
 	@Override

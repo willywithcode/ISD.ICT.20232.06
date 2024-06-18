@@ -1,7 +1,7 @@
 package views.screen.shipping;
 
 import java.io.IOException;
-
+import entity.order.OrderMedia;
 import controller.PlaceOrderController;
 import controller.PlaceRushOrderController;
 import entity.invoice.Invoice;
@@ -19,7 +19,9 @@ import javafx.stage.Stage;
 import utils.Configs;
 import views.screen.BaseScreenHandler;
 import views.screen.invoice.InvoiceScreenHandler;
-
+import strategy.placeOrder.IPlaceOrderStrategy;
+import strategy.placeOrder.NormalPlaceOrder;
+import strategy.placeOrder.RushPlaceOrder;
 public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
 
     private Order order;
@@ -41,6 +43,9 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
 
     @FXML
     private Label errorProvince;
+    
+    @FXML
+    private Label errorNoSupportRushDeliveryMedia;
 
     @FXML
     private Button updateDeliveryMethodInfoButton;
@@ -48,9 +53,10 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
     public DeliveryMethodsScreenHandler(Stage stage, String screenPath, Order order) throws IOException {
         super(stage, screenPath);
         this.order = order;
+        this.handleDeliveryType();
+        this.handleProvinceError();
     }
-
-
+   
     /**
      * @param event
      * @throws IOException
@@ -74,17 +80,21 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         shipment.setDeliveryTime(deliveryDateString);
         shipment.setDeliveryInstruction(deliveryInstructionString);
 
-        PlaceRushOrderController.validatePlaceRushOrderData(shipment);
         order.setShipment(shipment);
 
         // // create invoice screen
         Invoice invoice = getBController().createInvoice(order);
-        BaseScreenHandler InvoiceScreenHandler = new InvoiceScreenHandler(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
-        InvoiceScreenHandler.setPreviousScreen(this);
-        InvoiceScreenHandler.setHomeScreenHandler(homeScreenHandler);
-        InvoiceScreenHandler.setScreenTitle("Invoice Screen");
-        InvoiceScreenHandler.setBController(getBController());
-        InvoiceScreenHandler.show();
+        BaseScreenHandler invoiceScreenHandler = new InvoiceScreenHandler(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
+        invoiceScreenHandler.setPreviousScreen(this);
+        invoiceScreenHandler.setHomeScreenHandler(homeScreenHandler);
+        invoiceScreenHandler.setScreenTitle("Invoice Screen");
+        invoiceScreenHandler.setBController(getBController());
+        if (placeRushOrderValue.isSelected()) {
+            this.PlaceOrder(new RushPlaceOrder(), (InvoiceScreenHandler) invoiceScreenHandler);
+        } else {
+            this.PlaceOrder(new NormalPlaceOrder(), (InvoiceScreenHandler) invoiceScreenHandler);
+        }
+        invoiceScreenHandler.show();
     }
 
 
@@ -103,15 +113,7 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
      */
     @FXML
     private void handleDeliveryType(ActionEvent event) {
-        if (placeOrderValue.isSelected()) {
-            deliveryInstruction.setDisable(true);
-            shipmentDetail.setDisable(true);
-            deliveryTime.setDisable(true);
-        } else if (placeRushOrderValue.isSelected()) {
-            deliveryInstruction.setDisable(false);
-            shipmentDetail.setDisable(false);
-            deliveryTime.setDisable(false);
-        }
+        this.handleDeliveryType();
         handleProvinceError(event);
     }
 
@@ -121,6 +123,33 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
      */
     @FXML
     private void handleProvinceError(ActionEvent event) {
+        this.handleProvinceError();
+    }
+
+    /**
+     * @return PlaceOrderController
+     */
+    public PlaceOrderController getBController() {
+        return (PlaceOrderController) super.getBController();
+    }
+    /**
+     * @return void
+     */
+    private void handleDeliveryType() {
+        if (placeOrderValue.isSelected()) {
+            deliveryInstruction.setDisable(true);
+            shipmentDetail.setDisable(true);
+            deliveryTime.setDisable(true);
+        } else if (placeRushOrderValue.isSelected()) {
+            deliveryInstruction.setDisable(false);
+            shipmentDetail.setDisable(false);
+            deliveryTime.setDisable(false);
+        }
+    }
+    /**
+     * @return void
+     */
+    private void handleProvinceError() {
         String province = new String(order.getProvince());
 
         errorProvince.setVisible(false);
@@ -130,6 +159,7 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         updateDeliveryMethodInfoButton.setDisable(false);
 
         if (!province.equals("Hà Nội")) {
+        	errorNoSupportRushDeliveryMedia.setVisible(false);
             if (placeRushOrderValue.isSelected()) {
                 errorProvince.setVisible(true);
                 deliveryInstruction.setDisable(true);
@@ -149,7 +179,9 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
                 shipmentDetail.setDisable(false);
                 deliveryTime.setDisable(false);
                 updateDeliveryMethodInfoButton.setDisable(false);
+                this.handleSupportRushDelivery();
             } else {
+            	errorNoSupportRushDeliveryMedia.setVisible(false);
                 updateDeliveryMethodInfoButton.setDisable(false);
                 deliveryInstruction.setDisable(true);
                 shipmentDetail.setDisable(true);
@@ -158,11 +190,32 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
             }
         }
     }
-
     /**
-     * @return PlaceOrderController
+     * @return void
      */
-    public PlaceOrderController getBController() {
-        return (PlaceOrderController) super.getBController();
+    private void handleSupportRushDelivery() {
+    	for (OrderMedia orderMedia : this.order.getlstOrderMedia()) {
+    		if(orderMedia.getMedia().getIsSupportedPlaceRushOrder()) {
+    			errorNoSupportRushDeliveryMedia.setVisible(false);
+                deliveryInstruction.setDisable(false);
+                shipmentDetail.setDisable(false);
+                deliveryTime.setDisable(false);
+                updateDeliveryMethodInfoButton.setDisable(false);
+                return;
+    		}
+    	}
+    	errorNoSupportRushDeliveryMedia.setVisible(true);
+        deliveryInstruction.setDisable(true);
+        shipmentDetail.setDisable(true);
+        deliveryTime.setDisable(true);
+        updateDeliveryMethodInfoButton.setDisable(true);
+        
+    }
+    /**
+     * @return void
+     * param IPlaceOrderStrategy
+     */
+    public void PlaceOrder(IPlaceOrderStrategy placeOrderStrategy, InvoiceScreenHandler invoiceScreen) {
+    	placeOrderStrategy.PlaceOrder(invoiceScreen);
     }
 }

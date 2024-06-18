@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -27,9 +27,7 @@
         				<TableColumn fx:id="userAddressCol" prefWidth="200.0" text="Address" />
         				<TableColumn fx:id="userEmailCol" prefWidth="150.0" text="Email" />
         				<TableColumn fx:id="userPhoneNumberCol" prefWidth="150.0" text="Phone " />
-                  <TableColumn fx:id="userProvinceCol" prefWidth="75.0" text="Province" />
-                  <TableColumn fx:id="userDistrictCol" prefWidth="75.0" text="District" />
-                  <TableColumn fx:id="userWardCol" prefWidth="75.0" text="Ward" />
+                  <TableColumn fx:id="userRoleCol" prefWidth="75.0" text="Role" />
     				</columns>
 				</TableView>
 				<Button fx:id="createUserBtn" layoutX="825.0" layoutY="40.0" mnemonicParsing="false" onAction="#setCreateUserBtn" prefHeight="50.0" prefWidth="250.0" text="CREATE USER">
@@ -84,8 +82,7 @@
                         	<Font size="18.0" />
                     	</font>
                 	</TextField>
-        	<ChoiceBox fx:id="roleChoice" layoutX="820.0" layoutY="60.0" prefHeight="50.0" prefWidth="250.0" />
-                  <ChoiceBox fx:id="province" layoutX="180.0" layoutY="260.0" prefHeight="50.0" prefWidth="250.0" />
+                  <ListView fx:id="roleListView" layoutX="820.0" layoutY="60.0" prefHeight="50.0" prefWidth="250.0" />
                 	<Label layoutX="820.0" layoutY="10.0" prefHeight="50.0" prefWidth="250.0" text="Role">
                     	<font>
                         	<Font size="18.0" />
@@ -96,7 +93,7 @@
                         	<Font size="18.0" />
                     	</font>
                 	</Button>
-                	<Label fx:id="userLabelForm1" layoutX="180.0" layoutY="10.0" prefHeight="50.0" prefWidth="258.0" text="Name">
+                	<Label fx:id="userLabelForm1" layoutX="180.0" layoutY="10.0" prefHeight="50.0" prefWidth="258.0" text="Username">
                     	<font>
                         	<Font size="18.0" />
                     	</font>
@@ -121,23 +118,6 @@
                           <Font size="18.0" />
                        </font>
                     </Label>
-                  <ChoiceBox fx:id="district" layoutX="500.0" layoutY="260.0" prefHeight="50.0" prefWidth="250.0" />
-                  <ChoiceBox fx:id="ward" layoutX="820.0" layoutY="260.0" prefHeight="50.0" prefWidth="250.0" />
-                  <Label fx:id="userLabelForm21" layoutX="180.0" layoutY="210.0" prefHeight="50.0" prefWidth="258.0" text="Province">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="userLabelForm211" layoutX="500.0" layoutY="210.0" prefHeight="50.0" prefWidth="258.0" text="District">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="userLabelForm2111" layoutX="820.0" layoutY="210.0" prefHeight="50.0" prefWidth="258.0" text="Ward">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                         </children>
                     </AnchorPane>
                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="831.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="48.0" />

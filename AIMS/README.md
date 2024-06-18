@@ -56,9 +56,3 @@ add these VM arguments:
 - For Windows:
 
 > `--module-path lib/win/javafx-sdk-15/lib --add-modules=javafx.controls,javafx.fxml,javafx.base,javafx.web`
-
-## Author
-
-- nguyenlm - Software Engeneering Student - k61
-- manhvd - Software Engeneering Student - k61
-- hieudm - ICT - k61

@@ -58,15 +58,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     private ImageView cartImage;
 
     @FXML
-    private VBox vboxMedia1;
-
-    @FXML
-    private VBox vboxMedia2;
-
-    @FXML
-    private VBox vboxMedia3;
-
-    @FXML
     private HBox hboxMedia;
 
     @FXML
@@ -108,12 +99,12 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     }
 
     private void setNumOfPage(List listItem) {
-        this.pagination.setPageCount((int) Math.ceil((double) listItem.size()/12));
+        this.pagination.setPageCount((int) Math.ceil((double) listItem.size()/20));
     }
 
     private VBox createPage(int pageIndex) {
         this.pageItems = new ArrayList<>();
-        for(int index = 12*pageIndex; index < 12*(pageIndex+1); index++) {
+        for(int index = 20*pageIndex; index < 20*(pageIndex+1); index++) {
             if(index < homeSearchItems.size()) {
                 pageItems.add(homeSearchItems.get(index));
             }
@@ -123,7 +114,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         return vboxMedia;
     }
 
-    /**
+    /**aq1
      * @param arg0
      * @param arg1
      */
@@ -231,16 +222,18 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             vBox.getChildren().clear();
         });
         while (!mediaItems.isEmpty()) {
-            hboxMedia.getChildren().forEach(node -> {
-                int vid = hboxMedia.getChildren().indexOf(node);
-                VBox vBox = (VBox) node;
-                while (vBox.getChildren().size() < 3 && !mediaItems.isEmpty()) {
-                    MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
-                    vBox.getChildren().add(media.getContent());
-                    mediaItems.remove(media);
-                }
-            });
-            return;
+        	int maxItemsPerCol = 5;
+        	while (maxItemsPerCol > 0 && !mediaItems.isEmpty()) {
+        		hboxMedia.getChildren().forEach(node -> {
+                    VBox vBox = (VBox) node;
+                    if (!mediaItems.isEmpty()) {
+                        MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
+                        vBox.getChildren().add(media.getContent());
+                        mediaItems.remove(media);
+                    }
+                });
+        		maxItemsPerCol--;
+        	}
         }
     }
 
@@ -281,7 +274,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 	        try {
 	            List medium = getBController().searchMedia(text);
 	            if(medium.size() == 0) {
-	                PopupScreen.error("Không tìm thấy sản phẩm");
+	                PopupScreen.error("No products found");
 	                addMediaHome(homeItems);
 	                setNumOfPage(homeItems);
 	            }  else {

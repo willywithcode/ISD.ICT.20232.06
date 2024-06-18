@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox prefHeight="104.0" prefWidth="1326.0" style="-fx-background-color: #B4EDE3;">
             <children>
@@ -97,18 +98,22 @@
                 </VBox>
             </children>
         </HBox>
-        <HBox alignment="CENTER_RIGHT" layoutX="24.0" layoutY="105" prefHeight="44.0" prefWidth="1283.0">
+        <HBox alignment="CENTER_RIGHT" layoutX="24.0" layoutY="105" prefHeight="51.0" prefWidth="1283.0">
             <children>
-                <Pagination fx:id="pagination" prefHeight="44.0" prefWidth="106.0" />
+                <Pagination fx:id="pagination" prefHeight="44.0" prefWidth="113.0" />
             </children>
         </HBox>
-        <HBox fx:id="hboxMedia" layoutX="24.0" layoutY="151.0" prefHeight="603.0" prefWidth="1283.0">
-            <children>
-                <VBox fx:id="vboxMedia1" prefHeight="629.0" prefWidth="321.0" />
-                <VBox fx:id="vboxMedia2" prefHeight="629.0" prefWidth="320.0" />
-                <VBox fx:id="vboxMedia3" prefHeight="629.0" prefWidth="320.0" />
-                <VBox prefHeight="629.0" prefWidth="320.0" />
-            </children>
-        </HBox>
+        <ScrollPane layoutX="24.0" layoutY="166.0" prefHeight="584.0" prefWidth="1283.0">
+            <content>
+                <HBox fx:id="hboxMedia" prefHeight="1100.0" prefWidth="1283.0">
+                    <children>
+                        <VBox prefHeight="1100.0" prefWidth="321.0" />
+                        <VBox prefHeight="1100.0" prefWidth="320.0" />
+                        <VBox prefHeight="1100.0" prefWidth="320.0" />
+                        <VBox prefHeight="1100.0" prefWidth="320.0" />
+                    </children>
+                </HBox>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>

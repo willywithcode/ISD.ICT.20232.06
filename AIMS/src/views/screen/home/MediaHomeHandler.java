@@ -32,8 +32,6 @@ public class MediaHomeHandler extends FXMLScreenHandler {
     @FXML
     protected Label mediaAvail;
     @FXML
-    protected Label supportedRushDelivery;
-    @FXML
     protected Spinner<Integer> spinnerChangeNumber;
     @FXML
     protected Button addToCartBtn;
@@ -47,13 +45,12 @@ public class MediaHomeHandler extends FXMLScreenHandler {
         super(screenPath);
         this.media = media;
         this.home = home;
-        this.supportedRushDelivery.setVisible(media.getIsSupportedPlaceRushOrder());
         addToCartBtn.setOnMouseClicked(event -> {
         	CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
             try {
-                Cart cart = Cart.getCart();
                 int avail = media.getQuantity()- (mediaInCart != null ? mediaInCart.getQuantity():0);
                 if (spinnerChangeNumber.getValue() > avail) throw new MediaNotAvailableException();
+                Cart cart = Cart.getCart();
                 // if media already in cart then we will increase the quantity by 1 instead of create the new cartMedia
                 if (mediaInCart != null) {
                     mediaInCart.setQuantity(mediaInCart.getQuantity() + spinnerChangeNumber.getValue());
@@ -68,7 +65,7 @@ public class MediaHomeHandler extends FXMLScreenHandler {
                 PopupScreen.success("The media " + media.getTitle() + " added to Cart");
             } catch (MediaNotAvailableException exp) {
                 try {
-                    int avail = media.getQuantity()-mediaInCart.getQuantity();
+                	int avail = media.getQuantity()- (mediaInCart != null ? mediaInCart.getQuantity():0);
                     String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + avail;
                     LOGGER.severe(message);
                     PopupScreen.error(message);

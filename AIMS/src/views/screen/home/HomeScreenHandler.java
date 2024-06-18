@@ -215,26 +215,26 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     /**
      * @param items
      */
-    public void addMediaHome(List items) {
-        ArrayList mediaItems = (ArrayList) ((ArrayList) items).clone();
+    public void addMediaHome(List items){
+        ArrayList mediaItems = (ArrayList)((ArrayList) items).clone();
         hboxMedia.getChildren().forEach(node -> {
             VBox vBox = (VBox) node;
             vBox.getChildren().clear();
         });
-        while (!mediaItems.isEmpty()) {
-        	int maxItemsPerCol = 5;
-        	while (maxItemsPerCol > 0 && !mediaItems.isEmpty()) {
-        		hboxMedia.getChildren().forEach(node -> {
-                    VBox vBox = (VBox) node;
-                    if (!mediaItems.isEmpty()) {
-                        MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
-                        vBox.getChildren().add(media.getContent());
-                        mediaItems.remove(media);
-                    }
-                });
-        		maxItemsPerCol--;
-        	}
+
+        while(!mediaItems.isEmpty()){
+            hboxMedia.getChildren().forEach(node -> {
+                int vid = hboxMedia.getChildren().indexOf(node);
+                VBox vBox = (VBox) node;
+                while(vBox.getChildren().size()<5 && !mediaItems.isEmpty()){
+                    MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
+                    vBox.getChildren().add(media.getContent());
+                    mediaItems.remove(media);
+                }
+            });
+            return;
         }
+
     }
 
     /**

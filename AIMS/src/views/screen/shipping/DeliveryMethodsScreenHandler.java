@@ -89,11 +89,8 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         invoiceScreenHandler.setHomeScreenHandler(homeScreenHandler);
         invoiceScreenHandler.setScreenTitle("Invoice Screen");
         invoiceScreenHandler.setBController(getBController());
-        if (placeRushOrderValue.isSelected()) {
-            this.PlaceOrder(new RushPlaceOrder(), (InvoiceScreenHandler) invoiceScreenHandler);
-        } else {
-            this.PlaceOrder(new NormalPlaceOrder(), (InvoiceScreenHandler) invoiceScreenHandler);
-        }
+        PlaceRushOrderController placeRushController = new PlaceRushOrderController();
+        placeRushController.validatePlaceRushOrderData(shipment, (InvoiceScreenHandler) invoiceScreenHandler);
         invoiceScreenHandler.show();
     }
 
@@ -211,11 +208,5 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         updateDeliveryMethodInfoButton.setDisable(true);
         
     }
-    /**
-     * @return void
-     * param IPlaceOrderStrategy
-     */
-    public void PlaceOrder(IPlaceOrderStrategy placeOrderStrategy, InvoiceScreenHandler invoiceScreen) {
-    	placeOrderStrategy.PlaceOrder(invoiceScreen);
-    }
+    
 }

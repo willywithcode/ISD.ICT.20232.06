@@ -17,6 +17,8 @@ module AIMS{
 	requires java.logging;
 	requires java.desktop;
 	requires java.sql;
+	requires java.activation;
+	requires java.mail;
 	requires org.json;
 
 	exports Application;

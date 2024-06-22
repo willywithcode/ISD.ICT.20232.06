@@ -15,11 +15,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
 
     private int id;
     private int shippingFees;
+    private final String shippingId = UUID.randomUUID().toString();
     private List<OrderMedia> lstOrderMedia;
     private String name;
     private String province;
@@ -33,6 +35,10 @@ public class Order {
     private String status;
     private String email;
     private LocalDate deliveryTime;
+
+    public String getShippingId(){
+        return shippingId;
+    }
 
     public String getInstruction() {
         return instruction;

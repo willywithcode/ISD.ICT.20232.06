@@ -6,7 +6,6 @@ import controller.PlaceOrderController;
 import controller.PlaceRushOrderController;
 import entity.invoice.Invoice;
 import entity.order.Order;
-import entity.shipping.Shipment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -75,12 +74,12 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         } else {
             typeDelivery = utils.Configs.PLACE_ORDER;
         }
-        var shipment = new Shipment(typeDelivery);
-        shipment.setShipmentDetail(shipmentDetailString);
-        shipment.setDeliveryTime(deliveryDateString);
-        shipment.setDeliveryInstruction(deliveryInstructionString);
+//        var shipment = new Shipment(typeDelivery);
+//        shipment.setShipmentDetail(shipmentDetailString);
+//        shipment.setDeliveryTime(deliveryDateString);
+//        shipment.setDeliveryInstruction(deliveryInstructionString);
 
-        order.setShipment(shipment);
+//        order.setShipment(shipment);
 
         // // create invoice screen
         Invoice invoice = getBController().createInvoice(order);

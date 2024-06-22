@@ -40,7 +40,18 @@ public class PaymentController extends BaseController {
      * @throws TransactionNotDoneException - if the string does not represent a valid date
      *                                     in the expected format
      */
-
+    /**
+     * Pay order, and then return the result with a message.
+     *
+     * @param res         - the response from vnPay
+     * @param orderId     - the order id
+     * @param shippingID  - the shipping id
+     * @param mailService - the mail service
+     * @param invoice     - the invoice
+     * @return {@link java.util.Map Map} represent the payment result with a
+     * message.
+     * @SOLID Dependency inversion principle: PaymentController không phụ thuộc vào một lớp cụ thể, mà phụ thuộc vào một interface
+     */
     public Map<String, String> makePayment(Map<String, String> res, int orderId, String shippingID, MailService mailService, Invoice invoice) {
         Map<String, String> result = new Hashtable<String, String>();
 
@@ -140,7 +151,12 @@ public class PaymentController extends BaseController {
 //		}
 //		return result;
 //	}
-    
+    /**
+     * Gen url thanh toán vnPay
+     * @param amount
+     * @param content
+     * @return
+     */
     public String getUrlPay(int amount, String content){
         vnPayService = new VnPaySubsystem();
         var url = vnPayService.generatePayUrl(amount, content);

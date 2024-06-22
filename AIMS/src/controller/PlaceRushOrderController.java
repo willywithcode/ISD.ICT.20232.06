@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * This class controls the flow of place rush order usecase in our AIMS project
- *
+ * Fuoctional cohesion is high because it only handles the place rush order process. Communication cohesion is high because it only communicates with the PlaceOrderStrategy entity
  */
 public class PlaceRushOrderController extends BaseController {
     /**
@@ -23,6 +23,7 @@ public class PlaceRushOrderController extends BaseController {
     /**
      * @param deliveryData
      * @param typeDelivery
+     * Data coupling, control coupling because it is passing data to another class
      */
     public void validatePlaceRushOrderData(int typeDelivery, InvoiceScreenHandler invoiceScreen) {
     	
@@ -40,8 +41,19 @@ public class PlaceRushOrderController extends BaseController {
      * param IPlaceOrderStrategy
      */
     public void PlaceOrder(InvoiceScreenHandler invoiceScreen) {
-    	placeOrderStrategy.PlaceOrder(invoiceScreen);
+
+        placeOrderStrategy.PlaceOrder(invoiceScreen);
     }
+    /**
+     * @return void
+     * param IPlaceOrderStrategy
+     * Data coupling, control coupling because it is passing data to another class
+     * This method is used to set the type of place order
+     * @param placeOrderStrategy
+     * @return void
+     * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing the place order and it is not responsible for other tasks.
+     * Dependency inversion principle is applied here because the PlaceRushOrderController class depends on the IPlaceOrderStrategy interface, not on the concrete classes.
+     */
     public void SetTypePlaceOrder(IPlaceOrderStrategy placeOrderStrategy) {
     	this.placeOrderStrategy = placeOrderStrategy;
     }

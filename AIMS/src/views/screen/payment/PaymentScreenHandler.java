@@ -118,6 +118,15 @@ public class PaymentScreenHandler extends BaseScreenHandler {
         resultScreen.show();
 
     }
+    /**
+     * @param mailService
+     * Data coupling, control coupling because it is passing data to another class
+     * This method is used to set the mail service
+     * @param mailService
+     * @return void
+     * @SOLID Dependency inversion principle: PaymentController không phụ thuộc vào một lớp cụ thể, mà phụ thuộc vào một interface
+     * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing the place order and it is not responsible for other tasks.
+     */
     private void setMailService(MailServiceImpl mailService) {
         this.mailService = mailService;
     }

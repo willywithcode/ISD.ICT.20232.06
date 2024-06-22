@@ -95,6 +95,9 @@ public class PlaceOrderController extends BaseController {
     /**
      * @param phoneNumber
      * @return boolean
+     * This method validates the phone number
+     * @SRP This method is violating the Single Responsibility Principle because it is responsible for validating the phone number and calculating the shipping fee
+     * Cpupling is high because it communicates with the Order entity
      */
     public boolean validatePhoneNumber(String phoneNumber) {
         if (phoneNumber.length() != 10)
@@ -114,6 +117,8 @@ public class PlaceOrderController extends BaseController {
     /**
      * @param name
      * @return boolean
+     * This method validates the name
+     * @Coupling Coupling is high because it have to communicate with the Order entity
      */
     public boolean validateContainLetterAndNoEmpty(String name) {
         // Check name is not null

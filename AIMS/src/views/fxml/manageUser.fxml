@@ -50,11 +50,6 @@
                  	<Font size="18.0" />
              	</font>
          	</Button>
-   			<Button fx:id="changeUserPasswordBtn" layoutX="825.0" layoutY="280.0" mnemonicParsing="false" onAction="#setChangeUserPasswordBtn" prefHeight="50.0" prefWidth="250.0" text="CHANGE PASSWORD">
-      			<font>
-         			<Font size="18.0" />
-      			</font>
-   			</Button>
          	<AnchorPane fx:id="subUserForm" layoutY="431.0" prefHeight="341.0" prefWidth="1115.0">
              	<children>
                 	<Button fx:id="saveUpdateUserBtn" layoutX="820.0" layoutY="160.0" mnemonicParsing="false" onAction="#setSaveUpdateUserBtn" prefHeight="50.0" prefWidth="250.0" text="Save update">
@@ -121,17 +116,6 @@
                         </children>
                     </AnchorPane>
                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="831.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="48.0" />
-              <AnchorPane fx:id="changePasswordForm" layoutX="10.0" layoutY="441.0" prefHeight="274.0" prefWidth="1115.0">
-                 <children>
-                    <Button fx:id="saveChangePassword" layoutX="700.0" layoutY="100.0" mnemonicParsing="false" onAction="#setSaveChangePassword" prefHeight="50.0" prefWidth="250.0" text="Save">
-                       <font>
-                          <Font size="18.0" />
-                       </font>
-                    </Button>
-                    <PasswordField fx:id="newPasswordField" layoutX="400.0" layoutY="100.0" prefHeight="50.0" prefWidth="250.0" promptText="New password" />
-                    <PasswordField fx:id="confirmPasswordField" layoutX="400.0" layoutY="160.0" prefHeight="50.0" prefWidth="250.0" promptText="Confirm new password" />
-                 </children>
-              </AnchorPane>
                 </children>
             </AnchorPane>
         </children>

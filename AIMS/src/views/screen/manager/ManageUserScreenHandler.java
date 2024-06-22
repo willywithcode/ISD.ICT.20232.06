@@ -50,17 +50,11 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     @FXML
     private Label userLabelForm;
     @FXML
-    private Button saveCreateUserBtn, saveUpdateUserBtn, banUserBtn, createUserBtn, updateUserBtn, deleteUserBtn, changeUserPasswordBtn;
+    private Button saveCreateUserBtn, saveUpdateUserBtn, banUserBtn, createUserBtn, updateUserBtn, deleteUserBtn;
     @FXML
     private AnchorPane subUserForm;
     @FXML
     private ListView<String> roleListView;
-    @FXML
-    private AnchorPane changePasswordForm;
-    @FXML
-    private Button saveChangePassword;
-    @FXML
-    private TextField newPasswordField, confirmPasswordField;
 
     private ObservableList<String> roles;
     private ObservableList<String> selectedRoles;
@@ -121,7 +115,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         userTableView.getItems().setAll(listUser);
 
         subUserForm.setVisible(false);
-        changePasswordForm.setVisible(false);
 
         userTableView.setRowFactory(tv -> new TableRow<User>() {
             @Override
@@ -150,7 +143,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         subUserForm.setVisible(true);
         saveUpdateUserBtn.setVisible(false);
         saveCreateUserBtn.setVisible(true);
-        changePasswordForm.setVisible(false);
 
         userNameField.setText("");
         userAddressField.setText("");
@@ -160,7 +152,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     }
 
     public void setUpdateUserBtn() {
-        changePasswordForm.setVisible(false);
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             userLabelForm.setText("Edit User");
@@ -204,7 +195,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
 
     public void setBanUserBtn() throws SQLException {
         subUserForm.setVisible(false);
-        changePasswordForm.setVisible(false);
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to ban / unban this user?", ButtonType.YES, ButtonType.NO);
@@ -218,7 +208,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
 
     public void setDeleteUserBtn() throws SQLException {
         subUserForm.setVisible(false);
-        changePasswordForm.setVisible(false);
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this user?", ButtonType.YES, ButtonType.NO);
@@ -228,11 +217,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
                 showAllUser();
             }
         }
-    }
-
-    public void setChangeUserPasswordBtn() throws SQLException {
-        changePasswordForm.setVisible(true);
-        subUserForm.setVisible(false);
     }
 
     public void setSaveCreateUserBtn() throws SQLException {
@@ -281,25 +265,6 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             }
         } else {
             subUserForm.setVisible(false);
-        }
-    }
-
-    public void setSaveChangePassword() throws SQLException, Exception {
-        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            int id = selectedUser.getId();
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change password?", ButtonType.YES, ButtonType.NO);
-            Optional<ButtonType> result = confirmAlert.showAndWait();
-            if (result.get() == ButtonType.YES) {
-                String newPassword = newPasswordField.getText();
-                String confirmPassword = confirmPasswordField.getText();
-                if (!newPassword.equals(confirmPassword)) {
-                    showAlert(Alert.AlertType.ERROR, "Wrong confirm password", "The new password is not the same with the confirm password", "Please enter confirm password again.");
-                } else {
-                    getBController().changePassword(id, newPassword);
-                    changePasswordForm.setVisible(false);
-                }
-            }
         }
     }
 

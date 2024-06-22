@@ -1,6 +1,6 @@
 package controller;
 
-import entity.shipping.Shipment;
+//import entity.shipping.Shipment;
 import strategy.placeOrder.IPlaceOrderStrategy;
 import strategy.placeOrder.NormalPlaceOrder;
 import strategy.placeOrder.RushPlaceOrder;
@@ -24,17 +24,29 @@ public class PlaceRushOrderController extends BaseController {
      * @param deliveryData
      * @param typeDelivery
      */
-    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+// <<<<<<< VuMinhDung_20205179
+// //    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+// //        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
+// //           // validate
+// //        	this.PlaceOrder(new RushPlaceOrder(), invoiceScreen);
+// //        }
+// //        else {
+// //        	this.PlaceOrder(new NormalPlaceOrder(), invoiceScreen);
+// //        }
+// //    }
+// =======
+//     public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
     	
-        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
-           // validate
-        	this.SetTypePlaceOrder(new RushPlaceOrder());
-        }
-        else {
-        	this.SetTypePlaceOrder(new NormalPlaceOrder());
-        }
-        this.PlaceOrder(invoiceScreen);
-    }
+//         if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
+//            // validate
+//         	this.SetTypePlaceOrder(new RushPlaceOrder());
+//         }
+//         else {
+//         	this.SetTypePlaceOrder(new NormalPlaceOrder());
+//         }
+//         this.PlaceOrder(invoiceScreen);
+//     }
+// >>>>>>> main
     /**
      * @return void
      * param IPlaceOrderStrategy

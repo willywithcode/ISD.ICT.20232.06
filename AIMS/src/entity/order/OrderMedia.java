@@ -19,6 +19,7 @@ public class OrderMedia {
         this.price = price;
     }
     public void createOrderMediaEntity(Integer id) {
+        System.out.println("Creating order media entity");
         String query = "INSERT INTO 'OrderMedia' (mediaID, orderID, price, quantity) " +
                 "VALUES ( ?, ?, ?, ?)";
         try(PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query)) {

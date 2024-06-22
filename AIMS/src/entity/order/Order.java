@@ -12,16 +12,13 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Order {
 
     private int id;
-    private int shippingFees;
-    private final String shippingId = UUID.randomUUID().toString();
+    private int shippingFees, total_price;
+    private final String shippingId = this.generateRandomString(40);
     private List<OrderMedia> lstOrderMedia;
     private String name;
     private String province;
@@ -143,6 +140,9 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+    public void setTotal_price(int total_price) {
+        this.total_price = total_price;
+    }
 
 	public String getEmail() {
 		return email;
@@ -166,8 +166,9 @@ public class Order {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction, email, shipping_type, delivery_time) " +
-                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        System.out.println("Order created");
+        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction, email, shipping_type, delivery_time, price, total_price) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, province);
@@ -192,6 +193,8 @@ public class Order {
             	String formattedDeliveryDate = deliveryTime.format(dateFormatter);
             	preparedStatement.setString(13, formattedDeliveryDate);
             }
+            preparedStatement.setInt(14, getAmount());
+            preparedStatement.setInt(15, total_price);
             int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows == 0) {
@@ -275,6 +278,19 @@ public class Order {
             amount += om.getPrice();
         }
         return (int) (amount + (Configs.PERCENT_VAT / 100) * amount);
+    }
+
+    public String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        return sb.toString();
     }
 
 }

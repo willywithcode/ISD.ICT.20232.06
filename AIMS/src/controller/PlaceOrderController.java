@@ -140,6 +140,24 @@ public class PlaceOrderController extends BaseController {
         int fees = (int) (((rand.nextFloat() * 10) / 100) * amount);
         return fees;
     }
+    public int calculateShippingFee(Order order) {
+        int sum = 0;
+        for (OrderMedia pd : order.getlstOrderMedia()) {
+            if(pd.getMedia().getIsSupportedPlaceRushOrder()){
+                sum += 10 * pd.getQuantity();
+            }
+        }
+        return sum;
+    }
+
+    public boolean validateMediaPlaceRushorder(Order order){
+        for (var pd : order.getlstOrderMedia()) {
+            if (pd.getMedia().getIsSupportedPlaceRushOrder()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 //    /**
 //<<<<<<< HEAD

@@ -4,6 +4,9 @@ import common.exception.PaymentException;
 import common.exception.TransactionNotDoneException;
 import common.exception.UnrecognizedException;
 import entity.cart.Cart;
+import entity.invoice.Invoice;
+import mailClient.MailService;
+import mailClient.MailServiceImpl;
 import subsystem.VnPayInterface;
 import subsystem.VnPaySubsystem;
 
@@ -38,15 +41,16 @@ public class PaymentController extends BaseController {
      *                                     in the expected format
      */
 
-    public Map<String, String> makePayment(Map<String, String> res, int orderId) {
+    public Map<String, String> makePayment(Map<String, String> res, int orderId, String shippingID, MailService mailService, Invoice invoice) {
         Map<String, String> result = new Hashtable<String, String>();
 
         try {
             this.vnPayService = new VnPaySubsystem();
             var trans = vnPayService.makePaymentTransaction(res);
-            trans.save(orderId);
+            trans.save(orderId, shippingID);
             result.put("RESULT", "PAYMENT SUCCESSFUL!");
             result.put("MESSAGE", "You have succesffully paid the order!");
+            mailService.sendMail(invoice.getOrder().getEmail(), "Hoa don ban hang AIMS", invoice.getDetailInvoice());
         } catch (PaymentException | UnrecognizedException | SQLException ex) {
             result.put("MESSAGE", ex.getMessage());
             result.put("RESULT", "PAYMENT FAILED!");

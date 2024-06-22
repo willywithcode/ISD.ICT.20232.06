@@ -106,9 +106,9 @@ public class PaymentScreenHandler extends BaseScreenHandler {
     void payOrder(Map<String, String> res) throws IOException {
 
         var ctrl = (PaymentController) super.getBController();
-        Map<String, String> response = ctrl.makePayment(res, this.invoice.getOrder().getId());
         setMailService(new MailServiceImpl());
-        this.mailService.sendMail(invoice.getOrder().getEmail(), "Hoa don ban hang AIMS", this.invoice.getDetailInvoice());
+        Map<String, String> response = ctrl.makePayment(res, this.invoice.getOrder().getId(), this.invoice.getOrder().getShippingId(), mailService, this.invoice);
+
         BaseScreenHandler resultScreen = new ResultScreenHandler(this.stage, Configs.RESULT_SCREEN_PATH,
                 response.get("RESULT"), response.get("MESSAGE"));
         ctrl.emptyCart();

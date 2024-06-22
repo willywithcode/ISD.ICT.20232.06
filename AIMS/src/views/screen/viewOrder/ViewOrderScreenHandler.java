@@ -60,12 +60,8 @@ public class ViewOrderScreenHandler extends BaseScreenHandler {
         this.getOrderBtn.setOnMouseClicked(event -> {
             try {
                 this.getOrder(event);
-            } catch (SQLException throwables) {
-                try {
-                    PopupScreen.error("Order not found!");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         });
     }
@@ -83,14 +79,15 @@ public class ViewOrderScreenHandler extends BaseScreenHandler {
 
     public void setOrder(String orderID) throws SQLException {
         ResultSet res = getBController().viewOrder(orderID);
+        System.out.println(res.getString("name"));
         this.setOrder(res.getString("name"),
                 res.getString("address"),
                 res.getString("phone"),
                 res.getString("email"),
                 res.getString("status"),
-                res.getString("price_total"),
-                res.getString("shipping_fee"),
-                res.getString("price"));
+                res.getInt("total_price") + ",000 vnd",
+                res.getInt("shipping_fee") + ",000 vnd",
+                res.getInt("price") + ",000 vnd");
     }
 
     @FXML

@@ -170,6 +170,8 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     void confirmInvoice(MouseEvent event) throws IOException {
     	this.invoice.getOrder().setOrderDate(LocalDateTime.now());
     	this.invoice.getOrder().setStatus("pending");
+        this.invoice.getOrder().setTotal_price(this.invoice.getAmount() + getNumRushMedia() * 10 + this.invoice.getOrder().getShippingFees());
+        this.invoice.getOrder().setShippingFees(this.invoice.getOrder().getShippingFees() + getNumRushMedia() * 10);
     	this.invoice.getOrder().createOrderEntity();
     	
     	

@@ -123,8 +123,8 @@ public class PlaceOrderController extends BaseController {
         if (name.trim().length() == 0)
             return false;
         // Check if contain only leter and space
-        if (name.matches("^[a-zA-Z ]*$") == false)
-            return false;
+//        if (name.matches("^[a-zA-Z ]*$") == false)
+//            return false;
         return true;
     }
 

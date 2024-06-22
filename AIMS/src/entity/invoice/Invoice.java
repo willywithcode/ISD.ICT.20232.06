@@ -40,4 +40,19 @@ public class Invoice {
     public void saveInvoice() {
 
     }
+    public String getDetailInvoice() {
+        Order order = this.getOrder();
+        String detail = "";
+        for (int i = 0; i < order.getLstOrderMedia().size(); i++) {
+            detail += order.getLstOrderMedia().get(i).getMedia().getTitle() +
+                    " - " + order.getLstOrderMedia().get(i).getQuantity() +
+                    " - " + order.getLstOrderMedia().get(i).getMedia().getPrice() + "\n";
+        }
+        return
+                "Tên khách hàng: " + order.getName() + "\n" +
+                "Địa chỉ: " + order.getAddress() + "\n" +
+                "Số điện thoại: " + order.getPhone() + "\n" +
+                "Tổng hóa đơn: " + this.getAmount() + "\n" +
+                "Chi tiết: \n" + detail;
+    }
 }

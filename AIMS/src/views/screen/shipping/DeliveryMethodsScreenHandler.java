@@ -90,7 +90,7 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         invoiceScreenHandler.setScreenTitle("Invoice Screen");
         invoiceScreenHandler.setBController(getBController());
         PlaceRushOrderController placeRushController = new PlaceRushOrderController();
-        placeRushController.validatePlaceRushOrderData(shipment, (InvoiceScreenHandler) invoiceScreenHandler);
+        placeRushController.validatePlaceRushOrderData(typeDelivery, (InvoiceScreenHandler) invoiceScreenHandler);
         invoiceScreenHandler.show();
     }
 

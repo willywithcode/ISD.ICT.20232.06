@@ -1,6 +1,11 @@
 package entity.order;
 
+import entity.db.AIMSDB;
 import entity.media.Media;
+
+import java.io.Console;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class OrderMedia {
 
@@ -13,7 +18,19 @@ public class OrderMedia {
         this.quantity = quantity;
         this.price = price;
     }
-
+    public void createOrderMediaEntity(Integer id) {
+        String query = "INSERT INTO 'OrderMedia' (mediaID, orderID, price, quantity) " +
+                "VALUES ( ?, ?, ?, ?)";
+        try(PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, this.media.getId());
+            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(3, this.price * quantity);
+            preparedStatement.setInt(4, this.quantity);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * @return String

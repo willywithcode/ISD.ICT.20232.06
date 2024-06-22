@@ -24,9 +24,9 @@ public class PlaceRushOrderController extends BaseController {
      * @param deliveryData
      * @param typeDelivery
      */
-    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+    public void validatePlaceRushOrderData(int typeDelivery, InvoiceScreenHandler invoiceScreen) {
     	
-        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
+        if (typeDelivery== utils.Configs.PLACE_RUSH_ORDER) {
            // validate
         	this.SetTypePlaceOrder(new RushPlaceOrder());
         }

@@ -24,29 +24,17 @@ public class PlaceRushOrderController extends BaseController {
      * @param deliveryData
      * @param typeDelivery
      */
-// <<<<<<< VuMinhDung_20205179
-// //    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
-// //        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
-// //           // validate
-// //        	this.PlaceOrder(new RushPlaceOrder(), invoiceScreen);
-// //        }
-// //        else {
-// //        	this.PlaceOrder(new NormalPlaceOrder(), invoiceScreen);
-// //        }
-// //    }
-// =======
-//     public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+    public void validatePlaceRushOrderData(int typeDelivery, InvoiceScreenHandler invoiceScreen) {
     	
-//         if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
-//            // validate
-//         	this.SetTypePlaceOrder(new RushPlaceOrder());
-//         }
-//         else {
-//         	this.SetTypePlaceOrder(new NormalPlaceOrder());
-//         }
-//         this.PlaceOrder(invoiceScreen);
-//     }
-// >>>>>>> main
+        if (typeDelivery== utils.Configs.PLACE_RUSH_ORDER) {
+           // validate
+        	this.SetTypePlaceOrder(new RushPlaceOrder());
+        }
+        else {
+        	this.SetTypePlaceOrder(new NormalPlaceOrder());
+        }
+        this.PlaceOrder(invoiceScreen);
+    }
     /**
      * @return void
      * param IPlaceOrderStrategy

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -17,18 +17,34 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="userBtn1" layoutX="30.0" layoutY="56.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Welcome back ">
+                  <Button fx:id="changePassBtn" layoutX="30.0" layoutY="248.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" text="change password">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font size="18.0" />
                      </font>
                   </Button>
                     </children>
                 </AnchorPane>
+            <Button fx:id="userBtn1" layoutX="24.0" layoutY="14.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Welcome back ">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
       <TabPane fx:id="tabPane" layoutX="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
          </tabs>
       </TabPane>
+      <AnchorPane fx:id="changePasswordForm" layoutX="240.0" layoutY="441.0" prefHeight="274.0" prefWidth="1115.0">
+                 <children>
+                    <Button fx:id="saveChangePassword" layoutX="700.0" layoutY="100.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Save" onAction="#setSaveChangePassword">
+                       <font>
+                          <Font size="18.0" />
+                       </font>
+                    </Button>
+                    <PasswordField fx:id="newPasswordField" layoutX="400.0" layoutY="100.0" prefHeight="50.0" prefWidth="250.0" promptText="New password" />
+                    <PasswordField fx:id="confirmPasswordField" layoutX="400.0" layoutY="160.0" prefHeight="50.0" prefWidth="250.0" promptText="Confirm new password" />
+                 </children>
+              </AnchorPane>
     </children>
 </AnchorPane>

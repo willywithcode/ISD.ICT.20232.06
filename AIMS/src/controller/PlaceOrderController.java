@@ -65,7 +65,7 @@ public class PlaceOrderController extends BaseController {
      */
     public Invoice createInvoice(Order order) {
 
-        order.createOrderEntity();
+//        order.createOrderEntity();
         return new Invoice(order);
     }
 
@@ -123,8 +123,8 @@ public class PlaceOrderController extends BaseController {
         if (name.trim().length() == 0)
             return false;
         // Check if contain only leter and space
-        if (name.matches("^[a-zA-Z ]*$") == false)
-            return false;
+//        if (name.matches("^[a-zA-Z ]*$") == false)
+//            return false;
         return true;
     }
 
@@ -141,9 +141,6 @@ public class PlaceOrderController extends BaseController {
         return fees;
     }
 
-    
-
-
     /**
      * @param province
      * @param address
@@ -152,7 +149,7 @@ public class PlaceOrderController extends BaseController {
     public boolean validateAddressPlaceRushOrder(String province, String address) {
         if (!validateContainLetterAndNoEmpty(address))
             return false;
-        if (!province.equals("Hà Nội"))
+        if (!province.equals("Thành phố Hà Nội"))
             return false;
         return true;
     }

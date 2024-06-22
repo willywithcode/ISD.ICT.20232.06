@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="779.0" prefWidth="1134.0" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+   <children>
+      <AnchorPane prefHeight="715.0" prefWidth="1115.0" />
+   </children>
+</AnchorPane>

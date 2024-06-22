@@ -33,6 +33,15 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
 	
 	@FXML
     private TabPane tabPane;
+	
+	@FXML
+	private Button changePassBtn;
+	
+	@FXML
+	private AnchorPane changePasswordForm;
+	
+	@FXML
+    private TextField newPasswordField, confirmPasswordField;
     
     private ManageUserScreenHandler manageUserScreenHandler;
     private ManageMediaScreenHandler manageMediaScreenHandler;
@@ -42,6 +51,14 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
         // TODO Auto-generated constructor stub
         manageUserScreenHandler = new ManageUserScreenHandler(this.stage, Configs.MANAGE_USER_SCREEN);
         manageMediaScreenHandler = new ManageMediaScreenHandler(this.stage, "/views/fxml/manageMedia.fxml");
+        
+        changePasswordForm.setVisible(false);
+        
+        changePassBtn.setOnAction(event -> {
+        	if(currentUser != null) {
+        		changePasswordForm.setVisible(true);
+        	}
+        });
     }
     
     public ManagerScreenController getBController() {
@@ -74,6 +91,32 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
 		    manageMediaTab.setContent(manageMediaScreenHandler.getContent());
 		    tabPane.getTabs().add(manageMediaTab);
 		}
+    }
+	
+	public void setSaveChangePassword() throws SQLException, Exception {
+        if (currentUser != null) {
+            int id = currentUser.getId();
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change password?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                String newPassword = newPasswordField.getText();
+                String confirmPassword = confirmPasswordField.getText();
+                if (!newPassword.equals(confirmPassword)) {
+                    showAlert(Alert.AlertType.ERROR, "Wrong confirm password", "The new password is not the same with the confirm password", "Please enter confirm password again.");
+                } else {
+                    getBController().changePassword(id, newPassword);
+                    changePasswordForm.setVisible(false);
+                }
+            }
+        }
+    }
+	
+	private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 	public void logout(ActionEvent e) throws SQLException {

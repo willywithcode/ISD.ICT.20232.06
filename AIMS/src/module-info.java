@@ -17,20 +17,21 @@ module AIMS{
 	requires java.logging;
 	requires java.desktop;
 	requires java.sql;
+	requires org.json;
 
-  exports Application;
+	exports Application;
 	exports views.screen;
 	exports views.screen.mediaDetail;
   
-  opens views.screen to javafx.fxml;
-  opens views.screen.home to javafx.fxml;
-  opens views.screen.popup to javafx.fxml;
-  opens views.screen.manager to javafx.fxml;
-  opens views.screen.mediaDetail to javafx.fxml;
-  opens views.screen.cart to javafx.fxml;
-  opens views.screen.invoice to javafx.fxml;
-  opens views.screen.payment to javafx.fxml;
-  opens views.screen.shipping to javafx.fxml;
-  opens entity.user to javafx.base;
-  opens entity.media to javafx.base;
+	opens views.screen to javafx.fxml;
+	opens views.screen.home to javafx.fxml;
+	opens views.screen.popup to javafx.fxml;
+	opens views.screen.manager to javafx.fxml;
+	opens views.screen.mediaDetail to javafx.fxml;
+	opens views.screen.cart to javafx.fxml;
+	opens views.screen.invoice to javafx.fxml;
+	opens views.screen.payment to javafx.fxml;
+	opens views.screen.shipping to javafx.fxml;
+	opens entity.user to javafx.base;
+	opens entity.media to javafx.base;
 }

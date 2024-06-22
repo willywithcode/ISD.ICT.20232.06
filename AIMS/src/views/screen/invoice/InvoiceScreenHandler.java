@@ -17,6 +17,7 @@ import views.screen.payment.PaymentScreenHandler;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
     private Label phone;
 
     @FXML
-    private Label province;
+    private Label province, district, ward;
 
     @FXML
     private Label address;
@@ -82,6 +83,8 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         name.setText(invoice.getOrder().getName());
         phone.setText(invoice.getOrder().getPhone());
         province.setText(invoice.getOrder().getProvince());
+        district.setText(invoice.getOrder().getDistrict());
+        ward.setText(invoice.getOrder().getWard());
         instructions.setText(invoice.getOrder().getInstruction());
         address.setText(invoice.getOrder().getAddress());
         subtotal.setText(Utils.getCurrencyFormat(invoice.getOrder().getAmount()));
@@ -89,8 +92,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees();
         total.setText(Utils.getCurrencyFormat(amount + getNumRushMedia() * 10));
         invoice.setAmount(amount);
-        
-
+       
     }
     /**
      * @param boolean
@@ -144,6 +146,10 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
      */
     @FXML
     void confirmInvoice(MouseEvent event) throws IOException {
+    	this.invoice.getOrder().setOrderDate(LocalDateTime.now());
+    	this.invoice.getOrder().setStatus("pending");
+    	this.invoice.getOrder().createOrderEntity();
+    	
         BaseScreenHandler paymentScreen = new PaymentScreenHandler(this.stage, Configs.PAYMENT_SCREEN_PATH, invoice);
         paymentScreen.setBController(new PaymentController());
         paymentScreen.setPreviousScreen(this);

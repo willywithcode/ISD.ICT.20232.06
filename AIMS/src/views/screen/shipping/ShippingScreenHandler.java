@@ -12,10 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
@@ -25,6 +28,7 @@ import views.screen.popup.PopupScreen;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +48,15 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
 
     @FXML
     private TextField address;
+    
+    @FXML
+    private TextField email;
+    
+    @FXML
+    private DatePicker deliveryTime;
+    
+    @FXML
+    private Label deliveryTimeLabel;
 
     @FXML
     private TextField instructions;
@@ -75,6 +88,9 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
 //        ObservableList<String> shipments = FXCollections.observableArrayList(shipment);
 //        shippingType.setItems(shipments);
         
+        deliveryTimeLabel.setVisible(false);
+		deliveryTime.setVisible(false);
+        
         name.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue && firstTime.get()) {
                 content.requestFocus(); // Delegate the focus to container
@@ -91,6 +107,11 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
         });
 //        province.setItems(FXCollections.observableArrayList(provinceList));
         
+        shippingType.setOnAction(event -> {
+        	updateForm((String) shippingType.getValue());
+        });
+        
+        deliveryTime.setDayCellFactory(getDateCellFactory());
     }
     
     private void updateDistrict(String selectedProvince) {
@@ -123,6 +144,16 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
     			ward.setValue(wards.get(0));
     			ward.setItems(wards);
     		}
+    	}
+    }
+    
+    private void updateForm(String shippingType) {
+    	if(shippingType.equals("rush shipping")) {
+    		deliveryTimeLabel.setVisible(true);
+    		deliveryTime.setVisible(true);
+    	}else {
+    		deliveryTimeLabel.setVisible(false);
+    		deliveryTime.setVisible(false);
     	}
     }
 
@@ -188,7 +219,11 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
         order.setDistrict(district.getValue());
         order.setWard(ward.getValue());
         order.setShippingType(shippingType.getValue());
-        System.out.println(order.getOrderDate());
+        order.setEmail(email.getText());
+        
+        if(shippingType.getValue().equals("rush shipping")) {
+        	order.setDeliveryTime(deliveryTime.getValue());
+        }
         
         Invoice invoice = getBController().createInvoice(order);
         BaseScreenHandler InvoiceScreenHandler = new InvoiceScreenHandler(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
@@ -212,6 +247,24 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
      */
     public PlaceOrderController getBController() {
         return (PlaceOrderController) super.getBController();
+    }
+    
+    private Callback<DatePicker, DateCell> getDateCellFactory() {
+        return new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item.isBefore(LocalDate.now())) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #EEEEEE;");
+                        }
+                    }
+                };
+            }
+        };
     }
 
 

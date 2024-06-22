@@ -9,16 +9,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
 
     private int id;
     private int shippingFees;
+    private final String shippingId = UUID.randomUUID().toString();
     private List<OrderMedia> lstOrderMedia;
     private String name;
     private String province;
@@ -30,6 +33,12 @@ public class Order {
     private LocalDateTime orderDate;
     private String shippingType;
     private String status;
+    private String email;
+    private LocalDate deliveryTime;
+
+    public String getShippingId(){
+        return shippingId;
+    }
 
     public String getInstruction() {
         return instruction;
@@ -135,14 +144,30 @@ public class Order {
 		this.status = status;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public LocalDate getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(LocalDate deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
 	public void createOrderEntity(){
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction) " +
-                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction, email, shipping_type, delivery_time) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, province);
@@ -155,16 +180,25 @@ public class Order {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String formattedDate = orderDate.format(formatter);
             preparedStatement.setString(8, formattedDate);
-//            preparedStatement.setTimestamp(8, Timestamp.valueOf(orderDate));
             preparedStatement.setString(9, status);
             preparedStatement.setString(10, instruction);
-
-
+            preparedStatement.setString(11, email);
+            preparedStatement.setString(12, shippingType);
+            
+            if(deliveryTime == null) {
+            	preparedStatement.setNull(13, java.sql.Types.VARCHAR);
+            }else {
+            	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	String formattedDeliveryDate = deliveryTime.format(dateFormatter);
+            	preparedStatement.setString(13, formattedDeliveryDate);
+            }
             int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating order failed, no rows affected.");
             }
+            
+            System.out.println(preparedStatement);
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -175,7 +209,6 @@ public class Order {
                 }
             }
             this.insertOrderMedia();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,7 +25,7 @@
               </Label>
          </children>
       </HBox>
-        <GridPane layoutX="210.0" layoutY="168.0" prefHeight="522.0" prefWidth="987.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="169.0" AnchorPane.topAnchor="168.0">
+        <GridPane layoutX="210.0" layoutY="110.0" prefHeight="568.0" prefWidth="987.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="169.0" AnchorPane.topAnchor="110.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.2" minWidth="0.0" prefWidth="196.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="843.2" minWidth="0.0" prefWidth="843.2" />
@@ -32,16 +33,18 @@
             <rowConstraints>
                 <RowConstraints maxHeight="108.60001220703126" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="168.5999969482422" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="108.60001220703126" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="313.59999389648436" minHeight="6.0" prefHeight="55.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="292.80002441406253" minHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="311.8000549316406" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="311.8000549316406" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="311.8000549316406" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="311.8000549316406" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="311.8000549316406" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-            <ChoiceBox fx:id="province" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+            <ChoiceBox fx:id="province" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="23.0" prefHeight="20.0" prefWidth="22.0" text="*" textAlignment="CENTER" textFill="#eb0d0d">
                      <font>
@@ -82,12 +85,12 @@
                         <Font name="SansSerif Regular" size="24.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="address" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="818.0" promptText="(a-zA-Z)" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <TextField fx:id="address" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="818.0" promptText="(a-zA-Z)" GridPane.columnIndex="1" GridPane.rowIndex="6">
                     <font>
                         <Font name="SansSerif Regular" size="24.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="instructions" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="818.0" promptText="(a-zA-Z)" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <TextField fx:id="instructions" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="818.0" promptText="(a-zA-Z)" GridPane.columnIndex="1" GridPane.rowIndex="8">
                     <font>
                         <Font name="SansSerif Regular" size="24.0" />
                     </font>
@@ -106,7 +109,7 @@
                         </Label>
                     </children>
                 </Pane>
-                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
+                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6">
                     <children>
                         <Label layoutX="38.0" layoutY="18.0" text="Address">
                             <font>
@@ -120,7 +123,7 @@
                         </Label>
                     </children>
                 </Pane>
-                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="7">
+                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="8">
                     <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="10.0" text="Shipping&#10;Instructions">
                             <font>
@@ -129,7 +132,7 @@
                         </Label>
                     </children>
                 </Pane>
-                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                     <children>
                         <Label layoutX="35.0" layoutY="18.0" prefHeight="30.0" prefWidth="118.0" text="Province">
                             <font>
@@ -143,7 +146,7 @@
                         </Label>
                     </children>
                 </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="23.0" prefHeight="20.0" prefWidth="22.0" text="*" textAlignment="CENTER" textFill="#eb0d0d">
                      <font>
@@ -157,10 +160,10 @@
                   </Label>
                </children>
             </Pane>
-            <ChoiceBox fx:id="district" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="ward" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ChoiceBox fx:id="shippingType" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6">
+            <ChoiceBox fx:id="district" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="ward" prefHeight="50.0" prefWidth="410.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="shippingType" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="7">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="23.0" prefHeight="20.0" prefWidth="22.0" text="*" textAlignment="CENTER" textFill="#eb0d0d">
                      <font>
@@ -174,6 +177,38 @@
                   </Label>
                </children>
             </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <Label layoutX="36.0" layoutY="16.0" text="Email">
+                     <font>
+                        <Font name="SansSerif Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="21.0" prefHeight="20.0" prefWidth="22.0" text="*" textAlignment="CENTER" textFill="#eb0d0d">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TextField fx:id="email" prefHeight="18.0" prefWidth="818.0" promptText="email" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="SansSerif Regular" size="24.0" />
+               </font>
+            </TextField>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="9">
+               <children>
+                  <Label fx:id="deliveryTimeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" text="Delivery Time">
+                     <font>
+                        <Font name="SansSerif Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Pane>
+            <DatePicker fx:id="deliveryTime" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             </children>
         </GridPane>
         <Button fx:id="btnConfirmDelivery" alignment="CENTER" contentDisplay="CENTER" layoutX="526.0" layoutY="702.0" mnemonicParsing="false" onMouseClicked="#submitDeliveryInfo" prefHeight="46.0" prefWidth="316.0" style="-fx-background-color: #B4EDE3; -fx-cursor: hand;" text="Confirm delivery">

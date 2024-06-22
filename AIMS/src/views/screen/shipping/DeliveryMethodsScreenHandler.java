@@ -74,6 +74,12 @@ public class DeliveryMethodsScreenHandler extends BaseScreenHandler {
         } else {
             typeDelivery = utils.Configs.PLACE_ORDER;
         }
+//        var shipment = new Shipment(typeDelivery);
+//        shipment.setShipmentDetail(shipmentDetailString);
+//        shipment.setDeliveryTime(deliveryDateString);
+//        shipment.setDeliveryInstruction(deliveryInstructionString);
+
+//        order.setShipment(shipment);
 
         // // create invoice screen
         Invoice invoice = getBController().createInvoice(order);

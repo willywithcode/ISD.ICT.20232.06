@@ -5,6 +5,7 @@ import controller.PaymentController;
 import entity.invoice.Invoice;
 import entity.order.OrderMedia;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -15,12 +16,15 @@ import views.screen.BaseScreenHandler;
 import views.screen.payment.PaymentScreenHandler;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class InvoiceScreenHandler extends BaseScreenHandler {
+public class InvoiceScreenHandler extends BaseScreenHandler implements Initializable{
 
     private static Logger LOGGER = Utils.getLogger(InvoiceScreenHandler.class.getName());
 
@@ -35,6 +39,12 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
 
     @FXML
     private Label province, district, ward;
+    
+    @FXML
+    private Label email;
+    
+    @FXML
+    private Label deliveryTime, deliveryTimeLabel;
 
     @FXML
     private Label address;
@@ -81,6 +91,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
 
         name.setText(invoice.getOrder().getName());
         phone.setText(invoice.getOrder().getPhone());
+        email.setText(invoice.getOrder().getEmail());
         province.setText(invoice.getOrder().getProvince());
         district.setText(invoice.getOrder().getDistrict());
         ward.setText(invoice.getOrder().getWard());
@@ -88,6 +99,16 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         address.setText(invoice.getOrder().getAddress());
         subtotal.setText(Utils.getCurrencyFormat(invoice.getOrder().getAmount()));
         shippingFees.setText(Utils.getCurrencyFormat(invoice.getOrder().getShippingFees()));
+        
+        if(invoice.getOrder().getDeliveryTime() == null) {
+        	deliveryTime.setVisible(false);
+        	deliveryTimeLabel.setVisible(false);
+        }else {
+        	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        	String formattedDeliveryDate = invoice.getOrder().getDeliveryTime().format(dateFormatter);
+        	deliveryTime.setText(formattedDeliveryDate);	
+        }
+        
         int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees();
         total.setText(Utils.getCurrencyFormat(amount + getNumRushMedia() * 10));
         invoice.setAmount(amount);
@@ -151,6 +172,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
     	this.invoice.getOrder().setStatus("pending");
     	this.invoice.getOrder().createOrderEntity();
     	
+    	
         BaseScreenHandler paymentScreen = new PaymentScreenHandler(this.stage, Configs.PAYMENT_SCREEN_PATH, invoice);
         paymentScreen.setBController(new PaymentController());
         paymentScreen.setPreviousScreen(this);
@@ -159,5 +181,10 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         paymentScreen.show();
 
     }
+    
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+	}
 
 }

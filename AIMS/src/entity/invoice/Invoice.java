@@ -49,10 +49,11 @@ public class Invoice {
                     " - " + order.getLstOrderMedia().get(i).getMedia().getPrice() + "\n";
         }
         return
+                "Mã đơn hàng:" + order.getShippingId() + "\n" +
                 "Tên khách hàng: " + order.getName() + "\n" +
                 "Địa chỉ: " + order.getAddress() + "\n" +
                 "Số điện thoại: " + order.getPhone() + "\n" +
-                "Tổng hóa đơn: " + this.getAmount() + "\n" +
+                "Tổng hóa đơn: " + this.getAmount() + "k VND\n" +
                 "Chi tiết: \n" + detail;
     }
 }

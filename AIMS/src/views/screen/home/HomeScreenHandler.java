@@ -14,6 +14,7 @@ import common.exception.ViewCartException;
 import controller.HomeController;
 import controller.LoginController;
 import controller.ViewCartController;
+import controller.ViewOrderController;
 import entity.cart.Cart;
 import entity.media.Media;
 import javafx.event.ActionEvent;
@@ -40,6 +41,7 @@ import views.screen.BaseScreenHandler;
 import views.screen.cart.CartScreenHandler;
 import views.screen.mediaDetail.MediaScreenHandler;
 import views.screen.popup.PopupScreen;
+import views.screen.viewOrder.ViewOrderScreenHandler;
 
 public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
@@ -62,6 +64,9 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     @FXML
     private Button loginBtn;
+
+    @FXML
+    private Button orderBtn;
 
     @FXML
     private SplitMenuButton splitMenuBtnSearch;
@@ -144,6 +149,15 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     public void show() {
     	setup();
     	super.show();
+    }
+    @FXML
+    void viewOrder() throws IOException {
+        System.out.println("View Order");
+        ViewOrderController viewOrderController = new ViewOrderController();
+        ViewOrderScreenHandler viewOrderScreenHandler = new ViewOrderScreenHandler(this.stage, Configs.VIEW_ORDER_SCREEN_PATH);
+        viewOrderScreenHandler.setBController(viewOrderController);
+        viewOrderScreenHandler.setHomeScreenHandler(this);
+        viewOrderScreenHandler.show();
     }
     
     /**aq1

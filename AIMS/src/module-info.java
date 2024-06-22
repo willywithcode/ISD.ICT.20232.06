@@ -17,7 +17,6 @@ module AIMS{
 	requires java.logging;
 	requires java.desktop;
 	requires java.sql;
-	requires org.json;
 
 	exports Application;
 	exports views.screen;
@@ -34,4 +33,5 @@ module AIMS{
 	opens views.screen.shipping to javafx.fxml;
 	opens entity.user to javafx.base;
 	opens entity.media to javafx.base;
+	opens views.screen.viewOrder to javafx.fxml;
 }

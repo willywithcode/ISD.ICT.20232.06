@@ -175,16 +175,7 @@ public class Order {
                 }
             }
             this.insertOrderMedia();
-            try (PreparedStatement preparedStatement2 = AIMSDB.getConnection().prepareStatement(query)) {
-                var sqlinsertShipment = "INSERT INTO Shipping ( shipType, deliveryInstruction, dateTime, deliverySub, orderId) " +
-                        "VALUES ( ?, ?, ?, ?)";
-                preparedStatement2.setInt(1, shipment.getShipType());
-                preparedStatement2.setString(2, shipment.getDeliveryInstruction());
-                preparedStatement2.setString(3, shipment.getDeliveryTime());
-                preparedStatement2.setString(4, shipment.getShipmentDetail());
-                preparedStatement2.setInt(5, id);
-              preparedStatement2.executeUpdate();
-            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

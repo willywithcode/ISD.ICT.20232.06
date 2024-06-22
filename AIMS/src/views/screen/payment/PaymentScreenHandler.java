@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import mailClient.MailService;
+import mailClient.MailServiceImpl;
 import utils.Configs;
 import utils.VnPayConfig;
 import views.screen.BaseScreenHandler;
@@ -27,7 +29,7 @@ public class PaymentScreenHandler extends BaseScreenHandler {
     @FXML
     private VBox vBox;
 
-
+    private MailService mailService;
     public PaymentScreenHandler(Stage stage, String screenPath, Invoice invoice) throws IOException {
         super(stage, screenPath);
         this.invoice = invoice;
@@ -105,7 +107,8 @@ public class PaymentScreenHandler extends BaseScreenHandler {
 
         var ctrl = (PaymentController) super.getBController();
         Map<String, String> response = ctrl.makePayment(res, this.invoice.getOrder().getId());
-
+        setMailService(new MailServiceImpl());
+        this.mailService.sendMail(invoice.getOrder().getEmail(), "Hoa don ban hang AIMS", this.invoice.getDetailInvoice());
         BaseScreenHandler resultScreen = new ResultScreenHandler(this.stage, Configs.RESULT_SCREEN_PATH,
                 response.get("RESULT"), response.get("MESSAGE"));
         ctrl.emptyCart();
@@ -115,5 +118,7 @@ public class PaymentScreenHandler extends BaseScreenHandler {
         resultScreen.show();
 
     }
-
+    private void setMailService(MailServiceImpl mailService) {
+        this.mailService = mailService;
+    }
 }

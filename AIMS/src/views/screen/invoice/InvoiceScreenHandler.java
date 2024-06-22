@@ -45,6 +45,9 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
 
     @FXML
     private Label subtotal;
+    
+    @FXML
+    private Label feeRushDelivery;
 
     @FXML
     private Label shippingFees;
@@ -57,6 +60,9 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
 
     private Invoice invoice;
 
+    public Invoice getInvoice() {
+    	return invoice;
+    }
     public InvoiceScreenHandler(Stage stage, String screenPath, Invoice invoice) throws IOException {
         super(stage, screenPath);
         this.invoice = invoice;
@@ -84,9 +90,10 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
         subtotal.setText(Utils.getCurrencyFormat(invoice.getOrder().getAmount()));
         shippingFees.setText(Utils.getCurrencyFormat(invoice.getOrder().getShippingFees()));
         int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees();
-        total.setText(Utils.getCurrencyFormat(amount));
+        total.setText(Utils.getCurrencyFormat(amount + getNumRushMedia() * 10));
         invoice.setAmount(amount);
-        invoice.getOrder().getlstOrderMedia().forEach(orderMedia -> {});
+
+//        invoice.getOrder().getlstOrderMedia().forEach(orderMedia -> {});
        
     }
     /**
@@ -97,17 +104,44 @@ public class InvoiceScreenHandler extends BaseScreenHandler {
             try {
                 MediaInvoiceScreenHandler mis = new MediaInvoiceScreenHandler(Configs.INVOICE_MEDIA_SCREEN_PATH);
                 mis.setOrderMedia((OrderMedia) orderMedia);
+                if(isRush) {
+                	mis.setTypeOfDelivery(orderMedia.getMedia().getIsSupportedPlaceRushOrder());
+                }else {
+                	mis.setVisibleTypeOfDelivery(false);
+                }
                 vboxItems.getChildren().add(mis.getContent());
+                
             } catch (IOException | SQLException e) {
                 System.err.println("errors: " + e.getMessage());
                 throw new ProcessInvoiceException(e.getMessage());
             }
 
         });
-
     }
-
-
+    /**
+     * @param boolean
+     */
+    public void setFeeRushDelivery(boolean isRush) {
+    	if(!isRush) {
+    		feeRushDelivery.setVisible(false);
+    		return;
+    	}
+    	feeRushDelivery.setVisible(true);
+    	feeRushDelivery.setText("Rush :  " + Utils.getCurrencyFormat(getNumRushMedia() * 10));
+    }
+    /**
+     * @param 
+     */
+    public int getNumRushMedia() {
+    	int count = 0;
+    	for (OrderMedia orderMedia : this.invoice.getOrder().getlstOrderMedia()) {
+    		if(orderMedia.getMedia().getIsSupportedPlaceRushOrder()) {
+    			count += orderMedia.getQuantity();
+    		}
+    	}
+    	return count;
+    	
+    }
     /**
      * @param event
      * @throws IOException

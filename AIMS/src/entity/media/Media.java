@@ -19,8 +19,8 @@ import java.util.logging.Logger;
  */
 public class Media {
 
-    protected static boolean isSupportedPlaceRushOrder = new Random().nextBoolean();
     private static Logger LOGGER = Utils.getLogger(Media.class.getName());
+    protected boolean isSupportedPlaceRushOrder;
     protected Statement stm;
     protected int id;
     protected String title;
@@ -33,6 +33,7 @@ public class Media {
 
     public Media() throws SQLException {
         stm = AIMSDB.getConnection().createStatement();
+        isSupportedPlaceRushOrder = new Random().nextBoolean();
     }
 
     public Media(int id, String title, String category, int price, int value, int quantity, String type) throws SQLException {
@@ -51,8 +52,8 @@ public class Media {
     /**
      * @return boolean
      */
-    public static boolean getIsSupportedPlaceRushOrder() {
-        return Media.isSupportedPlaceRushOrder;
+    public boolean getIsSupportedPlaceRushOrder() {
+        return this.isSupportedPlaceRushOrder;
     }
 
     /**

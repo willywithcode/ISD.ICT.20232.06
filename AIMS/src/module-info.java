@@ -22,7 +22,7 @@ module AIMS{
 	exports Application;
 	exports views.screen;
 	exports views.screen.mediaDetail;
-
+	
 	opens views.screen to javafx.fxml;
 	opens views.screen.home to javafx.fxml;
 	opens views.screen.popup to javafx.fxml;

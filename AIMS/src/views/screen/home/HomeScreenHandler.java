@@ -58,15 +58,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     private ImageView cartImage;
 
     @FXML
-    private VBox vboxMedia1;
-
-    @FXML
-    private VBox vboxMedia2;
-
-    @FXML
-    private VBox vboxMedia3;
-
-    @FXML
     private HBox hboxMedia;
 
     @FXML
@@ -108,12 +99,12 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     }
 
     private void setNumOfPage(List listItem) {
-        this.pagination.setPageCount((int) Math.ceil((double) listItem.size()/12));
+        this.pagination.setPageCount((int) Math.ceil((double) listItem.size()/20));
     }
 
     private VBox createPage(int pageIndex) {
         this.pageItems = new ArrayList<>();
-        for(int index = 12*pageIndex; index < 12*(pageIndex+1); index++) {
+        for(int index = 20*pageIndex; index < 20*(pageIndex+1); index++) {
             if(index < homeSearchItems.size()) {
                 pageItems.add(homeSearchItems.get(index));
             }
@@ -122,16 +113,10 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         addMediaHome(pageItems);
         return vboxMedia;
     }
-
-    /**
-     * @param arg0
-     * @param arg1
-     */
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new HomeController());
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
-        try {
+    
+    public void setup() {
+    	numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()));
+    	try {
             List medium = getBController().getAllMedia();
             this.homeItems = new ArrayList<>();
             for (Object object : medium) {
@@ -144,23 +129,34 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             LOGGER.info("Errors occured: " + e.getMessage());
             e.printStackTrace();
         }
-        homeSearchItems = homeItems;
+    	homeSearchItems = homeItems;
         setNumOfPage(homeSearchItems);
+        addMediaHome(homeSearchItems);
         pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
                 return createPage(pageIndex);
             }
         });
+    }
 
-//        aimsImage.setOnMouseClicked(e -> {
-//            addMediaHome(this.homeItems);
-//        });
-        
+    @Override
+    public void show() {
+    	setup();
+    	super.show();
+    }
+    
+    /**aq1
+     * @param arg0
+     * @param arg1
+     */
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        setBController(new HomeController());
+        setup();
         pageTitle.setOnMouseClicked(e -> {
-        	addMediaHome(this.homeItems);
+        	setup();
         });
-
         cartImage.setOnMouseClicked(e -> {
             CartScreenHandler cartScreen;
             try {
@@ -186,7 +182,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
                 e1.printStackTrace();
             }
         });
-        addMediaHome(this.homeItems);
+//        addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);
         addMenuItem(2, "CD", splitMenuBtnSearch);
@@ -196,7 +192,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             handleSearch();
         });
     }
-  
+    
     public void openMediaDetail(Media media) {
     	MediaScreenHandler mediaScreen;
         try {
@@ -224,24 +220,28 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     /**
      * @param items
      */
-    public void addMediaHome(List items) {
-        ArrayList mediaItems = (ArrayList) ((ArrayList) items).clone();
+    public void addMediaHome(List items){
+        ArrayList mediaItems = (ArrayList)((ArrayList) items).clone();
         hboxMedia.getChildren().forEach(node -> {
             VBox vBox = (VBox) node;
             vBox.getChildren().clear();
         });
+
         while (!mediaItems.isEmpty()) {
-            hboxMedia.getChildren().forEach(node -> {
-                int vid = hboxMedia.getChildren().indexOf(node);
-                VBox vBox = (VBox) node;
-                while (vBox.getChildren().size() < 3 && !mediaItems.isEmpty()) {
-                    MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
-                    vBox.getChildren().add(media.getContent());
-                    mediaItems.remove(media);
-                }
-            });
-            return;
+        	int maxItemsPerCol = 5;
+        	while (maxItemsPerCol > 0 && !mediaItems.isEmpty()) {
+        		hboxMedia.getChildren().forEach(node -> {
+                    VBox vBox = (VBox) node;
+                    if (!mediaItems.isEmpty()) {
+                        MediaHomeHandler media = (MediaHomeHandler) mediaItems.get(0);
+                        vBox.getChildren().add(media.getContent());
+                        mediaItems.remove(media);
+                    }
+                });
+        		maxItemsPerCol--;
+        	}
         }
+
     }
 
     /**
@@ -281,7 +281,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 	        try {
 	            List medium = getBController().searchMedia(text);
 	            if(medium.size() == 0) {
-	                PopupScreen.error("Không tìm thấy sản phẩm");
+	                PopupScreen.error("No products found");
 	                addMediaHome(homeItems);
 	                setNumOfPage(homeItems);
 	            }  else {

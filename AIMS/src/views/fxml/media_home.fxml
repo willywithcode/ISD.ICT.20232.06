@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="211.0" prefWidth="298.0" style="-fx-background-color: #E8E8E8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="211.0" prefWidth="298.0" style="-fx-background-color: #E8E8E8;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="218.0" prefWidth="187.0">
          <children>
@@ -78,6 +78,19 @@
                                 </Pane>
                             </children>
                         </HBox>
+                  <HBox prefHeight="27.0" prefWidth="123.0">
+                     <children>
+                        <Pane prefHeight="23.0" prefWidth="124.0">
+                           <children>
+                              <Label fx:id="supportedRushDelivery" alignment="CENTER" prefHeight="28.0" prefWidth="123.0" text="Rush Supported" textAlignment="CENTER" textFill="#13c0a1">
+                                 <font>
+                                    <Font name="SansSerif Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="106.0">
                             <children>
                                 <Spinner fx:id="spinnerChangeNumber" prefHeight="26.0" prefWidth="98.0">

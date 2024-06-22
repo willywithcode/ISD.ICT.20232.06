@@ -107,7 +107,6 @@ public class CartScreenHandler extends BaseScreenHandler {
     @FXML
     private void handleBack(MouseEvent event) throws IOException {
         // Back to previous screen
-    	homeScreenHandler.initialize(null, null);
         this.getPreviousScreen().show();
     }
     

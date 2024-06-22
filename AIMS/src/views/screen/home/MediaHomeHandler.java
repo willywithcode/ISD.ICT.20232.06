@@ -26,6 +26,8 @@ public class MediaHomeHandler extends FXMLScreenHandler {
     @FXML
     protected ImageView mediaImage;
     @FXML
+    protected Label supportedRushDelivery;
+    @FXML
     protected Label mediaTitle;
     @FXML
     protected Label mediaPrice;
@@ -45,6 +47,7 @@ public class MediaHomeHandler extends FXMLScreenHandler {
         super(screenPath);
         this.media = media;
         this.home = home;
+        this.supportedRushDelivery.setVisible(media.getIsSupportedPlaceRushOrder());
         addToCartBtn.setOnMouseClicked(event -> {
         	CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
             try {

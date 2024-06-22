@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import subsystem.VnPaySubsystem;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;

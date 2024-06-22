@@ -18,26 +18,43 @@ public class PlaceRushOrderController extends BaseController {
      * Just for logging purpose
      */
     private static Logger LOGGER = utils.Utils.getLogger(PlaceRushOrderController.class.getName());
-
+    private IPlaceOrderStrategy placeOrderStrategy;
 
     /**
      * @param deliveryData
      * @param typeDelivery
      */
-//    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
-//        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
-//           // validate
-//        	this.PlaceOrder(new RushPlaceOrder(), invoiceScreen);
-//        }
-//        else {
-//        	this.PlaceOrder(new NormalPlaceOrder(), invoiceScreen);
-//        }
-//    }
+// <<<<<<< VuMinhDung_20205179
+// //    public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+// //        if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
+// //           // validate
+// //        	this.PlaceOrder(new RushPlaceOrder(), invoiceScreen);
+// //        }
+// //        else {
+// //        	this.PlaceOrder(new NormalPlaceOrder(), invoiceScreen);
+// //        }
+// //    }
+// =======
+//     public void validatePlaceRushOrderData(Shipment deliveryData, InvoiceScreenHandler invoiceScreen) {
+    	
+//         if (deliveryData.getShipType() == utils.Configs.PLACE_RUSH_ORDER) {
+//            // validate
+//         	this.SetTypePlaceOrder(new RushPlaceOrder());
+//         }
+//         else {
+//         	this.SetTypePlaceOrder(new NormalPlaceOrder());
+//         }
+//         this.PlaceOrder(invoiceScreen);
+//     }
+// >>>>>>> main
     /**
      * @return void
      * param IPlaceOrderStrategy
      */
-    public void PlaceOrder(IPlaceOrderStrategy placeOrderStrategy, InvoiceScreenHandler invoiceScreen) {
+    public void PlaceOrder(InvoiceScreenHandler invoiceScreen) {
     	placeOrderStrategy.PlaceOrder(invoiceScreen);
+    }
+    public void SetTypePlaceOrder(IPlaceOrderStrategy placeOrderStrategy) {
+    	this.placeOrderStrategy = placeOrderStrategy;
     }
 }

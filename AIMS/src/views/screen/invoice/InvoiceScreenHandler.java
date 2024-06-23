@@ -171,6 +171,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     	this.invoice.getOrder().setStatus("pending");
         this.invoice.getOrder().setShippingFees(this.invoice.getOrder().getShippingFees() + this.invoice.getOrder().getRush_shipping_fee());
         this.invoice.getOrder().setTotal_price(this.invoice.getOrder().getAmount() + this.invoice.getOrder().getShippingFees());
+        this.invoice.getOrder().setShippingStatus("pending payment");
     	this.invoice.getOrder().createOrderEntity();
         BaseScreenHandler paymentScreen = new PaymentScreenHandler(this.stage, Configs.PAYMENT_SCREEN_PATH, invoice);
         paymentScreen.setBController(new PaymentController());

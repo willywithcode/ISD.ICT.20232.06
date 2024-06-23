@@ -61,6 +61,11 @@ public class PaymentTransaction {
             preparedStatement.setInt(2, orderID);
             preparedStatement.executeUpdate();
         }
+        String query4 = "UPDATE 'Order' SET shipping_status = 'packaging' where id = ?";
+        try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query4)) {
+            preparedStatement.setInt(1, orderID);
+            preparedStatement.executeUpdate();
+        }
     }
 
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox prefHeight="104.0" prefWidth="1326.0" style="-fx-background-color: #B4EDE3;">
             <children>
@@ -82,18 +82,25 @@
                            <font>
                               <Font name="SansSerif Bold" size="12.0" />
                            </font></Label>
-                                <Button fx:id="loginBtn" layoutX="88.0" layoutY="25.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="124.0" style="-fx-cursor: hand;" text="Login">
-                                    <font>
-                                        <Font name="SansSerif Bold" size="16.0" />
-                                    </font>
-                                </Button>
+                        <Button fx:id="orderBtn" layoutX="75.0" layoutY="25.0" mnemonicParsing="false" onAction="#viewOrder" prefHeight="51.0" prefWidth="75.0" text="Order">
+                           <font>
+                              <Font name="SansSerif Bold" size="16.0" />
+                           </font>
+                        </Button>
                             </children>
                         </Pane>
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <AnchorPane prefHeight="102.0" prefWidth="110.0" />
+                        <AnchorPane prefHeight="102.0" prefWidth="110.0">
+                     <children>
+                                <Button fx:id="loginBtn" layoutX="7.0" layoutY="26.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="75.0" style="-fx-cursor: hand;" text="Login">
+                                    <font>
+                                        <Font name="SansSerif Bold" size="16.0" />
+                                    </font>
+                                </Button>
+                     </children></AnchorPane>
                     </children>
                 </VBox>
             </children>

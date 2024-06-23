@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * This class is responsible for handling the login process
+ * It will authenticate the user and return the user object if the user is authenticated
+ * Function cohesion is high because it only handles the login process. Communication cohesion is high because it only communicates with the User entity
+ */
 public class LoginController extends BaseController {
 
 //    private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());

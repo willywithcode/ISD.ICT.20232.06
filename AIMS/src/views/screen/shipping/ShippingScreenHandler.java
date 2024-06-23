@@ -2,6 +2,7 @@ package views.screen.shipping;
 
 import common.exception.InvalidDeliveryInfoException;
 import controller.PlaceOrderController;
+import controller.PlaceRushOrderController;
 import entity.invoice.Invoice;
 import entity.order.Order;
 import javafx.beans.property.BooleanProperty;
@@ -115,7 +116,7 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
     }
     
     private void updateDistrict(String selectedProvince) {
-    	if(selectedProvince.equals("Thành phố Hà Nội")) {
+    	if(selectedProvince.equals("Thành phố Hà Nội") && getBController().validateMediaPlaceRushorder(order)) {
     		List<String> shipment = Arrays.asList("rush shipping", "normal shipping");
     		ObservableList<String> shipments = FXCollections.observableArrayList(shipment);
     		shippingType.setItems(shipments);
@@ -200,6 +201,10 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
             PopupScreen.error("Province is empty!");
             return;
         }
+        if(shippingType.getValue() == null) {
+        	PopupScreen.error("Shipping type is empty!");
+        	return;
+        }
         try {
             // process and validate delivery info
             getBController().processDeliveryInfo(messages);
@@ -220,17 +225,24 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
         order.setWard(ward.getValue());
         order.setShippingType(shippingType.getValue());
         order.setEmail(email.getText());
-        
+        int typeShip;
         if(shippingType.getValue().equals("rush shipping")) {
         	order.setDeliveryTime(deliveryTime.getValue());
+            	typeShip = Configs.PLACE_RUSH_ORDER;
         }
-        
+        else {
+        	order.setDeliveryTime(null);
+        	typeShip = Configs.PLACE_ORDER;
+        }
+
         Invoice invoice = getBController().createInvoice(order);
         BaseScreenHandler InvoiceScreenHandler = new InvoiceScreenHandler(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
         InvoiceScreenHandler.setPreviousScreen(this);
         InvoiceScreenHandler.setHomeScreenHandler(homeScreenHandler);
         InvoiceScreenHandler.setScreenTitle("Invoice Screen");
         InvoiceScreenHandler.setBController(getBController());
+        PlaceRushOrderController placeRushController = new PlaceRushOrderController();
+        placeRushController.validatePlaceRushOrderData(typeShip, (InvoiceScreenHandler) InvoiceScreenHandler);
         InvoiceScreenHandler.show();
         
 //        //create delivery method screen

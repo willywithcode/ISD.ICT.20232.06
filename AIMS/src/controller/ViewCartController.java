@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 /**
  * This class controls the flow of events when users view the Cart
- *
+ * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing the cart and it is not responsible for other tasks.
  */
 public class ViewCartController extends BaseController {
 

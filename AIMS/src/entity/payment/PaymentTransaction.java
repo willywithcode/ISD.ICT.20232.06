@@ -37,8 +37,9 @@ public class PaymentTransaction {
         return transactionContent;
     }
 
-    public void save(int orderId) throws SQLException {
+    public void save(int orderId, String shippingID) throws SQLException {
         this.orderID = orderId;
+        System.out.println("Saving transaction");
         Statement stm = AIMSDB.getConnection().createStatement();
         String query = "INSERT INTO PaymentTransaction ( orderID, createAt, content) " +
                 "VALUES ( ?, ?, ?)";
@@ -49,9 +50,15 @@ public class PaymentTransaction {
 
             preparedStatement.executeUpdate();
         }
-        String query2 = "UPDATE 'Order' SET status = 'PAID' WHERE id = ?";
+        String query2 = "UPDATE 'Order' SET status = 'Paid' WHERE id = ?";
         try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query2)) {
             preparedStatement.setInt(1, orderID);
+            preparedStatement.executeUpdate();
+        }
+        String query3 = "UPDATE 'Order' SET genID = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query3)) {
+            preparedStatement.setString(1, shippingID);
+            preparedStatement.setInt(2, orderID);
             preparedStatement.executeUpdate();
         }
     }

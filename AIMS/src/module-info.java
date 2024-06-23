@@ -36,4 +36,5 @@ module AIMS{
 	opens views.screen.shipping to javafx.fxml;
 	opens entity.user to javafx.base;
 	opens entity.media to javafx.base;
+	opens views.screen.viewOrder to javafx.fxml;
 }

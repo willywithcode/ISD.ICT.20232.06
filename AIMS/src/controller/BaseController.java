@@ -11,12 +11,12 @@ import java.util.List;
 
 /**
  * This class is the base controller for our AIMS project.
- *
+ * @SRP Violation of Single Responsibility Principle (SRP): The HomeController class extends from BaseController and implements a new function related to retrieving all Media from the database
  */
 public class BaseController {
 
     /**
-     * The method checks whether the Media in Cart, if it were in, we will return
+     * Communicational Cohesion : The method checks whether the Media in Cart, if it were in, we will return
      * the CartMedia else return null.
      *
      * @param media media object

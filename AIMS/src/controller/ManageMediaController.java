@@ -10,7 +10,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
+/*
+ * This class controls the flow of events in managing media
+ * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing media and it is not responsible for other tasks.
+ */
 public class ManageMediaController extends BaseController {
 	public List getAllMedia() throws SQLException {
 		return new Media().getAllMedia();

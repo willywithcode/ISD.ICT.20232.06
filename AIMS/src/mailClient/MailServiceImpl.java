@@ -26,7 +26,6 @@ public class MailServiceImpl implements MailService{
             }
         };
         Session session = Session.getInstance(props, auth);
-
         EmailUtil.sendEmail(session, to,subject, content);
 
     }

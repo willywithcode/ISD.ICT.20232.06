@@ -4,8 +4,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 import entity.user.User;
-
+/**
+ * This class controls the flow of events in managing users
+ * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing users and it is not responsible for other tasks.
+ */
 public class ManagerScreenController extends BaseController{
+    /**
+     * This method gets all users
+     * @return
+     * @throws SQLException
+     * Coupling is low because it only communicates with the User entity
+     */
     public void createUser(int id, String name, String email, String address, String phone, List<String> roles, String password) throws SQLException {
         User  user = new User();
         user.createUser(id, name, email,address,  phone, roles, password);

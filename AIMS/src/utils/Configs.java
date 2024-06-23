@@ -32,6 +32,7 @@ public class Configs {
     public static final String MANAGE_USER_SCREEN = "/views/fxml/manageUser.fxml";
     public static final int PLACE_RUSH_ORDER = 1;
     public static final int PLACE_ORDER = 2;
+    public static final String VIEW_ORDER_SCREEN_PATH = "/views/fxml/view_order.fxml";
     public static String CURRENCY = "VND";
 
     public static final String LOGIN_SCREEN_PATH = "/views/fxml/login.fxml";

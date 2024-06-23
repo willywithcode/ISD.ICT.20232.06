@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class controls the flow of events in homescreen
- *
+ * @SRP Violation of Single Responsibility Principle (SRP): The HomeController class extends from BaseController and implements a new function related to retrieving all Media from the database.
  */
 public class HomeController extends BaseController {
 

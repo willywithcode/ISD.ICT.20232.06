@@ -127,40 +127,50 @@
                   </Pane>
                </children>
             </VBox>
-            <VBox prefHeight="504.0" prefWidth="337.0">
+            <VBox prefHeight="504.0" prefWidth="358.0">
                <children>
                   <Pane prefHeight="526.0" prefWidth="335.0">
                      <children>
-                        <Label layoutX="33.0" layoutY="105.0" prefHeight="38.0" prefWidth="88.0" text="Price">
+                        <Label layoutX="21.0" layoutY="275.0" prefHeight="38.0" prefWidth="88.0" text="Price">
                            <font>
                               <Font name="SansSerif Bold" size="32.0" />
                            </font>
                         </Label>
-                        <Label fx:id="price" layoutX="132.0" layoutY="111.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
+                        <Label fx:id="price" layoutX="120.0" layoutY="281.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
                            <font>
                               <Font name="SansSerif Regular" size="28.0" />
                            </font>
                         </Label>
-                        <Label layoutX="33.0" layoutY="198.0" prefHeight="38.0" prefWidth="88.0" text="Fees">
+                        <Label layoutX="21.0" layoutY="368.0" prefHeight="38.0" prefWidth="88.0" text="Fees">
                            <font>
                               <Font name="SansSerif Bold" size="32.0" />
                            </font>
                         </Label>
-                        <Label fx:id="shippingFees" layoutX="132.0" layoutY="201.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
+                        <Label fx:id="shippingFees" layoutX="120.0" layoutY="371.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
                            <font>
                               <Font name="SansSerif Regular" size="28.0" />
                            </font>
                         </Label>
-                        <Label layoutX="33.0" layoutY="282.0" prefHeight="38.0" prefWidth="88.0" text="Total">
+                        <Label layoutX="21.0" layoutY="452.0" prefHeight="38.0" prefWidth="88.0" text="Total">
                            <font>
                               <Font name="SansSerif Bold" size="28.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalOrder" layoutX="132.0" layoutY="288.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
+                        <Label fx:id="totalOrder" layoutX="120.0" layoutY="458.0" prefHeight="32.0" prefWidth="194.0" text="17.000 vnd">
                            <font>
                               <Font name="SansSerif Regular" size="28.0" />
                            </font>
                         </Label>
+                        <Label alignment="CENTER" layoutX="131.0" layoutY="14.0" prefHeight="38.0" prefWidth="88.0" text="Item">
+                           <font>
+                              <Font name="SansSerif Bold" size="28.0" />
+                           </font>
+                        </Label>
+                        <Text fx:id="textItem" layoutX="7.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="336.90625">
+                           <font>
+                              <Font name="SansSerif Regular" size="24.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
                </children>

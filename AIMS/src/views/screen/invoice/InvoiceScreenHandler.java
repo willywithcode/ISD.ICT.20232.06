@@ -75,7 +75,6 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     public InvoiceScreenHandler(Stage stage, String screenPath, Invoice invoice) throws IOException {
         super(stage, screenPath);
         this.invoice = invoice;
-        setInvoiceInfo();
     }
 
     /**
@@ -87,7 +86,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     	this.getPreviousScreen().show();
     }
     
-    private void setInvoiceInfo() {
+    public void setInvoiceInfo() {
 
         name.setText(invoice.getOrder().getName());
         phone.setText(invoice.getOrder().getPhone());
@@ -109,9 +108,8 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
         	deliveryTime.setText(formattedDeliveryDate);	
         }
         
-        int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees();
-        total.setText(Utils.getCurrencyFormat(amount + getNumRushMedia() * 10));
-        invoice.setAmount(amount);
+        int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees() + invoice.getOrder().getRush_shipping_fee();
+        total.setText(Utils.getCurrencyFormat(amount));
 
 //        invoice.getOrder().getlstOrderMedia().forEach(orderMedia -> {});
        
@@ -147,7 +145,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     		return;
     	}
     	feeRushDelivery.setVisible(true);
-    	feeRushDelivery.setText("Rush :  " + Utils.getCurrencyFormat(getNumRushMedia() * 10));
+    	feeRushDelivery.setText("Rush :  " + Utils.getCurrencyFormat(invoice.getOrder().getRush_shipping_fee() ));
     }
     /**
      * @param 
@@ -159,6 +157,7 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     			count += orderMedia.getQuantity();
     		}
     	}
+        System.out.println("count: " + count);
     	return count;
     	
     }
@@ -170,11 +169,9 @@ public class InvoiceScreenHandler extends BaseScreenHandler implements Initializ
     void confirmInvoice(MouseEvent event) throws IOException {
     	this.invoice.getOrder().setOrderDate(LocalDateTime.now());
     	this.invoice.getOrder().setStatus("pending");
-        this.invoice.getOrder().setTotal_price(this.invoice.getAmount() + getNumRushMedia() * 10 + this.invoice.getOrder().getShippingFees());
-        this.invoice.getOrder().setShippingFees(this.invoice.getOrder().getShippingFees() + getNumRushMedia() * 10);
+        this.invoice.getOrder().setShippingFees(this.invoice.getOrder().getShippingFees() + this.invoice.getOrder().getRush_shipping_fee());
+        this.invoice.getOrder().setTotal_price(this.invoice.getOrder().getAmount() + this.invoice.getOrder().getShippingFees());
     	this.invoice.getOrder().createOrderEntity();
-    	
-    	
         BaseScreenHandler paymentScreen = new PaymentScreenHandler(this.stage, Configs.PAYMENT_SCREEN_PATH, invoice);
         paymentScreen.setBController(new PaymentController());
         paymentScreen.setPreviousScreen(this);

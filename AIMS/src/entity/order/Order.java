@@ -33,6 +33,7 @@ public class Order {
     private String status;
     private String email;
     private LocalDate deliveryTime;
+    private String shippingStatus;
 
     public String getShippingId(){
         return shippingId;
@@ -150,7 +151,7 @@ public class Order {
     public void setTotal_price(int total_price) {
         this.total_price = total_price;
     }
-    public int getTotal_price() {
+    public int getTotal_price1() {
         return total_price;
     }
 
@@ -190,6 +191,14 @@ public class Order {
 		this.price = price;
 	}
 
+	public String getShippingStatus() {
+		return shippingStatus;
+	}
+
+	public void setShippingStatus(String shippingStatus) {
+		this.shippingStatus = shippingStatus;
+	}
+
 	public void createOrderEntity(){
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
@@ -197,8 +206,8 @@ public class Order {
             throw new RuntimeException(e);
         }
         System.out.println("Order created");
-        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction, email, shipping_type, delivery_time, price, total_price) " +
-                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO 'Order' (name, province, address, phone, shipping_fee, district, ward, order_date, status, instruction, email, shipping_type, delivery_time, price, total_price, shipping_status) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = AIMSDB.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, province);
@@ -225,6 +234,7 @@ public class Order {
             }
             preparedStatement.setInt(14, getAmount());
             preparedStatement.setInt(15, total_price);
+            preparedStatement.setString(16, shippingStatus);
             int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows == 0) {
@@ -355,6 +365,7 @@ public class Order {
     		found_order.setPrice(res.getInt("price"));
     		found_order.setTotal_price(res.getInt("total_price"));
     		found_order.setStatus(res.getString("status"));
+    		found_order.setShippingStatus(res.getString("shipping_status"));
     		
     		orders_list.add(found_order);
     	}

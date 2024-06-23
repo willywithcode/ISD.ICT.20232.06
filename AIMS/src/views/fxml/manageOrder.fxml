@@ -15,7 +15,8 @@
          <children>
             <TableView fx:id="orderTableView" layoutX="8.0" layoutY="12.0" prefHeight="360.0" prefWidth="1122.0">
               <columns>
-                <TableColumn fx:id="orderGenId" prefWidth="75.0" text="OrderID" />
+                  <TableColumn fx:id="orderId" prefWidth="75.0" text="Order ID" />
+                <TableColumn fx:id="shippingCode" prefWidth="75.0" text="Shipping Code" />
                 <TableColumn fx:id="name" prefWidth="75.0" text="Customer Name" />
                   <TableColumn fx:id="email" prefWidth="75.0" text="Customer Email" />
                   <TableColumn fx:id="phone" prefWidth="75.0" text="Customer Phone" />
@@ -30,16 +31,12 @@
                   <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
                   <TableColumn fx:id="totalPrice" prefWidth="75.0" text="Total Price" />
                   <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
+                  <TableColumn fx:id="shippingStatus" prefWidth="75.0" text="Shipping Status" />
               </columns>
             </TableView>
             <HBox alignment="CENTER" layoutX="8.0" layoutY="608.0" prefHeight="100.0" prefWidth="1122.0">
                <children>
                   <Button fx:id="inform" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Inform payment">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="createOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Create Order">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

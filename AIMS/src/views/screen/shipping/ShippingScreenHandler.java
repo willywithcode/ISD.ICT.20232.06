@@ -214,6 +214,7 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
 
         // calculate shipping fees
         int shippingFees = getBController().calculateShippingFee(order.getAmount());
+        System.out.println("Shipping fees: " + shippingFees);
         String fullAddress = address.getText() + ", " + ward.getValue() + ", " + district.getValue() + ", " + province.getValue();
         order.setShippingFees(shippingFees);
         order.setName(name.getText());

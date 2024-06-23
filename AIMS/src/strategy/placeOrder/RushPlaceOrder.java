@@ -13,8 +13,13 @@ public class RushPlaceOrder implements IPlaceOrderStrategy {
 	@Override
 	public void PlaceOrder(InvoiceScreenHandler invoiceScreen) {
 		// TODO Auto-generated method stub
+		this.CalculateRushShippingFee(invoiceScreen);
 		invoiceScreen.setlsOrderMedia(true);
 		invoiceScreen.setFeeRushDelivery(true);
+		invoiceScreen.setInvoiceInfo();
 	}
-	
+	public void CalculateRushShippingFee(InvoiceScreenHandler invoiceScreen) {
+		System.out.println("numRushMedia: " + invoiceScreen.getNumRushMedia());
+		invoiceScreen.getInvoice().getOrder().setRush_shipping_fee(invoiceScreen.getNumRushMedia() * 10);
+	}
 }

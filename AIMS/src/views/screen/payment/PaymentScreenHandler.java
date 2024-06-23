@@ -50,7 +50,7 @@ public class PaymentScreenHandler extends BaseScreenHandler {
     
     private void displayWebView(){
         var paymentController = new PaymentController();
-        var paymentUrl = paymentController.getUrlPay(invoice.getAmount(), "Thanh toan hoa don AIMS");
+        var paymentUrl = paymentController.getUrlPay(invoice.getOrder().getTotal_price(), "Thanh toan hoa don AIMS");
         WebView paymentView = new WebView();
         WebEngine webEngine = paymentView.getEngine();
         webEngine.load(paymentUrl);

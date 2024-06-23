@@ -4,13 +4,17 @@ import common.exception.PaymentException;
 import common.exception.TransactionNotDoneException;
 import common.exception.UnrecognizedException;
 import entity.cart.Cart;
+import entity.db.AIMSDB;
 import entity.invoice.Invoice;
 import mailClient.MailService;
 import mailClient.MailServiceImpl;
 import subsystem.VnPayInterface;
 import subsystem.VnPaySubsystem;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Hashtable;
 import java.util.Map;
@@ -62,6 +66,7 @@ public class PaymentController extends BaseController {
             result.put("RESULT", "PAYMENT SUCCESSFUL!");
             result.put("MESSAGE", "You have succesffully paid the order!");
             mailService.sendMail(invoice.getOrder().getEmail(), "Hoa don ban hang AIMS", invoice.getDetailInvoice());
+            this.updateAvailableQuantity(invoice);
         } catch (PaymentException | UnrecognizedException | SQLException ex) {
             result.put("MESSAGE", ex.getMessage());
             result.put("RESULT", "PAYMENT FAILED!");
@@ -71,6 +76,15 @@ public class PaymentController extends BaseController {
             result.put("RESULT", "PAYMENT FAILED!");
         }
         return result;
+    }
+    private void updateAvailableQuantity(Invoice invoice) throws SQLException {
+        for(var orderMedia: invoice.getOrder().getlstOrderMedia()){
+            String query = "UPDATE 'Media' SET quantity = quantity - ? WHERE id = ?";
+            PreparedStatement stm = AIMSDB.getConnection().prepareStatement(query);
+            stm.setInt(1, orderMedia.getQuantity());
+            stm.setInt(2, orderMedia.getMedia().getId());
+            stm.executeUpdate();
+        }
     }
 
     /**

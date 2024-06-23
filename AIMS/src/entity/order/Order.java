@@ -18,7 +18,7 @@ public class Order {
 
     private int id;
     private String genId;
-    private int shippingFees, total_price, price;
+    private int shippingFees, total_price, price, rush_shipping_fee = 0;
     private final String shippingId = this.generateRandomString(40);
     private List<OrderMedia> lstOrderMedia;
     private String name;
@@ -129,6 +129,12 @@ public class Order {
 	public String getShippingType() {
 		return shippingType;
 	}
+    public int getRush_shipping_fee() {
+        return rush_shipping_fee;
+    }
+    public void setRush_shipping_fee(int rush_shipping_fee) {
+        this.rush_shipping_fee = rush_shipping_fee;
+    }
 
 	public void setShippingType(String shippingType) {
 		this.shippingType = shippingType;
@@ -143,6 +149,9 @@ public class Order {
 	}
     public void setTotal_price(int total_price) {
         this.total_price = total_price;
+    }
+    public int getTotal_price() {
+        return total_price;
     }
 
 	public String getEmail() {
@@ -298,7 +307,7 @@ public class Order {
             OrderMedia om = (OrderMedia) object;
             amount += om.getPrice();
         }
-        return (int) (amount + (Configs.PERCENT_VAT / 100) * amount);
+        return (int) amount;
     }
 
     public String generateRandomString(int length) {

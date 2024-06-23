@@ -14,8 +14,10 @@ public class NormalPlaceOrder implements IPlaceOrderStrategy {
 	@Override
 	public void PlaceOrder(InvoiceScreenHandler invoiceScreen) {
 		// TODO Auto-generated method stub
+		invoiceScreen.getInvoice().getOrder().setRush_shipping_fee(0);
 		invoiceScreen.setlsOrderMedia(false);
 		invoiceScreen.setFeeRushDelivery(false);
+		invoiceScreen.setInvoiceInfo();
 	}
 
 }

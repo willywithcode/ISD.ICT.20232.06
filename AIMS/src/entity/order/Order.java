@@ -17,7 +17,8 @@ import java.util.*;
 public class Order {
 
     private int id;
-    private int shippingFees, total_price,  rush_shipping_fee = 0;
+    private String genId;
+    private int shippingFees, total_price, price, rush_shipping_fee = 0;
     private final String shippingId = this.generateRandomString(40);
     private List<OrderMedia> lstOrderMedia;
     private String name;
@@ -169,6 +170,26 @@ public class Order {
 		this.deliveryTime = deliveryTime;
 	}
 
+	public String getGenId() {
+		return genId;
+	}
+
+	public void setGenId(String genId) {
+		this.genId = genId;
+	}
+
+	public int getTotal_price() {
+		return total_price;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public void createOrderEntity(){
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
@@ -300,6 +321,54 @@ public class Order {
         }
 
         return sb.toString();
+    }
+    
+    public List getAllOrder() throws SQLException{
+    	Statement stm = AIMSDB.getConnection().createStatement();
+    	ResultSet res = stm.executeQuery("select * from 'Order'");
+    	ArrayList orders_list = new ArrayList<Order>();
+    	while(res.next()) {
+    		Order found_order = new Order();
+    		found_order.setId(res.getInt("id"));
+    		found_order.setGenId(res.getString("genID"));
+    		found_order.setName(res.getString("name"));
+    		found_order.setEmail(res.getString("email"));
+    		found_order.setPhone(res.getString("phone"));
+    		found_order.setProvince(res.getString("province"));
+    		found_order.setDistrict(res.getString("district"));
+    		found_order.setWard(res.getString("ward"));
+    		found_order.setAddress(res.getString("address"));
+    		
+    		String orderDateString = res.getString("order_date");
+    		if (orderDateString != null && !orderDateString.isEmpty()) {
+                LocalDateTime orderDate = LocalDateTime.parse(orderDateString, Configs.formatter_date_time);
+                found_order.setOrderDate(orderDate);
+            }
+    		String deliveryTimeString = res.getString("delivery_time");
+    		if(deliveryTimeString != null && !deliveryTimeString.isEmpty()) {
+    			LocalDate delivery_time = LocalDate.parse(deliveryTimeString, Configs.formatter_date);
+    			found_order.setDeliveryTime(delivery_time);
+    		}
+    		found_order.setShippingType(res.getString("shipping_type"));
+    		found_order.setShippingFees(res.getInt("shipping_fee"));
+    		found_order.setInstruction(res.getString("instruction"));
+    		found_order.setPrice(res.getInt("price"));
+    		found_order.setTotal_price(res.getInt("total_price"));
+    		found_order.setStatus(res.getString("status"));
+    		
+    		orders_list.add(found_order);
+    	}
+    	return orders_list;
+    }
+    
+    public int getCountOrderStatus(String status) throws SQLException{
+    	int count = 0;
+    	Statement stm = AIMSDB.getConnection().createStatement();
+    	ResultSet res = stm.executeQuery("select count(id) from 'Order' where status='" + status +"'");
+    	if(res.next()) {
+    		count = res.getInt("count(id)");
+    	}
+    	return count;
     }
 
 }

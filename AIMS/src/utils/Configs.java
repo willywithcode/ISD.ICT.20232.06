@@ -1,5 +1,7 @@
 package utils;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -30,10 +32,14 @@ public class Configs {
     public static final String POPUP_PATH = "/views/fxml/popup.fxml";
     public static final String DELIVERY_METHODS_PATH = "/views/fxml/delivery_methods_form.fxml";
     public static final String MANAGE_USER_SCREEN = "/views/fxml/manageUser.fxml";
+    public static final String MANAGE_ORDER_SCREEN = "/views/fxml/manageOrder.fxml";
     public static final int PLACE_RUSH_ORDER = 1;
     public static final int PLACE_ORDER = 2;
     public static final String VIEW_ORDER_SCREEN_PATH = "/views/fxml/view_order.fxml";
     public static String CURRENCY = "VND";
+    
+    public static final DateTimeFormatter formatter_date_time = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    public static final DateTimeFormatter formatter_date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static final String LOGIN_SCREEN_PATH = "/views/fxml/login.fxml";
     public static final String SIGN_UP_SCREEN_PATH = "/views/fxml/signup.fxml";

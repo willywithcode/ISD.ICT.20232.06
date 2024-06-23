@@ -1,10 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="779.0" prefWidth="1134.0" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane prefHeight="779.0" prefWidth="1134.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="715.0" prefWidth="1115.0" />
+      <AnchorPane prefHeight="715.0" prefWidth="1115.0">
+         <children>
+            <TableView fx:id="orderTableView" layoutX="8.0" layoutY="12.0" prefHeight="360.0" prefWidth="1122.0">
+              <columns>
+                <TableColumn fx:id="orderGenId" prefWidth="75.0" text="OrderID" />
+                <TableColumn fx:id="name" prefWidth="75.0" text="Customer Name" />
+                  <TableColumn fx:id="email" prefWidth="75.0" text="Customer Email" />
+                  <TableColumn fx:id="phone" prefWidth="75.0" text="Customer Phone" />
+                  <TableColumn fx:id="province" prefWidth="75.0" text="Province" />
+                  <TableColumn fx:id="district" prefWidth="75.0" text="District" />
+                  <TableColumn fx:id="ward" prefWidth="75.0" text="Ward" />
+                  <TableColumn fx:id="address" prefWidth="75.0" text="Full Address" />
+                  <TableColumn fx:id="orderDate" prefWidth="75.0" text="Order Date" />
+                  <TableColumn fx:id="instruction" prefWidth="75.0" text="Instruction" />
+                  <TableColumn fx:id="type" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="shippingFee" prefWidth="75.0" text="Shipping Fee" />
+                  <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="totalPrice" prefWidth="75.0" text="Total Price" />
+                  <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
+              </columns>
+            </TableView>
+            <HBox alignment="CENTER" layoutX="8.0" layoutY="608.0" prefHeight="100.0" prefWidth="1122.0">
+               <children>
+                  <Button fx:id="inform" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Inform payment">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="createOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Create Order">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="viewOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="View Order">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="updateOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Update Order">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="deleteOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Delete Order">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children></AnchorPane>
+      <AnchorPane layoutX="23.0" layoutY="391.0" prefHeight="213.0" prefWidth="1089.0">
+         <children>
+            <AnchorPane layoutX="69.0" layoutY="13.0" prefHeight="187.0" prefWidth="283.0" style="-fx-background-color: #B4EDE3; -fx-background-radius: 8;" AnchorPane.bottomAnchor="12.600000000000023" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="737.4" AnchorPane.topAnchor="13.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="74.0" layoutY="147.0" prefHeight="26.0" prefWidth="134.0" text="Orders">
+                     <font>
+                        <Font name="SansSerif Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalOrders" alignment="CENTER_RIGHT" layoutX="162.0" layoutY="26.0" prefHeight="25.0" prefWidth="107.0" text="20">
+                     <font>
+                        <Font name="SansSerif Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="403.0" layoutY="13.0" prefHeight="187.0" prefWidth="283.0" style="-fx-background-color: #B4EDE3; -fx-background-radius: 8;">
+               <children>
+                  <Label alignment="CENTER" layoutX="60.0" layoutY="148.0" prefHeight="25.0" prefWidth="164.0" text="Pending Orders">
+                     <font>
+                        <Font name="SansSerif Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pendingOrders" alignment="CENTER_RIGHT" layoutX="161.0" layoutY="27.0" prefHeight="25.0" prefWidth="107.0" text="20">
+                     <font>
+                        <Font name="SansSerif Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="745.0" layoutY="13.0" prefHeight="187.0" prefWidth="283.0" style="-fx-background-color: #B4EDE3; -fx-background-radius: 8;">
+               <children>
+                  <Label alignment="CENTER" layoutX="71.0" layoutY="148.0" prefHeight="25.0" prefWidth="141.0" text="Paid Orders">
+                     <font>
+                        <Font name="SansSerif Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="paidOrders" alignment="CENTER_RIGHT" layoutX="155.0" layoutY="26.0" prefHeight="25.0" prefWidth="107.0" text="20">
+                     <font>
+                        <Font name="SansSerif Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

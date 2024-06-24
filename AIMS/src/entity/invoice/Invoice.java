@@ -46,14 +46,14 @@ public class Invoice {
         for (int i = 0; i < order.getLstOrderMedia().size(); i++) {
             detail += order.getLstOrderMedia().get(i).getMedia().getTitle() +
                     " - " + order.getLstOrderMedia().get(i).getQuantity() +
-                    " - " + order.getLstOrderMedia().get(i).getMedia().getPrice() + "\n";
+                    " - " + order.getLstOrderMedia().get(i).getMedia().getPrice() + "k VND\n";
         }
         return
                 "Mã đơn hàng:" + order.getShippingId() + "\n" +
                 "Tên khách hàng: " + order.getName() + "\n" +
                 "Địa chỉ: " + order.getAddress() + "\n" +
                 "Số điện thoại: " + order.getPhone() + "\n" +
-                "Tổng hóa đơn: " + this.getAmount() + "k VND\n" +
+                "Tổng hóa đơn: " + this.getOrder().getTotal_price() + "k VND\n" +
                 "Chi tiết: \n" + detail;
     }
 }

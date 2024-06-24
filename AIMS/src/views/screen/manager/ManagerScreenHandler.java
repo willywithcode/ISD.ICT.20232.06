@@ -45,12 +45,14 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
     
     private ManageUserScreenHandler manageUserScreenHandler;
     private ManageMediaScreenHandler manageMediaScreenHandler;
+    private ManageOrderScreenHandler manageOrderScreenHandler;
 	
     public ManagerScreenHandler(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
         // TODO Auto-generated constructor stub
         manageUserScreenHandler = new ManageUserScreenHandler(this.stage, Configs.MANAGE_USER_SCREEN);
         manageMediaScreenHandler = new ManageMediaScreenHandler(this.stage, "/views/fxml/manageMedia.fxml");
+        manageOrderScreenHandler = new ManageOrderScreenHandler(this.stage, Configs.MANAGE_ORDER_SCREEN);
         
         changePasswordForm.setVisible(false);
         
@@ -91,6 +93,10 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
 		    manageMediaTab.setContent(manageMediaScreenHandler.getContent());
 		    tabPane.getTabs().add(manageMediaTab);
 		}
+		
+		Tab manageOrderTab = new Tab("Manage Order");
+		manageOrderTab.setContent(manageOrderScreenHandler.getContent());
+		tabPane.getTabs().add(manageOrderTab);
     }
 	
 	public void setSaveChangePassword() throws SQLException, Exception {

@@ -13,6 +13,7 @@ import java.util.List;
 public class User {
     private IntegerProperty id;
     private StringProperty username;
+    private StringProperty fullname;
     private StringProperty email;
     private StringProperty address;
     private StringProperty phone;
@@ -21,9 +22,10 @@ public class User {
     private ListProperty<String> roles;
     protected Statement stm;
 
-    public User(int id, String username, String email, String address, String phone, boolean ban, List<String> roles, String password) {
+    public User(int id, String username, String fullname, String email, String address, String phone, boolean ban, List<String> roles, String password) {
         this.id = new SimpleIntegerProperty(id);
         this.username = new SimpleStringProperty(username);
+        this.fullname = new SimpleStringProperty(fullname);
         this.email = new SimpleStringProperty(email);
         this.address = new SimpleStringProperty(address);
         this.phone = new SimpleStringProperty(phone);
@@ -41,24 +43,63 @@ public class User {
     public BooleanProperty banProperty() { return ban; }
     public StringProperty passwordProperty() { return password; }
     public ListProperty<String> rolesProperty() {return roles;}
+    public StringProperty fullnameProperty() {return fullname;}
 
     // Regular getters and setters
-    public int getId() { return id.get(); }
-    public void setId(int id) { this.id.set(id); }
-    public String getUsername() { return username.get(); }
-    public void setUsername(String username) { this.username.set(username); }
-    public String getEmail() { return email.get(); }
-    public void setEmail(String email) { this.email.set(email); }
-    public String getAddress() { return address.get(); }
-    public void setAddress(String address) { this.address.set(address); }
-    public String getPhone() { return phone.get(); }
-    public void setPhone(String phone) { this.phone.set(phone); }
-    public boolean getBan() { return ban.get(); }
-    public void setBan(boolean ban) { this.ban.set(ban); }
-    public String getPassword() { return password.get(); }
-    public void setPassword(String password) { this.password.set(password); }
-    public List<String> getRoles() { return roles.get(); }
-    public void setRoles(List<String> roles) { this.roles.setAll(roles); } 
+    public int getId() { 
+    	return id.get(); 
+    }
+    public void setId(int id) { 
+    	this.id.set(id); 
+    }
+    public String getUsername() { 
+    	return username.get(); 
+    }
+    public void setUsername(String username) { 
+    	this.username.set(username); 
+    }
+    public String getEmail() { 
+    	return email.get(); 
+    }
+    public void setEmail(String email) { 
+    	this.email.set(email); 
+    }
+    public String getAddress() { 
+    	return address.get(); 
+    }
+    public void setAddress(String address) { 
+    	this.address.set(address); 
+    }
+    public String getPhone() { 
+    	return phone.get(); 
+    }
+    public void setPhone(String phone) { 
+    	this.phone.set(phone); 
+    }
+    public boolean getBan() { 
+    	return ban.get(); 
+    }
+    public void setBan(boolean ban) { 
+    	this.ban.set(ban); 
+    }
+    public String getPassword() { 
+    	return password.get(); 
+    }
+    public void setPassword(String password) { 
+    	this.password.set(password); 
+    }
+    public List<String> getRoles() { 
+    	return roles.get(); 
+    }
+    public void setRoles(List<String> roles) { 
+    	this.roles.setAll(roles); 
+    } 
+    public String getFullname() {
+    	return this.fullname.get();
+    }
+    public void setFullname(String fullname) {
+    	this.fullname.set(fullname);
+    }
 
     public User() throws SQLException {
         stm = AIMSDB.getConnection().createStatement();
@@ -76,6 +117,7 @@ public class User {
             if (res.next()) {
                 int found_id = res.getInt("id");
                 String found_username = res.getString("username");
+                String found_fullname = res.getString("fullname");
                 String found_email = res.getString("email");
                 String found_address = res.getString("address");
                 String found_phone = res.getString("phone");
@@ -83,7 +125,7 @@ public class User {
                 String found_password = res.getString("password");
                 List<String> roles = getUserRoles(found_id);
 
-                User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, roles, found_password);
+                User found_user = new User(found_id, found_username, found_fullname, found_email, found_address, found_phone, found_ban, roles, found_password);
                 return found_user;
             } else {
                 return null;
@@ -110,9 +152,9 @@ public class User {
         return roles;
     }
 
-    public void createUser(int id, String username, String email, String address, String phone, List<String> roles, String password) {
-        String insertSql = "insert into User (id, username, email, address, phone, ban, password) values ("
-                + id + ", '" + username + "', '" + email + "', '" + address + "', '" + phone + "' , 0, '" + password + "')";
+    public void createUser(String username, String fullname, String email, String address, String phone, List<String> roles, String password) {
+        String insertSql = "insert into User (username, email, address, phone, ban, password, fullname) values ('"
+                + username + "', '" + email + "', '" + address + "', '" + phone + "' , 0, '" + password + "' , '" + fullname + "')";
         System.out.println(insertSql);
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
@@ -151,9 +193,10 @@ public class User {
     	return role_id;
     }
 
-    public void updateUser(int id, String username, String email, String address, String phone, List<String> roles) {
+    public void updateUser(int id, String username, String fullname, String email, String address, String phone, List<String> roles) {
         String updateUserSql = "UPDATE User SET " +
                 "username = '" + username + "', " +
+        		"fullname = '" + fullname + "', " +
                 "email = '" + email + "', " +
                 "address = '" + address + "', " +
                 "phone = '" + phone + "' " +
@@ -241,13 +284,14 @@ public class User {
             int found_id = res.getInt("id");
             String found_username = res.getString("username");
             String found_email = res.getString("email");
+            String found_fullname = res.getString("fullname");
             String found_address = res.getString("address");
             String found_phone = res.getString("phone");
             boolean found_ban = res.getBoolean("ban");
             String found_password = res.getString("password");
             List<String> roles = getUserRoles(found_id);
 
-            User found_user = new User(found_id, found_username, found_email, found_address, found_phone, found_ban, roles, found_password);
+            User found_user = new User(found_id, found_username, found_fullname, found_email, found_address, found_phone, found_ban, roles, found_password);
             userList.add(found_user);
         }
         return userList;

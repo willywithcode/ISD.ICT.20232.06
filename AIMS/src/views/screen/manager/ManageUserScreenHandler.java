@@ -44,9 +44,9 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
     @FXML
     private TableColumn<User, Integer> userIDCol;
     @FXML
-    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol;
+    private TableColumn<User, String> userUsernameCol, userAddressCol, userPhoneNumberCol, userEmailCol, userRoleCol, userFullnameCol;
     @FXML
-    private TextField userAddressField, userEmailField, userPhoneNumberField, userNameField;
+    private TextField userAddressField, userEmailField, userPhoneNumberField, userNameField, userFullNameField;
     @FXML
     private Label userLabelForm;
     @FXML
@@ -111,6 +111,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         userAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         userPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         userRoleCol.setCellValueFactory(new PropertyValueFactory<>("roles")); // Update to reflect roles
+        userFullnameCol.setCellValueFactory(new PropertyValueFactory<>("fullname"));
 
         userTableView.getItems().setAll(listUser);
 
@@ -163,6 +164,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             userAddressField.setText(selectedUser.getAddress());
             userPhoneNumberField.setText(selectedUser.getPhone());
             userEmailField.setText(selectedUser.getEmail());
+            userFullNameField.setText(selectedUser.getFullname());
             selectedRoles.setAll(selectedUser.getRoles());
             
          // Update the checkboxes in the roleListView
@@ -224,10 +226,9 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         String address = userAddressField.getText();
         String phone = userPhoneNumberField.getText();
         String email = userEmailField.getText();
+        String fullname = userFullNameField.getText();
         List<String> roles = new ArrayList<>(selectedRoles);
         String defaultPassword = "123123";
-        int numberOfUser = getBController().getAllUser().size();
-        int id = numberOfUser + 1;
 
         CHECK checkPhone = Utils.checkPhoneNumber(phone);
         CHECK checkEmail = Utils.checkEmail(email);
@@ -238,7 +239,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             if (Utils.usernameExists(username)) {
                 showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
             } else {
-                getBController().createUser(id, username, email, address, phone, roles, defaultPassword);
+                getBController().createUser(username, fullname, email, address, phone, roles, defaultPassword);
                 showAllUser();
             }
         }
@@ -248,10 +249,11 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             int id = selectedUser.getId();
-            String name = userNameField.getText();
+            String username = userNameField.getText();
             String address = userAddressField.getText();
             String phone = userPhoneNumberField.getText();
             String email = userEmailField.getText();
+            String fullname = userFullNameField.getText();
             List<String> roles = new ArrayList<>(selectedRoles);
 
             CHECK checkPhone = Utils.checkPhoneNumber(phone);
@@ -260,7 +262,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
             if (checkPhone == CHECK.WRONG_PHONENUMBER || checkEmail == CHECK.WRONG_EMAIL) {
                 showAlert(Alert.AlertType.WARNING, "Fail to change user information", "Enter again please", "Enter again please");
             } else {
-                getBController().updateUser(id, name, email, address, phone, roles);
+                getBController().updateUser(id, username, fullname, email, address, phone, roles);
                 showAllUser();
             }
         } else {

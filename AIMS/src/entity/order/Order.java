@@ -151,9 +151,6 @@ public class Order {
     public void setTotal_price(int total_price) {
         this.total_price = total_price;
     }
-    public int getTotal_price1() {
-        return total_price;
-    }
 
 	public String getEmail() {
 		return email;
@@ -381,5 +378,13 @@ public class Order {
     	}
     	return count;
     }
-
+    
+    public void updateShippingStatus(int id, String status) throws SQLException {
+    	try {
+    		Statement stm = AIMSDB.getConnection().createStatement();
+    		stm.executeUpdate("update 'Order' set shipping_status = '" + status + "' where id = " + id);
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
 }

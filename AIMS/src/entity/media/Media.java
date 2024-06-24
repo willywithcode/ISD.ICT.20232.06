@@ -49,6 +49,13 @@ public class Media {
         //stm = AIMSDB.getConnection().createStatement();
     }
 
+    public Media(int id, String title, String category, int price, String type) throws SQLException{
+    	this.id = id;
+    	this.title = title;
+    	this.category = category;
+    	this.price = price;
+    	this.type = type;
+    }
     /**
      * @return boolean
      */

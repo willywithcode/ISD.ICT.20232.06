@@ -33,6 +33,7 @@ public class Configs {
     public static final String DELIVERY_METHODS_PATH = "/views/fxml/delivery_methods_form.fxml";
     public static final String MANAGE_USER_SCREEN = "/views/fxml/manageUser.fxml";
     public static final String MANAGE_ORDER_SCREEN = "/views/fxml/manageOrder.fxml";
+    public static final String ORDER_DETAILS_SCREEN = "/views/fxml/orderDetails.fxml";
     public static final int PLACE_RUSH_ORDER = 1;
     public static final int PLACE_ORDER = 2;
     public static final String VIEW_ORDER_SCREEN_PATH = "/views/fxml/view_order.fxml";

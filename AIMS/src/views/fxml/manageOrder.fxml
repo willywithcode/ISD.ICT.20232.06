@@ -36,17 +36,7 @@
             </TableView>
             <HBox alignment="CENTER" layoutX="8.0" layoutY="608.0" prefHeight="100.0" prefWidth="1122.0">
                <children>
-                  <Button fx:id="inform" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Inform payment">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="viewOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="View Order">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="updateOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Update Order">
+                  <Button fx:id="viewOrder" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="View Order" onAction="#viewBtnClicked">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

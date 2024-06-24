@@ -1,6 +1,6 @@
 package views.screen.home;
 //import controller.CRUDMediaController;
-import controller.ManagerScreenController;
+import controller.ManageUserScreenController;
 import entity.user.User;
 import controller.HomeController;
 import controller.LoginController;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import controller.LoginController;
-import controller.ManagerScreenController;
+import controller.ManageUserScreenController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -61,7 +61,7 @@ public static Logger LOGGER = Utils.getLogger(LoginScreenHandler.class.getName()
             ManagerScreenHandler managerScreen = new ManagerScreenHandler(this.stage, Configs.MANAGER_SCREEN_PATH);
             managerScreen.setCurrentUser(user);
             managerScreen.setScreenTitle("User Manager");
-            managerScreen.setBController(new ManagerScreenController());
+            managerScreen.setBController(new ManageUserScreenController());
             managerScreen.setHomeScreenHandler(homeScreenHandler);
             managerScreen.show();
         } catch (Exception ex) {

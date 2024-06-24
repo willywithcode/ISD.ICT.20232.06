@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import controller.ManagerScreenController;
+import controller.ManageUserScreenController;
 import entity.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,13 +64,13 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         userForm.setVisible(true);
     }
 
-    public ManagerScreenController getBController() {
-        return (ManagerScreenController) super.getBController();
+    public ManageUserScreenController getBController() {
+        return (ManageUserScreenController) super.getBController();
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new ManagerScreenController());
+        setBController(new ManageUserScreenController());
         try {
             roles = FXCollections.observableArrayList("admin", "product manager");
             selectedRoles = FXCollections.observableArrayList();

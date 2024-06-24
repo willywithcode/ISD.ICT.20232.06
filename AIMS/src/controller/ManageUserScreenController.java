@@ -8,7 +8,7 @@ import entity.user.User;
  * This class controls the flow of events in managing users
  * @SRP This class is not violating the Single Responsibility Principle because it is responsible for managing users and it is not responsible for other tasks.
  */
-public class ManagerScreenController extends BaseController{
+public class ManageUserScreenController extends BaseController{
     /**
      * This method gets all users
      * @return

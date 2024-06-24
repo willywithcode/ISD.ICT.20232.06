@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import views.screen.BaseScreenHandler;
-import controller.ManagerScreenController;
+import controller.ManageUserScreenController;
 
 public class ManagerScreenHandler extends BaseScreenHandler implements Initializable {
 	
@@ -63,8 +63,8 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
         });
     }
     
-    public ManagerScreenController getBController() {
-        return (ManagerScreenController) super.getBController();
+    public ManageUserScreenController getBController() {
+        return (ManageUserScreenController) super.getBController();
     }
 
     public User getCurrentUser() {

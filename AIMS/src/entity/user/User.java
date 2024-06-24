@@ -159,21 +159,27 @@ public class User {
         try {
             Statement stm = AIMSDB.getConnection().createStatement();
             stm.executeUpdate(insertSql);
+            
+            String queryUserId = "select id from 'user' where username = '" + username + "'";
+            ResultSet res = stm.executeQuery(queryUserId);
+            int userId = res.getInt("id");
+            
+            for (String role : roles) {
+	        	int roleId = getRoleId(role);
+	        	String insertUserRoleSql = "insert into UserRoles (user_id, role_id) values ("
+	        			+ userId + ", " + roleId + ")";
+	        	System.out.println(insertUserRoleSql);
+	        	try {
+	        		stm.executeUpdate(insertUserRoleSql);
+	        	}catch(SQLException e) {
+	        		e.printStackTrace();
+	        	}
+	        }
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        for (String role : roles) {
-        	int roleId = getRoleId(role);
-        	String insertUserRoleSql = "insert into UserRoles (user_id, role_id) values ("
-        			+ id + ", " + roleId + ")";
-        	try {
-        		Statement stm = AIMSDB.getConnection().createStatement();
-        		stm.executeUpdate(insertUserRoleSql);
-        	}catch(SQLException e) {
-        		e.printStackTrace();
-        	}
-        }
+        
      }
     
     private int getRoleId(String role){
@@ -295,5 +301,17 @@ public class User {
             userList.add(found_user);
         }
         return userList;
+    }
+    
+    public static boolean usernameExists(String username) throws SQLException{
+        try {
+            Statement stm = AIMSDB.getConnection().createStatement();
+            String query = "SELECT * FROM User WHERE username = '" + username + "'";
+            ResultSet res = stm.executeQuery(query);
+            return res.next(); // If there is a next row, username exists
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false in case of error or no results
+        }
     }
 }

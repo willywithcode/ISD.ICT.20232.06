@@ -510,6 +510,7 @@ public class ManageMediaScreenHandler extends BaseScreenHandler implements Initi
 			try {
 				getBController().deleteBook(selectedBook.getId());
 				showAllBook();
+				showAllMedia();
 				Utils.showAlert(Alert.AlertType.INFORMATION, "Deletion Successful", "Book Deleted",
 						"Book has been deleted successfully.");
 			} catch (SQLException ex) {
@@ -631,6 +632,7 @@ public class ManageMediaScreenHandler extends BaseScreenHandler implements Initi
 			try {
 				getBController().deleteCD(selectedCD.getId());
 				showAllCD();
+				showAllMedia();
 				Utils.showAlert(Alert.AlertType.INFORMATION, "Deletion Successful", "CD Deleted", "CD has been deleted successfully.");
 			} catch (SQLException ex) {
 				Utils.showAlert(Alert.AlertType.ERROR, "Deletion Failed", "Error Deleting CD", "There was an error deleting the CD.");
@@ -887,6 +889,7 @@ public class ManageMediaScreenHandler extends BaseScreenHandler implements Initi
 			try {
 				getBController().deleteDVD(selectedDVD.getId());
 				showAllDVD(); // Assuming this method refreshes the DVD list
+				showAllMedia();
 				Utils.showAlert(Alert.AlertType.INFORMATION, "Deletion Successful", "DVD Deleted", "DVD has been deleted successfully.");
 			} catch (SQLException ex) {
 				Utils.showAlert(Alert.AlertType.ERROR, "Deletion Failed", "Error Deleting DVD", "There was an error deleting the DVD.");

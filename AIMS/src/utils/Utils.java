@@ -114,18 +114,6 @@ public class Utils {
         return CHECK.WRONG_EMAIL;
     }
     
-    public static boolean usernameExists(String username) throws SQLException{
-        try {
-            Statement stm = AIMSDB.getConnection().createStatement();
-            String query = "SELECT * FROM User WHERE username = '" + username + "'";
-            ResultSet res = stm.executeQuery(query);
-            return res.next(); // If there is a next row, username exists
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // Return false in case of error or no results
-        }
-    }
-    
     public static List<String> getProvincesList(){
     	List<String> provincesList = new ArrayList<>();
     	try {

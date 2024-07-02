@@ -39,5 +39,9 @@ public class ManageUserScreenController extends BaseController{
         User user = new User();
         user.changePassword(id, password);
     }
+    
+    public boolean checkUsernameExisted(String username) throws SQLException {
+    	return User.usernameExists(username);
+    }
 
 }

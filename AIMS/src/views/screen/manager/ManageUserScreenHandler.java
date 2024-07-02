@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import utils.Utils;
 import utils.Utils.CHECK;
 import views.screen.BaseScreenHandler;
+import views.screen.popup.PopupScreen;
 
 public class ManageUserScreenHandler extends BaseScreenHandler implements Initializable {
 
@@ -149,6 +150,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         userAddressField.setText("");
         userPhoneNumberField.setText("");
         userEmailField.setText("");
+        userFullNameField.setText("");
         selectedRoles.clear();
     }
 
@@ -221,7 +223,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         }
     }
 
-    public void setSaveCreateUserBtn() throws SQLException {
+    public void setSaveCreateUserBtn() throws SQLException, IOException {
         String username = userNameField.getText();
         String address = userAddressField.getText();
         String phone = userPhoneNumberField.getText();
@@ -233,19 +235,20 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         CHECK checkPhone = Utils.checkPhoneNumber(phone);
         CHECK checkEmail = Utils.checkEmail(email);
 
+
         if (checkPhone == CHECK.WRONG_PHONENUMBER || checkEmail == CHECK.WRONG_EMAIL) {
-            showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Enter information again please", "Enter information again please");
+        	showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Enter information again please", "Enter information again please");
         } else {
-            if (Utils.usernameExists(username)) {
-                showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
-            } else {
-                getBController().createUser(username, fullname, email, address, phone, roles, defaultPassword);
-                showAllUser();
-            }
-        }
+        	if (getBController().checkUsernameExisted(username)) {
+        		showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
+        	} else {
+        		getBController().createUser(username, fullname, email, address, phone, roles, defaultPassword);
+        		showAllUser();
+        	}
+        }    	
     }
 
-    public void setSaveUpdateUserBtn() throws SQLException {
+    public void setSaveUpdateUserBtn() throws SQLException, IOException {
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             int id = selectedUser.getId();

@@ -72,16 +72,15 @@ public class ManagerScreenHandler extends BaseScreenHandler implements Initializ
 	}
 	public void setCurrentUser(User currentUser) throws IOException {
 		this.currentUser = currentUser;
-		setupTabs();
+		setupTabs(this.currentUser.getRoles());
 	}
 	@Override
     public void initialize(URL arg0, ResourceBundle arg1) {
     }
 	
-	private void setupTabs() throws IOException {
+	private void setupTabs(List<String> roles) throws IOException {
         if (currentUser == null) return;
-
-        List<String> roles = currentUser.getRoles();
+        
 		if (roles.contains("admin")) {
 			Tab manageUserTab = new Tab("Manage User");
 		    manageUserTab.setContent(manageUserScreenHandler.getContent());

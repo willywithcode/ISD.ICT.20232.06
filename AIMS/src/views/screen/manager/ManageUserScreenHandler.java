@@ -239,7 +239,7 @@ public class ManageUserScreenHandler extends BaseScreenHandler implements Initia
         if (checkPhone == CHECK.WRONG_PHONENUMBER || checkEmail == CHECK.WRONG_EMAIL) {
         	showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Enter information again please", "Enter information again please");
         } else {
-        	if (User.usernameExists(username)) {
+        	if (getBController().checkUsernameExisted(username)) {
         		showAlert(Alert.AlertType.WARNING, "Fail to create new user", "Username already exists", "Please choose a different username");
         	} else {
         		getBController().createUser(username, fullname, email, address, phone, roles, defaultPassword);

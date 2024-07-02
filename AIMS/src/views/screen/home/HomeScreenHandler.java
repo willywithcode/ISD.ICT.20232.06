@@ -185,16 +185,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             }
         });
         loginBtn.setOnMouseClicked(e -> {
-            LoginScreenHandler loginScreen;
-            try {
-                LOGGER.info("User click to login");
-                loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
-                loginScreen.setHomeScreenHandler(this);
-                loginScreen.setBController(new LoginController());
-                loginScreen.show();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+            loginButtonClicked();
         });
 //        addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
@@ -205,6 +196,19 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
         splitMenuBtnSearch.setOnMouseClicked(e -> {
             handleSearch();
         });
+    }
+    
+    public void loginButtonClicked() {
+    	LoginScreenHandler loginScreen;
+        try {
+            LOGGER.info("User click to login");
+            loginScreen = new LoginScreenHandler(this.stage, Configs.LOGIN_SCREEN_PATH);
+            loginScreen.setHomeScreenHandler(this);
+            loginScreen.setBController(new LoginController());
+            loginScreen.show();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
     
     public void openMediaDetail(Media media) {
